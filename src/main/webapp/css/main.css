@@ -1,0 +1,13 @@
+body {
+  background:url("../images/ocean1.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #C1D3FB;
+}
+table{
+  background-color: #eee;
+  opacity: 0.9;
+}
+.list-group-item{
+  background-color: #eee;
+  opacity: 0.9;
+}

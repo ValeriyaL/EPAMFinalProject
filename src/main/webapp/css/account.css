@@ -1,0 +1,10 @@
+.form{
+    background-color: #eee;
+    margin-top: 40px;
+    border-radius: 4%;
+    padding-right: 20px;
+}
+.btn-primary, .btn-default{
+    height: 30px;
+    margin-top: 8px;
+}
