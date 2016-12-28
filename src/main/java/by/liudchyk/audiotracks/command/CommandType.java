@@ -54,6 +54,16 @@ public enum CommandType {
         {
             this.command = new ChangeMoneyCommand();
         }
+    },
+    INDEX{
+        {
+            this.command = new IndexCommand();
+        }
+    },
+    MAIN{
+        {
+            this.command = new MainCommand();
+        }
     };
     ActionCommand command;
 

@@ -71,7 +71,7 @@ public class User extends Entity {
     }
 
     public void addMoney(double money){
-        this.money = money;
+        this.money += money;
     }
 
     public void setNickname(String nickname) {

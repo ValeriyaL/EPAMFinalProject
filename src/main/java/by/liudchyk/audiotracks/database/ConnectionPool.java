@@ -20,19 +20,7 @@ public class ConnectionPool {
     private static ReentrantLock lock = new ReentrantLock();
     private static final Logger LOG = LogManager.getLogger();
     private ArrayBlockingQueue<ProxyConnection> connectionQueue;
-    private static final ResourceBundle RESOURSE;
-    private static final String DATABASE;
-    private static final String DB_LOGIN;
-    private static final String POOL_SIZE;
-    private static final String DB_PASSWORD;
-
-    static {
-        RESOURSE = ResourceBundle.getBundle("properties.database");
-        DATABASE = RESOURSE.getString("db.url");
-        DB_LOGIN = RESOURSE.getString("db.user");
-        POOL_SIZE = RESOURSE.getString("db.poolsize");
-        DB_PASSWORD = RESOURSE.getString("db.password");
-    }
+    private static InitDB init = new InitDB();
 
     private ConnectionPool(ArrayBlockingQueue<ProxyConnection> connectionQueue){
         this.connectionQueue = connectionQueue;
@@ -43,12 +31,12 @@ public class ConnectionPool {
             lock.lock();
             try {
                 if (pool == null) {
-                    int size = Integer.valueOf(POOL_SIZE);
+                    int size = Integer.valueOf(init.getPoolSize());
                     pool = new ConnectionPool(new ArrayBlockingQueue<>(size));
                     try {
                         DriverManager.registerDriver(new com.mysql.jdbc.Driver());
                         for (int i = 0; i < size; i++) {
-                            Connection connection = DriverManager.getConnection(DATABASE, DB_LOGIN, DB_PASSWORD);
+                            Connection connection = DriverManager.getConnection(init.getDatabase(), init.getDbLogin(), init.getDbPassword());
                             ProxyConnection pc = new ProxyConnection(connection);
                             pool.connectionQueue.put(pc);
                         }
@@ -79,12 +67,12 @@ public class ConnectionPool {
         try {
             connectionQueue.put(connection);
         } catch (InterruptedException e) {
-            LOG.warn(e);
+            LOG.error(e);
         }
     }
 
     public void closePool(){
-        int size = Integer.valueOf(POOL_SIZE);
+        int size = Integer.valueOf(init.getPoolSize());
         try {
             for (int i = 0; i < size; i++) {
                 connectionQueue.take().realClose();

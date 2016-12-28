@@ -3,5 +3,5 @@
 <html>
 <head><title>Index</title></head>
 <body>
-<c:redirect url="jsp/main.jsp"/>
+<c:redirect url="${pageContext.request.contextPath}/controller?command=index"/>
 </body></html>

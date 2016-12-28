@@ -39,8 +39,7 @@ public class UserLogic {
         if(!msg.isEmpty()){
             return msg;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Pass = DigestUtils.md5Hex(password);
         try {
@@ -66,8 +65,7 @@ public class UserLogic {
         if(!msg.isEmpty()){
             return msg;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             if(userDAO.changeEmailById(newEmail, id)){
@@ -89,11 +87,10 @@ public class UserLogic {
     public String changeUserLogin(String newLogin, int id) throws LogicException{
         Validator validator = new Validator();
         String msg = validator.isLoginChangeValid(newLogin);
-        if(!msg.isEmpty()){
+        if(!msg.isEmpty()) {
             return msg;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             if(userDAO.changeLoginById(newLogin, id)){
@@ -118,8 +115,7 @@ public class UserLogic {
         if(!msg.isEmpty()){
             return msg;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Password =  DigestUtils.md5Hex(newPassword);
         try {
@@ -145,8 +141,7 @@ public class UserLogic {
         if(!msg.isEmpty()){
             return msg;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             if(userDAO.changeCardById(newCard, id)){
@@ -166,8 +161,12 @@ public class UserLogic {
     }
 
     public String changeUserMoney(double money, int id) throws LogicException{
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        Validator validator = new Validator();
+        String msg = validator.isMoneyChangeValid(money);
+        if(!msg.isEmpty()){
+            return msg;
+        }
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             if(userDAO.changeMoneyById(money, id)){
@@ -187,8 +186,7 @@ public class UserLogic {
     }
 
     public User findUserByLogin(String login) throws LogicException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findUser(login);
@@ -202,23 +200,4 @@ public class UserLogic {
             }
         }
     }
-
-  /*  public User changeUserLogin(String newLogin, int id) throws LogicException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
-        UserDAO userDAO = new UserDAO(connection);
-        try {
-            return userDAO.changeLoginById(newLogin, id);
-        } catch (DAOException e) {
-            throw new LogicException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
-            }
-        }
-    }*/
-
-
 }

@@ -80,7 +80,7 @@
                 <label class="control-label col-xs-3" for="money"><fmt:message key="changes.money"/>:</label>
                 <div class="col-xs-9">
                     <input type="number" class="form-control" id="money" name="money"
-                           data-parsley-range="[1,1000]" value="${money}">
+                           data-parsley-range="[1,9999]" value="${money}">
                 </div>
             </c:if>
         </div>

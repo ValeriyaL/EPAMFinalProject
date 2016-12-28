@@ -18,12 +18,7 @@
         <a class="col-lg-1 col-md-1 col-sm-2 col-xs-2"
             href="${pageContext.request.contextPath}/controller?command=lang&language=en_US">
             <img src="../images/usa.jpg"></a>
-        <c:if test="${not empty locale}">
-            <input type="hidden" id="locale" value="${locale}">
-        </c:if>
-        <c:if test="${empty locale}">
-            <input type="hidden" id="locale" value="ru">
-        </c:if>
+        <input type="hidden" id="locale" value="${locale}">
     </div>
 </footer>
 </body>

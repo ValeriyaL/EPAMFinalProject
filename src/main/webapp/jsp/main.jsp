@@ -44,42 +44,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                <c:forEach var="row" items="${tracks}" >
                 <tr>
-                    <td>Holiday</td>
-                    <td>Green day</td>
-                    <td>Alternative</td>
-                    <td>218 s</td>
-                    <td>8.0 BYN</td>
+                    <td><c:out value="${row.title}"/></td>
+                    <td><c:out value="${row.artist}"/></td>
+                    <td><c:out value="${row.genre}"/></td>
+                    <td><c:out value="${row.length}"/></td>
+                    <td><c:out value="${row.price}"/></td>
                 </tr>
-                <tr>
-                    <td>Resistance</td>
-                    <td>Muse</td>
-                    <td>Alternative</td>
-                    <td>305 s</td>
-                    <td>9.0 BYN</td>
-                </tr>
-                <tr>
-                    <td>California dreaming</td>
-                    <td>Mamas and papas</td>
-                    <td>Rock</td>
-                    <td>190 s</td>
-                    <td>8.0 BYN</td>
-                </tr>
-                <tr>
-                    <td>Sweet Dreams</td>
-                    <td>Eurythmics</td>
-                    <td>Pop</td>
-                    <td>203 s</td>
-                    <td>9.0 BYN</td>
-                </tr>
-                <tr>
-                    <td>Rape me</td>
-                    <td>Nirvana</td>
-                    <td>Rock</td>
-                    <td>216 s</td>
-                    <td>11.0 BYN</td>
-                </tr>
-                </tbody>
+                </c:forEach>
             </table>
         </div>
         <div class="col-lg-3 col-lg-offset-1 col-md-4 col-sm-4 col-xs-12">

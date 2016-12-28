@@ -33,7 +33,7 @@
 </c:if>
 <div class="form col-lg-4 col-lg-offset-4  col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
     <h2 class="text-center"><fmt:message key="login.label"/></h2>
-    <form class="form-horizontal" method="post" name="login" action="${pageContext.request.contextPath}/controller">
+    <form class="form-horizontal" id="logform" method="post" name="login" action="${pageContext.request.contextPath}/controller">
         <div class="form-group">
             <label class="control-label col-xs-3" for="lastName"><fmt:message key="login.login"/>:</label>
             <div class="col-xs-9">
@@ -68,7 +68,7 @@
 <script src="../js/i18n/en.js"></script>
 <script>
     $(document).ready(function(){
-        $('#regform').parsley();
+        $('#logform').parsley();
         window.Parsley.setLocale($("#locale").val());
     });
 </script>

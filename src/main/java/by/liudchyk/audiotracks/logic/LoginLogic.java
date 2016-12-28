@@ -24,8 +24,7 @@ public class LoginLogic {
         if (!validator.isLoginLengthValid(login) || !validator.isPasswordLengthValid(password)) {
             return false;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Pass = DigestUtils.md5Hex(password);
         try {
@@ -50,8 +49,7 @@ public class LoginLogic {
         if (!validator.isLoginLengthValid(login)) {
             return false;
         }
-        ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             User oldUser = userDAO.findUser(login);

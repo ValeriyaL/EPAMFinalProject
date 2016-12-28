@@ -29,6 +29,7 @@ public class Validator {
     private final String EMAIL_UNIQUE_MSG = "message.email.unique";
     private final String CARD_UNIQUE_MSG = "message.card.unique";
     private final String INCORRECT_PASSWORD_MSG = "message.error.password.incorrect";
+    private final String INCORRECT_MONEY_MSG = "message.error.money.incorrect";
 
     public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException{
         String res = "";
@@ -102,6 +103,14 @@ public class Validator {
         }
         if(!isConfirmPasswordValid(newPass,newPassConf)){
             return CONFIRM_MSG;
+        }
+        return res;
+    }
+
+    public String isMoneyChangeValid(Double money){
+        String res = "";
+        if(String.valueOf(money).length()<1 && String.valueOf(money).length()>4){
+            return INCORRECT_MONEY_MSG;
         }
         return res;
     }

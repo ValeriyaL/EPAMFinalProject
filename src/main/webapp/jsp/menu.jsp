@@ -19,7 +19,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="${pageContext.request.contextPath}/jsp/main.jsp"><fmt:message key="menu.main"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=main"><fmt:message key="menu.main"/></a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="menu.tracks"/><b class="caret"></b></a>
                     <ul class="dropdown-menu">

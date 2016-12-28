@@ -3,19 +3,21 @@ package by.liudchyk.audiotracks.entity;
 /**
  * Created by Admin on 24.12.2016.
  */
-public class Track extends Entity{
+public class Track extends Entity {
     private int id;
     private String title;
-    private int genre;
+    private String genre;
+    private String artist;
     private Double price;
     private int length;
 
-    public Track(int id, String title, int genre, Double price, int length) {
+    public Track(int id, String title, String genre, Double price, int length, String artist) {
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.price = price;
         this.length = length;
+        this.artist = artist;
     }
 
     public int getId() {
@@ -26,7 +28,7 @@ public class Track extends Entity{
         return title;
     }
 
-    public int getGenre() {
+    public String getGenre() {
         return genre;
     }
 
@@ -36,5 +38,9 @@ public class Track extends Entity{
 
     public int getLength() {
         return length;
+    }
+
+    public String getArtist() {
+        return artist;
     }
 }
