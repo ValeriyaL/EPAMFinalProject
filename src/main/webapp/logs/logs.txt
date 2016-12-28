@@ -9,3 +9,9 @@
 22:38:39.876 [http-apr-8088-exec-2] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.LOGIN_CHANGE
 22:43:03.294 [http-apr-8088-exec-5] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.LOGIN_CHANGE
 22:45:34.337 [http-apr-8088-exec-8] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.LOGIN_CHANGE
+15:42:40.391 [http-apr-8088-exec-4] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.CARD_CHANGE
+15:48:51.226 [http-apr-8088-exec-7] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.CARD_CHANGE
+17:41:50.321 [http-apr-8088-exec-2] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE
+17:42:06.873 [http-apr-8088-exec-7] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE
+17:42:28.177 [http-apr-8088-exec-5] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE
+17:44:51.720 [http-apr-8088-exec-6] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE

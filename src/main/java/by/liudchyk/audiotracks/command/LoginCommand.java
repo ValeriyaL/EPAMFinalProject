@@ -39,6 +39,8 @@ public class LoginCommand implements ActionCommand {
                 User user = userLogic.findUserByLogin(name);
                 requestContent.setSessionAttribute(USER_ATTRIBUTE, user);
             }else{
+                requestContent.setAttribute(NAME_PARAM,name);
+                requestContent.setAttribute(PASSWORD_PARAM,password);
                 String message = LanguageManager.getProperty(MESSAGE,(String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));

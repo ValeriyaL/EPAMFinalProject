@@ -14,7 +14,7 @@ public class AccountCommand implements ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page = null;
-        String changeCommand = requestContent.getParameter(CHANGE_PARAM).toUpperCase();
+        String changeCommand = requestContent.getParameter(CHANGE_PARAM);
         page = ConfigurationManager.getProperty(CHANGES_PATH);
         requestContent.setSessionAttribute(CHANGE_PARAM, changeCommand);
         return page;

@@ -17,7 +17,9 @@ import java.io.IOException;
 @WebServlet("/controller")
 public class Controller extends HttpServlet implements ServletContextListener {
     @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {}
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        int i=0;
+    }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

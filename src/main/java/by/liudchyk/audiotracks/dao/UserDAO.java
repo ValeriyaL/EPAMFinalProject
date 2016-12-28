@@ -17,12 +17,17 @@ public class UserDAO extends AbstractDAO {
     private static final Logger LOG = LogManager.getLogger();
     private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM users";
     private static final String SQL_FIND_PASSWORD = "SELECT password FROM users WHERE nickname=?";
+    private static final String SQL_FIND_PASSWORD_BY_ID = "SELECT password FROM users WHERE id=?";
     private static final String SQL_ADD_USER = "INSERT INTO users(nickname,password,card_number, email) VALUES(?,?,?,?)";
     private static final String SQL_ADD_USER_WITHOUT_CARD = "INSERT INTO users(nickname,password, email) VALUES(?,?,?)";
     private static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE nickname=?";
     private static final String SQL_FIND_USER_BY_EMAIL = "SELECT * FROM  users WHERE email=?";
     private static final String SQL_FIND_USER_BY_CARD = "SELECT * FROM  users WHERE card_number=?";
     private static final String SQL_CHANGE_LOGIN = "UPDATE users SET nickname=? WHERE id=?";
+    private static final String SQL_CHANGE_EMAIL = "UPDATE users SET email=? WHERE id=?";
+    private static final String SQL_CHANGE_CARD = "UPDATE users SET card_number=? WHERE id=?";
+    private static final String SQL_CHANGE_PASSWORD = "UPDATE users SET password=? WHERE id=?";
+    private static final String SQL_CHANGE_MONEY = "UPDATE users SET money=? WHERE id=?";
 
     public UserDAO(ProxyConnection connection) {
         super(connection);
@@ -74,6 +79,23 @@ public class UserDAO extends AbstractDAO {
         return header;
     }
 
+    public String findPasswordById(int id) throws DAOException{
+        String password = null;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_FIND_PASSWORD_BY_ID);
+            statement.setString(1,""+id);
+            ResultSet set = statement.executeQuery();
+            if(set.next()){
+                password = set.getString(1);
+            }
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+        return password;
+    }
     public String findPasswordForLogin(String login) throws DAOException{
         String password = null;
         PreparedStatement statement = null;
@@ -180,8 +202,8 @@ public class UserDAO extends AbstractDAO {
         return tempUser;
     }
 
-    public User changeLoginById(String newLogin, int id) throws DAOException{
-        User user = null;
+    public boolean changeLoginById(String newLogin, int id) throws DAOException{
+        boolean isAdded;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_CHANGE_LOGIN);
@@ -189,13 +211,104 @@ public class UserDAO extends AbstractDAO {
             statement.setString(2, "" + id);
             int i = statement.executeUpdate();
             if(i!=0){
-                user = findUser(newLogin);
+                isAdded = true;
+            }else{
+                isAdded = false;
             }
         }catch (SQLException e){
-            throw new DAOException(e);
+           // throw new DAOException(e);
+            isAdded = false;
         }finally {
             closeStatement(statement);
         }
-        return user;
+        return isAdded;
+    }
+
+    public boolean changePasswordById(String newMD5Password, int id) throws DAOException{
+        boolean isAdded;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_PASSWORD);
+            statement.setString(1, newMD5Password);
+            statement.setString(2, "" + id);
+            int i = statement.executeUpdate();
+            if(i!=0){
+                isAdded = true;
+            }else{
+                isAdded = false;
+            }
+        }catch (SQLException e){
+            // throw new DAOException(e);
+            isAdded = false;
+        }finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public boolean changeMoneyById(double money, int id) throws DAOException{
+        boolean isAdded;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_MONEY);
+            statement.setDouble(1, money);
+            statement.setString(2, "" + id);
+            int i = statement.executeUpdate();
+            if(i!=0){
+                isAdded = true;
+            }else{
+                isAdded = false;
+            }
+        }catch (SQLException e){
+            // throw new DAOException(e);
+            isAdded = false;
+        }finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public boolean changeCardById(String newCard, int id) throws DAOException{
+        boolean isAdded;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_CARD);
+            statement.setString(1, newCard);
+            statement.setString(2, "" + id);
+            int i = statement.executeUpdate();
+            if(i!=0){
+                isAdded = true;
+            }else{
+                isAdded = false;
+            }
+        }catch (SQLException e){
+            // throw new DAOException(e);
+            isAdded = false;
+        }finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public boolean changeEmailById(String newEmail, int id) throws DAOException{
+        boolean isAdded;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_EMAIL);
+            statement.setString(1, newEmail);
+            statement.setString(2, "" + id);
+            int i = statement.executeUpdate();
+            if(i!=0){
+                isAdded = true;
+            }else {
+                isAdded = false;
+            }
+        }catch (SQLException e){
+            isAdded = false;
+           // throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+        return isAdded;
     }
 }

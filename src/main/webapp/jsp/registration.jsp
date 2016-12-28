@@ -36,35 +36,35 @@
             <label class="control-label col-xs-3" for="lastName"><fmt:message key="register.login"/>*:</label>
             <div class="col-xs-9">
                 <input type="text" class="form-control" id="lastName" name="nickname"
-                       required data-parsley-length="[4,15]" data-parsley-required>
+                       required data-parsley-length="[4,15]" data-parsley-required  value="${nickname}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="inputEmail"><fmt:message key="register.mail"/>*:</label>
             <div class="col-xs-9">
                 <input type="email" class="form-control" id="inputEmail" name="email"
-                       data-parsley-required>
+                       data-parsley-required value="${email}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="inputPassword"><fmt:message key="register.password"/>*:</label>
             <div class="col-xs-9">
                 <input type="password" class="form-control" id="inputPassword" name="password"
-                       required data-parsley-length="[4,20]" data-parsley-required>
+                       required data-parsley-length="[4,20]" data-parsley-required  value="${password}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="confirmPassword"><fmt:message key="register.confirmPass"/>*:</label>
             <div class="col-xs-9">
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                       data-parsley-equalto = "#inputPassword" data-parsley-required >
+                       data-parsley-equalto = "#inputPassword" data-parsley-required  value="${confirmPassword}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="cardNumber"><fmt:message key="register.card"/>:</label>
             <div class="col-xs-9">
                 <input type="number" class="form-control" id="cardNumber" name="card"
-                       data-parsley-range="[1000000000000,9999999999999999999]">
+                       data-parsley-range="[1000000000000,9999999999999999999]"  value="${card}">
             </div>
         </div>
         <br />
@@ -72,8 +72,6 @@
             <div  class="col-xs-offset-3 col-xs-9">
                 <button type="submit" class="btn btn-primary" name="command"
                        value="registration"><fmt:message key="register.button.confirm"/></button>
-                <button type="reset" class="btn btn-default" name="command"
-                        value="cansel"><fmt:message key="login.placeholder.cancel"/></button>
             </div>
         </div>
     </form>

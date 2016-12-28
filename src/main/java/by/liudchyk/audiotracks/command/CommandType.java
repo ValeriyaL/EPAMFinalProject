@@ -34,6 +34,26 @@ public enum CommandType {
         {
             this.command = new ChangeLoginCommand();
         }
+    },
+    EMAIL_CHANGE{
+        {
+            this.command = new ChangeEmailCommand();
+        }
+    },
+    CARD_CHANGE{
+        {
+            this.command = new ChangeCardCommand();
+        }
+    },
+    PASSWORD_CHANGE{
+        {
+            this.command = new ChangePasswordCommand();
+        }
+    },
+    MONEY_CHANGE{
+        {
+            this.command = new ChangeMoneyCommand();
+        }
     };
     ActionCommand command;
 

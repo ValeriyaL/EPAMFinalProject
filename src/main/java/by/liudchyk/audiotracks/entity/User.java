@@ -3,7 +3,7 @@ package by.liudchyk.audiotracks.entity;
 /**
  * Created by Admin on 24.12.2016.
  */
-public class User extends Entity{
+public class User extends Entity {
     private int id;
     private String nickname;
     private String password;
@@ -12,6 +12,7 @@ public class User extends Entity{
     private int bonus;
     private String cardNumber;
     private String email;
+
 
     public User(int id, String nickname, String password, int status, double money, int bonus, String cardNumber, String email) {
         this.id = id;
@@ -54,6 +55,27 @@ public class User extends Entity{
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCardNumber(String cardNumber) {
+
+        this.cardNumber = cardNumber;
+    }
+
+    public void addMoney(double money){
+        this.money = money;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @Override

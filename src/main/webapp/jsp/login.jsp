@@ -38,14 +38,14 @@
             <label class="control-label col-xs-3" for="lastName"><fmt:message key="login.login"/>:</label>
             <div class="col-xs-9">
                 <input type="text" class="form-control" id="lastName" name="nickname"
-                       required data-parsley-length="[4,15]" data-parsley-required>
+                       required data-parsley-length="[4,15]" data-parsley-required value="${nickname}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="inputPassword"><fmt:message key="login.password"/>:</label>
             <div class="col-xs-9">
                 <input type="password" class="form-control" id="inputPassword" name="password"
-                       required data-parsley-length="[4,20]" data-parsley-required>
+                       required data-parsley-length="[4,20]" data-parsley-required value="${password}">
             </div>
         </div>
         <br />
@@ -53,8 +53,6 @@
             <div class="col-xs-offset-3 col-xs-9">
                 <button type="submit" class="btn btn-primary" name="command"
                        value="login"><fmt:message key="login.placeholder.enter"/></button>
-                <button type="reset" class="btn btn-default" name="command"
-                       value="cancel"><fmt:message key="login.placeholder.cancel"/></button>
             </div>
         </div>
     </form>
@@ -71,6 +69,7 @@
 <script>
     $(document).ready(function(){
         $('#regform').parsley();
+        window.Parsley.setLocale($("#locale").val());
     });
 </script>
 </body>

@@ -42,6 +42,11 @@ public class RegistrationCommand implements ActionCommand {
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty(LOGIN_PATH);
             }else{
+                requestContent.setAttribute(NAME_PARAM,name);
+                requestContent.setAttribute(PASSWORD_PARAM,password);
+                requestContent.setAttribute(EMAIL_PARAM,email);
+                requestContent.setAttribute(CONF_PASS_PARAM,confirmPassword);
+                requestContent.setAttribute(CARD_PARAM,card);
                 String message = LanguageManager.getProperty(msgPath,(String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));

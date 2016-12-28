@@ -6,6 +6,7 @@ import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +28,7 @@ public class Validator {
     private final String LOGIN_UNIQUE_MSG = "message.login.unique";
     private final String EMAIL_UNIQUE_MSG = "message.email.unique";
     private final String CARD_UNIQUE_MSG = "message.card.unique";
+    private final String INCORRECT_PASSWORD_MSG = "message.error.password.incorrect";
 
     public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException{
         String res = "";
@@ -53,6 +55,53 @@ public class Validator {
         }
         if(!isCardUnique(card)){
             return CARD_UNIQUE_MSG;
+        }
+        return res;
+    }
+
+    public String isEmailChangeValid(String newEmail) throws LogicException{
+        String res = "";
+        if(!isEmailValid(newEmail)){
+            return EMAIL_MSG;
+        }
+        if(!isEmailUnique(newEmail)){
+            return EMAIL_UNIQUE_MSG;
+        }
+        return res;
+    }
+
+    public String isLoginChangeValid(String newLogin) throws LogicException{
+        String res = "";
+        if(!isLoginLengthValid(newLogin)){
+            return LOGIN_MSG;
+        }
+        if(!isLoginUnique(newLogin)){
+            return LOGIN_UNIQUE_MSG;
+        }
+        return res;
+    }
+
+    public String isCardChangeValid(String newCard) throws LogicException{
+        String res = "";
+        if(!isCardValid(newCard)){
+            return CARD_MSG;
+        }
+        if(!isCardUnique(newCard)){
+            return CARD_UNIQUE_MSG;
+        }
+        return res;
+    }
+
+    public String isPasswordChangeValid(String oldPass, String newPass, String newPassConf, int id) throws LogicException{
+        String res = "";
+        if(!isPasswordCorrect(oldPass,id)){
+            return INCORRECT_PASSWORD_MSG;
+        }
+        if(!isPasswordLengthValid(newPass)){
+            return PASSWORD_MSG;
+        }
+        if(!isConfirmPasswordValid(newPass,newPassConf)){
+            return CONFIRM_MSG;
         }
         return res;
     }
@@ -118,6 +167,28 @@ public class Validator {
         UserDAO userDAO = new UserDAO(connection);
         try {
             if (userDAO.findUserByEmail(email) == null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (DAOException e) {
+            throw new LogicException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LOG.warn("Connection can't be returned into pull", e);
+            }
+        }
+    }
+
+    public boolean isPasswordCorrect(String password, int id) throws LogicException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = pool.getConnection();
+        UserDAO userDAO = new UserDAO(connection);
+        String md5Password =  DigestUtils.md5Hex(password);
+        try {
+            if (md5Password.equals(userDAO.findPasswordById(id))) {
                 return true;
             } else {
                 return false;
