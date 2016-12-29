@@ -13,11 +13,10 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 28.12.2016.
  */
-public class MainCommand implements ActionCommand {
+public class MainCommand extends ActionCommand {
     private static final Logger LOG = LogManager.getLogger();
-    private static final String PATH_ATTRIBUTE = "path.page.main";
+    private static final String PATH_MAIN = "path.page.main";
     private final String TRACKS_ATTRIBUTE = "tracks";
-    private final int ordersSize = 5;
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -25,12 +24,14 @@ public class MainCommand implements ActionCommand {
         ArrayList<Track> tracks;
         TrackLogic trackLogic = new TrackLogic();
         try {
-            tracks = trackLogic.findLastOrders(ordersSize);
+            tracks = trackLogic.findLastOrders();
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
-            page = ConfigurationManager.getProperty(PATH_ATTRIBUTE);
-        }catch (LogicException e){
+            requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
+            page = ConfigurationManager.getProperty(PATH_MAIN);
+        } catch (LogicException e) {
             LOG.error(e);
-            //перенаправление на ошибочную страницу (ту же самую?)
+            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
+            page = ConfigurationManager.getProperty(ERROR_PATH);
         }
         return page;
     }

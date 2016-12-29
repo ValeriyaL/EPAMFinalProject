@@ -11,20 +11,15 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by Admin on 25.12.2016.
  */
-public class RegistrationCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger();
+public class RegistrationCommand extends ActionCommand {
     private final String LOGIN_PATH = "path.page.login";
     private final String NAME_PARAM = "nickname";
     private final String PASSWORD_PARAM = "password";
     private final String EMAIL_PARAM = "email";
     private final String CONF_PASS_PARAM = "confirmPassword";
     private final String CARD_PARAM = "card";
-    private final String SUCCESS_ATTRIBUTE = "info";
     private final String MESSAGE = "message.success.register";
-    private final String ERROR_MESSAGE = "message.error.register";
-    private static final String PARAMETER = "locale";
-    private final String MISTAKE_ATTRIBUTE = "mistake";
-    private final String PATH_ATTRIBUTE = "page";
+
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -37,23 +32,24 @@ public class RegistrationCommand implements ActionCommand {
         String card = requestContent.getParameter(CARD_PARAM);
         try {
             String msgPath = userLogic.registerUser(name, email, password, confirmPassword, card);
-            if(MESSAGE.equals(msgPath)){
-                String message = LanguageManager.getProperty(msgPath,(String) requestContent.getSessionAttribute(PARAMETER));
+            if (MESSAGE.equals(msgPath)) {
+                String message = LanguageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty(LOGIN_PATH);
-            }else{
-                requestContent.setAttribute(NAME_PARAM,name);
-                requestContent.setAttribute(PASSWORD_PARAM,password);
-                requestContent.setAttribute(EMAIL_PARAM,email);
-                requestContent.setAttribute(CONF_PASS_PARAM,confirmPassword);
-                requestContent.setAttribute(CARD_PARAM,card);
-                String message = LanguageManager.getProperty(msgPath,(String) requestContent.getSessionAttribute(PARAMETER));
+            } else {
+                requestContent.setAttribute(NAME_PARAM, name);
+                requestContent.setAttribute(PASSWORD_PARAM, password);
+                requestContent.setAttribute(EMAIL_PARAM, email);
+                requestContent.setAttribute(CONF_PASS_PARAM, confirmPassword);
+                requestContent.setAttribute(CARD_PARAM, card);
+                String message = LanguageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        }catch (LogicException e){
+        } catch (LogicException e) {
             LOG.error(e);
-            //TODO перенаправление на стр.ошибки со своим msg
+            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
+            page = ConfigurationManager.getProperty(ERROR_PATH);
         }
         return page;
     }

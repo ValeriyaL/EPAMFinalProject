@@ -33,7 +33,7 @@ public class LoginLogic {
                 return true;
             }
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Mistake in checking login",e);
         } finally {
             try {
                 connection.close();
@@ -42,30 +42,5 @@ public class LoginLogic {
             }
         }
         return false;
-    }
-
-    public boolean checkNewLogin(String login) throws LogicException {
-        Validator validator = new Validator();
-        if (!validator.isLoginLengthValid(login)) {
-            return false;
-        }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-        UserDAO userDAO = new UserDAO(connection);
-        try {
-            User oldUser = userDAO.findUser(login);
-            if (oldUser == null) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (DAOException e) {
-            throw new LogicException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
-        }
     }
 }

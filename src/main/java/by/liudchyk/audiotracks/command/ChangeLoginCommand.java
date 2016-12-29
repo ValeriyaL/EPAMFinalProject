@@ -13,15 +13,9 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by Admin on 25.12.2016.
  */
-public class ChangeLoginCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger();
+public class ChangeLoginCommand extends ActionCommand {
     private final String NAME_PARAM = "nickname";
-    private final String MISTAKE_ATTRIBUTE = "mistake";
-    private static final String PARAMETER = "locale";
-    private final String PATH_ATTRIBUTE = "page";
-    private final String USER_ATTRIBUTE = "user";
     private final String SUCCESS_MESSAGE = "message.success.change.login";
-    private final String SUCCESS_ATTRIBUTE = "info";
     private final String SUCCESS_PATH = "path.page.account";
 
     @Override
@@ -30,24 +24,25 @@ public class ChangeLoginCommand implements ActionCommand {
         UserLogic userLogic = new UserLogic();
         String newLogin = requestContent.getParameter(NAME_PARAM);
         try {
-            User tempUser =(User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+            User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
             String msgPath = userLogic.changeUserLogin(newLogin, tempUser.getId());
-            if(SUCCESS_MESSAGE.equals(msgPath)){
+            if (SUCCESS_MESSAGE.equals(msgPath)) {
                 tempUser.setNickname(newLogin);
                 requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
-                String message = LanguageManager.getProperty(SUCCESS_MESSAGE,(String) requestContent.getSessionAttribute(PARAMETER));
+                String message = LanguageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty(SUCCESS_PATH);
-            }else{
+            } else {
                 requestContent.setAttribute(NAME_PARAM, newLogin);
-                String message = LanguageManager.getProperty(msgPath,(String) requestContent.getSessionAttribute(PARAMETER));
+                String message = LanguageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
 
             }
         } catch (LogicException e) {
             LOG.error(e);
-            // TODO перенаправление
+            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
+            page = ConfigurationManager.getProperty(ERROR_PATH);
         }
         return page;
     }

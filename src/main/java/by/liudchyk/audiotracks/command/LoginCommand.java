@@ -13,20 +13,16 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by Admin on 24.12.2016.
  */
-public class LoginCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger();
+public class LoginCommand extends ActionCommand {
     private final String NAME_PARAM = "nickname";
     private final String PASSWORD_PARAM = "password";
     private final String PATH = "path.page.main";
-    private static final String PARAMETER = "locale";
     private final String MESSAGE = "message.error.login";
-    private final String MISTAKE_ATTRIBUTE = "mistake";
-    private final String PATH_ATTRIBUTE = "page";
     private final String IS_LOGIN_ATTRIBUTE = "isLogin";
-    private final String USER_ATTRIBUTE = "user";
+    private final String ROLE_ATTRIBUTE = "role";
 
     @Override
-    public String execute(SessionRequestContent requestContent){
+    public String execute(SessionRequestContent requestContent) {
         String page = null;
         LoginLogic loginLogic = new LoginLogic();
         String name = requestContent.getParameter(NAME_PARAM);
@@ -38,16 +34,20 @@ public class LoginCommand implements ActionCommand {
                 UserLogic userLogic = new UserLogic();
                 User user = userLogic.findUserByLogin(name);
                 requestContent.setSessionAttribute(USER_ATTRIBUTE, user);
-            }else{
-                requestContent.setAttribute(NAME_PARAM,name);
-                requestContent.setAttribute(PASSWORD_PARAM,password);
-                String message = LanguageManager.getProperty(MESSAGE,(String) requestContent.getSessionAttribute(PARAMETER));
+                if(user.getStatus()==0) {
+                    requestContent.setSessionAttribute(ROLE_ATTRIBUTE, "Admin");
+                }
+            } else {
+                requestContent.setAttribute(NAME_PARAM, name);
+                requestContent.setAttribute(PASSWORD_PARAM, password);
+                String message = LanguageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        }catch (LogicException e){
+        } catch (LogicException e) {
             LOG.error(e);
-            //перенаправление на ошибочную страницу (ту же самую?)
+            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
+            page = ConfigurationManager.getProperty(ERROR_PATH);
         }
         return page;
     }

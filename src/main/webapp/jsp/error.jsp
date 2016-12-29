@@ -34,6 +34,9 @@
         <label class="control-label"><fmt:message key="label.error.more"/></label>
     </div>
     <div class="row">
+        <label class="control-label">${errorMessage}</label>
+    </div>
+    <div class="row">
     <label class="control-label"><fmt:message key="label.error.request"/> ${pageContext.errorData.requestURI} <fmt:message key="label.error.failed"/></label>
     </div>
     <div class="row">

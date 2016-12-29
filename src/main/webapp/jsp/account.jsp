@@ -1,6 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="ctg" uri="customtags"%><html>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="properties.content" />
 <html>
@@ -69,6 +70,12 @@
         </div>
         <div class="form-group">
             <label class="control-label col-lg-6"><fmt:message key="account.bonus"/>: ${user.bonus}</label>
+            <ctg:adminTag role="${role}">
+                <div class="col-lg-6">
+                    <a href="#">
+                        <button type="submit" class="btn btn-info"><fmt:message key="account.button.admin.fill"/></button></a>
+                </div>
+            </ctg:adminTag>
         </div>
     </div>
 </div>

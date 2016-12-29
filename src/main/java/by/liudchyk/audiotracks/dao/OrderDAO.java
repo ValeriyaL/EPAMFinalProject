@@ -18,7 +18,6 @@ import java.util.List;
  * Created by Admin on 28.12.2016.
  */
 public class OrderDAO extends AbstractDAO {
-    private static final Logger LOG = LogManager.getLogger();
     private static final String SQL_SELECT_LAST_ORDERS = "SELECT tracks.id, tracks.title, genres.name AS genre, artists.name AS artist, tracks.price, tracks.length\n" +
             "     FROM orders\n" +
             "     JOIN tracks ON orders.track_id=tracks.id\n" +
@@ -36,7 +35,7 @@ public class OrderDAO extends AbstractDAO {
         return null;
     }
 
-    public List<Track> findLastOrders(int size) throws DAOException{
+    public List<Track> findLastOrders() throws DAOException{
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;
         try {

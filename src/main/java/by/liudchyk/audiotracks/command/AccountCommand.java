@@ -6,8 +6,7 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 /**
  * Created by Admin on 25.12.2016.
  */
-public class AccountCommand implements ActionCommand {
-    private final String PATH_ATTRIBUTE = "page";
+public class AccountCommand extends ActionCommand {
     private final String CHANGE_PARAM = "change";
     private final String CHANGES_PATH = "path.page.changes";
 

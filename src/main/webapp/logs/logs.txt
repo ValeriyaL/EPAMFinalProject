@@ -15,3 +15,5 @@
 17:42:06.873 [http-apr-8088-exec-7] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE
 17:42:28.177 [http-apr-8088-exec-5] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE
 17:44:51.720 [http-apr-8088-exec-6] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.MONEY_CHANGE
+19:22:19.782 [http-apr-8088-exec-8] ERROR by.liudchyk.audiotracks.command.LoginCommand - by.liudchyk.audiotracks.exception.LogicException: ooops
+19:23:12.982 [http-apr-8088-exec-6] ERROR by.liudchyk.audiotracks.command.LoginCommand - by.liudchyk.audiotracks.exception.LogicException: ooops

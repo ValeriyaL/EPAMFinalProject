@@ -3,6 +3,8 @@ package by.liudchyk.audiotracks.servlet;
 import by.liudchyk.audiotracks.command.ActionCommand;
 import by.liudchyk.audiotracks.command.ActionFactory;
 import by.liudchyk.audiotracks.database.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContextEvent;
@@ -40,6 +42,8 @@ public class Controller extends HttpServlet implements ServletContextListener {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Logger l = LogManager.getLogger();
+        l.warn("TRY");
         String page = null;
         SessionRequestContent sessionRequestContent = new SessionRequestContent();
         sessionRequestContent.extractValues(request);

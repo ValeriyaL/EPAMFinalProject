@@ -74,7 +74,7 @@ public class UserLogic {
                 return ERROR_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Can't change user email",e);
         } finally {
             try {
                 connection.close();
@@ -99,7 +99,7 @@ public class UserLogic {
                 return ERROR_LOGIN_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Can't change user logic",e);
         } finally {
             try {
                 connection.close();
@@ -125,7 +125,7 @@ public class UserLogic {
                 return ERROR_PASSWORD_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Can't change user password",e);
         } finally {
             try {
                 connection.close();
@@ -150,7 +150,7 @@ public class UserLogic {
                 return ERROR_CARD_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Can't change user card",e);
         } finally {
             try {
                 connection.close();
@@ -175,7 +175,7 @@ public class UserLogic {
                 return ERROR_MONEY_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Can't change user money",e);
         } finally {
             try {
                 connection.close();
@@ -191,7 +191,7 @@ public class UserLogic {
         try {
             return userDAO.findUser(login);
         } catch (DAOException e) {
-            throw new LogicException(e);
+            throw new LogicException("Can't find user by id",e);
         }finally {
             try {
                 connection.close();

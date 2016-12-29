@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="properties.content" />
@@ -31,6 +32,9 @@
                 </li>
                 <li><a href="#"><fmt:message key="menu.sales"/></a></li>
                 <li><a href="#"><fmt:message key="menu.about"/></a></li>
+                <ctg:isLogined>
+                    <li><a href="#"><fmt:message key="menu.orders"/></a></li>
+                </ctg:isLogined>
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">

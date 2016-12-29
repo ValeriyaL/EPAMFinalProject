@@ -6,14 +6,13 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 /**
  * Created by Admin on 23.12.2016.
  */
-public class LanguageCommand implements ActionCommand {
-    private static final String PARAMETER = "language";
+public class LanguageCommand extends ActionCommand {
+    private static final String LANG_PARAMETER = "language";
     private static final String LOCALE_ATTRIBUTE = "locale";
-    private static final String PATH_ATTRIBUTE = "page";
 
     public String execute(SessionRequestContent requestContent) {
         String page = null;
-        Object str = requestContent.getParameter(PARAMETER);
+        Object str = requestContent.getParameter(LANG_PARAMETER);
         if (str != null) {
             requestContent.setAttribute(LOCALE_ATTRIBUTE, str);
             requestContent.setSessionAttribute(LOCALE_ATTRIBUTE, str);

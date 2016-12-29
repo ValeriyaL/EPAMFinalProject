@@ -15,52 +15,52 @@ public enum CommandType {
             this.command = new LoginCommand();
         }
     },
-    LOGOUT{
+    LOGOUT {
         {
             this.command = new LogoutCommand();
         }
     },
-    REGISTRATION{
+    REGISTRATION {
         {
             this.command = new RegistrationCommand();
         }
     },
-    ACCOUNT{
+    ACCOUNT {
         {
             this.command = new AccountCommand();
         }
     },
-    LOGIN_CHANGE{
+    LOGIN_CHANGE {
         {
             this.command = new ChangeLoginCommand();
         }
     },
-    EMAIL_CHANGE{
+    EMAIL_CHANGE {
         {
             this.command = new ChangeEmailCommand();
         }
     },
-    CARD_CHANGE{
+    CARD_CHANGE {
         {
             this.command = new ChangeCardCommand();
         }
     },
-    PASSWORD_CHANGE{
+    PASSWORD_CHANGE {
         {
             this.command = new ChangePasswordCommand();
         }
     },
-    MONEY_CHANGE{
+    MONEY_CHANGE {
         {
             this.command = new ChangeMoneyCommand();
         }
     },
-    INDEX{
+    INDEX {
         {
             this.command = new IndexCommand();
         }
     },
-    MAIN{
+    MAIN {
         {
             this.command = new MainCommand();
         }

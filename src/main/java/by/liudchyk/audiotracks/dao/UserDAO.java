@@ -3,8 +3,6 @@ package by.liudchyk.audiotracks.dao;
 import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,9 +12,8 @@ import java.util.List;
  * Created by Admin on 24.12.2016.
  */
 public class UserDAO extends AbstractDAO {
-    private static final Logger LOG = LogManager.getLogger();
     private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM users";
-    private static final String SQL_FIND_PASSWORD = "SELECT password FROM users WHERE nickname=?";
+    private static final String SQL_FIND_PASSWORD_BY_LOGIN = "SELECT password FROM users WHERE nickname=?";
     private static final String SQL_FIND_PASSWORD_BY_ID = "SELECT password FROM users WHERE id=?";
     private static final String SQL_ADD_USER = "INSERT INTO users(nickname,password,card_number, email) VALUES(?,?,?,?)";
     private static final String SQL_ADD_USER_WITHOUT_CARD = "INSERT INTO users(nickname,password, email) VALUES(?,?,?)";
@@ -100,7 +97,7 @@ public class UserDAO extends AbstractDAO {
         String password = null;
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(SQL_FIND_PASSWORD);
+            statement = connection.prepareStatement(SQL_FIND_PASSWORD_BY_LOGIN);
             statement.setString(1,login);
             ResultSet set = statement.executeQuery();
             if(set.next()){
