@@ -20,7 +20,7 @@ import java.io.IOException;
 public class Controller extends HttpServlet implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        int i=0;
+        int i = 0;
     }
 
     @Override
@@ -42,8 +42,6 @@ public class Controller extends HttpServlet implements ServletContextListener {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Logger l = LogManager.getLogger();
-        l.warn("TRY");
         String page = null;
         SessionRequestContent sessionRequestContent = new SessionRequestContent();
         sessionRequestContent.extractValues(request);

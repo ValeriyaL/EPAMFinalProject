@@ -17,15 +17,15 @@ public class InitDB {
     private final String POOL_SIZE;
     private final String DB_PASSWORD;
 
-    public InitDB(){
+    public InitDB() {
         try {
             RESOURSE = ResourceBundle.getBundle("properties.database");
             DATABASE = RESOURSE.getString("db.url");
             DB_LOGIN = RESOURSE.getString("db.user");
             POOL_SIZE = RESOURSE.getString("db.poolsize");
             DB_PASSWORD = RESOURSE.getString("db.password");
-        }catch (MissingResourceException e){
-            LOG.fatal("can't init database",e);
+        } catch (MissingResourceException e) {
+            LOG.fatal("can't init database", e);
             throw new RuntimeException("Can't init database", e);
         }
     }

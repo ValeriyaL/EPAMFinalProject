@@ -70,7 +70,7 @@ public class User extends Entity {
         this.cardNumber = cardNumber;
     }
 
-    public void addMoney(double money){
+    public void addMoney(double money) {
         this.money += money;
     }
 

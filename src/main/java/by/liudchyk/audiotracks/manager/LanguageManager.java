@@ -3,6 +3,7 @@ package by.liudchyk.audiotracks.manager;
 /**
  * Created by Admin on 23.12.2016.
  */
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -13,7 +14,7 @@ public class LanguageManager {
     }
 
     public static String getProperty(String key, String lang) {
-        if(lang!=null) {
+        if (lang != null) {
             switch (lang) {
                 case "ru_RU":
                     Locale locale = new Locale("ru", "RU");
@@ -26,7 +27,7 @@ public class LanguageManager {
                 default:
                     resourceBundle = ResourceBundle.getBundle("properties.content");
             }
-        }else{
+        } else {
             resourceBundle = ResourceBundle.getBundle("properties.content");
         }
         return resourceBundle.getString(key);

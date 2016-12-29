@@ -31,85 +31,85 @@ public class Validator {
     private final String INCORRECT_PASSWORD_MSG = "message.error.password.incorrect";
     private final String INCORRECT_MONEY_MSG = "message.error.money.incorrect";
 
-    public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException{
+    public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException {
         String res = "";
-        if(!isLoginLengthValid(name)){
+        if (!isLoginLengthValid(name)) {
             return LOGIN_MSG;
         }
-        if(!isPasswordLengthValid(password)){
+        if (!isPasswordLengthValid(password)) {
             return PASSWORD_MSG;
         }
-        if(!isEmailValid(email)){
+        if (!isEmailValid(email)) {
             return EMAIL_MSG;
         }
-        if(!isCardValid(card)){
+        if (!isCardValid(card)) {
             return CARD_MSG;
         }
-        if(!isConfirmPasswordValid(password,confirm)){
+        if (!isConfirmPasswordValid(password, confirm)) {
             return CONFIRM_MSG;
         }
-        if(!isLoginUnique(name)){
+        if (!isLoginUnique(name)) {
             return LOGIN_UNIQUE_MSG;
         }
-        if(!isEmailUnique(email)){
+        if (!isEmailUnique(email)) {
             return EMAIL_UNIQUE_MSG;
         }
-        if(!isCardUnique(card)){
+        if (!isCardUnique(card)) {
             return CARD_UNIQUE_MSG;
         }
         return res;
     }
 
-    public String isEmailChangeValid(String newEmail) throws LogicException{
+    public String isEmailChangeValid(String newEmail) throws LogicException {
         String res = "";
-        if(!isEmailValid(newEmail)){
+        if (!isEmailValid(newEmail)) {
             return EMAIL_MSG;
         }
-        if(!isEmailUnique(newEmail)){
+        if (!isEmailUnique(newEmail)) {
             return EMAIL_UNIQUE_MSG;
         }
         return res;
     }
 
-    public String isLoginChangeValid(String newLogin) throws LogicException{
+    public String isLoginChangeValid(String newLogin) throws LogicException {
         String res = "";
-        if(!isLoginLengthValid(newLogin)){
+        if (!isLoginLengthValid(newLogin)) {
             return LOGIN_MSG;
         }
-        if(!isLoginUnique(newLogin)){
+        if (!isLoginUnique(newLogin)) {
             return LOGIN_UNIQUE_MSG;
         }
         return res;
     }
 
-    public String isCardChangeValid(String newCard) throws LogicException{
+    public String isCardChangeValid(String newCard) throws LogicException {
         String res = "";
-        if(!isCardValid(newCard)){
+        if (!isCardValid(newCard)) {
             return CARD_MSG;
         }
-        if(!isCardUnique(newCard)){
+        if (!isCardUnique(newCard)) {
             return CARD_UNIQUE_MSG;
         }
         return res;
     }
 
-    public String isPasswordChangeValid(String oldPass, String newPass, String newPassConf, int id) throws LogicException{
+    public String isPasswordChangeValid(String oldPass, String newPass, String newPassConf, int id) throws LogicException {
         String res = "";
-        if(!isPasswordCorrect(oldPass,id)){
+        if (!isPasswordCorrect(oldPass, id)) {
             return INCORRECT_PASSWORD_MSG;
         }
-        if(!isPasswordLengthValid(newPass)){
+        if (!isPasswordLengthValid(newPass)) {
             return PASSWORD_MSG;
         }
-        if(!isConfirmPasswordValid(newPass,newPassConf)){
+        if (!isConfirmPasswordValid(newPass, newPassConf)) {
             return CONFIRM_MSG;
         }
         return res;
     }
 
-    public String isMoneyChangeValid(Double money){
+    public String isMoneyChangeValid(Double money) {
         String res = "";
-        if(String.valueOf(money).length()<1 && String.valueOf(money).length()>4){
+        if (String.valueOf(money).length() < 1 && String.valueOf(money).length() > 4) {
             return INCORRECT_MONEY_MSG;
         }
         return res;
@@ -149,7 +149,7 @@ public class Validator {
         }
     }
 
-    public boolean isLoginUnique(String login) throws LogicException{
+    public boolean isLoginUnique(String login) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
@@ -170,7 +170,7 @@ public class Validator {
         }
     }
 
-    public boolean isEmailUnique(String email) throws LogicException{
+    public boolean isEmailUnique(String email) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
@@ -191,11 +191,11 @@ public class Validator {
         }
     }
 
-    public boolean isPasswordCorrect(String password, int id) throws LogicException{
+    public boolean isPasswordCorrect(String password, int id) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
-        String md5Password =  DigestUtils.md5Hex(password);
+        String md5Password = DigestUtils.md5Hex(password);
         try {
             if (md5Password.equals(userDAO.findPasswordById(id))) {
                 return true;
@@ -213,7 +213,7 @@ public class Validator {
         }
     }
 
-    public boolean isCardUnique(String card) throws LogicException{
+    public boolean isCardUnique(String card) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);

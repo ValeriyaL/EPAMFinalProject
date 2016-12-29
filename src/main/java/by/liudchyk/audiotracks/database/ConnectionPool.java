@@ -3,6 +3,7 @@ package by.liudchyk.audiotracks.database;
 /**
  * Created by Admin on 24.12.2016.
  */
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,12 +23,12 @@ public class ConnectionPool {
     private ArrayBlockingQueue<ProxyConnection> connectionQueue;
     private static InitDB init = new InitDB();
 
-    private ConnectionPool(ArrayBlockingQueue<ProxyConnection> connectionQueue){
+    private ConnectionPool(ArrayBlockingQueue<ProxyConnection> connectionQueue) {
         this.connectionQueue = connectionQueue;
     }
 
-    public static ConnectionPool getInstance(){
-        if(!instanceCreated.get()) {
+    public static ConnectionPool getInstance() {
+        if (!instanceCreated.get()) {
             lock.lock();
             try {
                 if (pool == null) {
@@ -57,7 +58,7 @@ public class ConnectionPool {
         ProxyConnection connection = null;
         try {
             connection = connectionQueue.take();
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             LOG.error(e);
         }
         return connection;
@@ -71,13 +72,13 @@ public class ConnectionPool {
         }
     }
 
-    public void closePool(){
+    public void closePool() {
         int size = Integer.valueOf(init.getPoolSize());
         try {
             for (int i = 0; i < size; i++) {
                 connectionQueue.take().realClose();
             }
-        }catch (SQLException | InterruptedException e) {
+        } catch (SQLException | InterruptedException e) {
             LOG.error(e);
         }
     }

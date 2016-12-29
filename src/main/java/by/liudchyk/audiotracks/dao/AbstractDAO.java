@@ -22,17 +22,17 @@ public abstract class AbstractDAO<T extends Entity> {
         this.connection = connection;
     }
 
-    public abstract List<T> findAll () throws DAOException;
+    public abstract List<T> findAll() throws DAOException;
 
-    public void closeStatement(Statement statement){
+    public void closeStatement(Statement statement) {
         try {
             if (statement != null) {
                 statement.close();
             } else {
                 LOG.warn("Statement was null");
             }
-        }catch (SQLException e){
-            LOG.warn("Mistake in statement closing",e);
+        } catch (SQLException e) {
+            LOG.warn("Mistake in statement closing", e);
         }
     }
 }

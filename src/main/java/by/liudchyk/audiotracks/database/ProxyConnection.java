@@ -11,24 +11,31 @@ import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
     private Connection connection;
+
     ProxyConnection(Connection connection) {
         this.connection = connection;
     }
+
     @Override
     public Statement createStatement() throws SQLException {
         return connection.createStatement();
     }
+
     @Override
     public void close() throws SQLException {
         ConnectionPool.getInstance().closeConnection(this);
     }
-    void realClose() throws SQLException{
+
+    void realClose() throws SQLException {
         connection.close();
     }
+
     @Override
     public void commit() throws SQLException {
         connection.commit();
-    } @Override
+    }
+
+    @Override
     public boolean isClosed() throws SQLException {
         return connection.isClosed();
     }
@@ -262,6 +269,7 @@ public class ProxyConnection implements Connection {
     public void rollback() throws SQLException {
         connection.rollback();
     }
+
     @Override
     public void setAutoCommit(boolean flag) throws SQLException {
         connection.setAutoCommit(flag);

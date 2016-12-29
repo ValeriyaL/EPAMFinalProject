@@ -45,7 +45,7 @@ public class SessionRequestContent {
     }
 
     public String getParameter(String key) {
-        if(requestParameters.isEmpty()){
+        if (requestParameters.isEmpty()) {
             return null;
         }
         return requestParameters.get(key)[0];

@@ -18,18 +18,18 @@ import java.util.ArrayList;
 public class TrackLogic {
     private static final Logger LOG = LogManager.getLogger();
 
-    public ArrayList<Track> findLastOrders() throws LogicException{
+    public ArrayList<Track> findLastOrders() throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {
             return (ArrayList<Track>) orderDAO.findLastOrders();
         } catch (DAOException e) {
-            throw new LogicException("Can't find last orders",e);
-        }finally {
+            throw new LogicException("Can't find last orders", e);
+        } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
 

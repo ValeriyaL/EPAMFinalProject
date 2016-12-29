@@ -35,17 +35,17 @@ public class UserLogic {
 
     public String registerUser(String name, String email, String password, String confPass, String card) throws LogicException {
         Validator validator = new Validator();
-        String msg = validator.isRegisterFormValid(name,password,confPass,card,email);
-        if(!msg.isEmpty()){
+        String msg = validator.isRegisterFormValid(name, password, confPass, card, email);
+        if (!msg.isEmpty()) {
             return msg;
         }
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Pass = DigestUtils.md5Hex(password);
         try {
-            if(userDAO.addUser(name, email, md5Pass, card)){
+            if (userDAO.addUser(name, email, md5Pass, card)) {
                 return MESSAGE;
-            }else{
+            } else {
                 return DEFAULT_MSG;
             }
         } catch (DAOException e) {
@@ -54,133 +54,133 @@ public class UserLogic {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }
 
-    public String changeUserEmail(String newEmail, int id) throws LogicException{
+    public String changeUserEmail(String newEmail, int id) throws LogicException {
         Validator validator = new Validator();
         String msg = validator.isEmailChangeValid(newEmail);
-        if(!msg.isEmpty()){
+        if (!msg.isEmpty()) {
             return msg;
         }
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if(userDAO.changeEmailById(newEmail, id)){
+            if (userDAO.changeEmailById(newEmail, id)) {
                 return SUCCESS_MESSAGE;
-            }else{
+            } else {
                 return ERROR_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException("Can't change user email",e);
+            throw new LogicException("Can't change user email", e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }
 
-    public String changeUserLogin(String newLogin, int id) throws LogicException{
+    public String changeUserLogin(String newLogin, int id) throws LogicException {
         Validator validator = new Validator();
         String msg = validator.isLoginChangeValid(newLogin);
-        if(!msg.isEmpty()) {
+        if (!msg.isEmpty()) {
             return msg;
         }
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if(userDAO.changeLoginById(newLogin, id)){
+            if (userDAO.changeLoginById(newLogin, id)) {
                 return SUCCESS_LOGIN_MESSAGE;
-            }else{
+            } else {
                 return ERROR_LOGIN_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException("Can't change user logic",e);
+            throw new LogicException("Can't change user logic", e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }
 
-    public String changeUserPassword(String oldPassword, String newPassword, String newPasswordConf, int id) throws LogicException{
+    public String changeUserPassword(String oldPassword, String newPassword, String newPasswordConf, int id) throws LogicException {
         Validator validator = new Validator();
-        String msg = validator.isPasswordChangeValid(oldPassword, newPassword,newPasswordConf, id);
-        if(!msg.isEmpty()){
+        String msg = validator.isPasswordChangeValid(oldPassword, newPassword, newPasswordConf, id);
+        if (!msg.isEmpty()) {
             return msg;
         }
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
-        String md5Password =  DigestUtils.md5Hex(newPassword);
+        String md5Password = DigestUtils.md5Hex(newPassword);
         try {
-            if(userDAO.changePasswordById(md5Password, id)){
+            if (userDAO.changePasswordById(md5Password, id)) {
                 return SUCCESS_PASSWORD_MESSAGE;
-            }else{
+            } else {
                 return ERROR_PASSWORD_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException("Can't change user password",e);
+            throw new LogicException("Can't change user password", e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }
 
-    public String changeUserCard(String newCard, int id) throws LogicException{
+    public String changeUserCard(String newCard, int id) throws LogicException {
         Validator validator = new Validator();
         String msg = validator.isCardChangeValid(newCard);
-        if(!msg.isEmpty()){
+        if (!msg.isEmpty()) {
             return msg;
         }
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if(userDAO.changeCardById(newCard, id)){
+            if (userDAO.changeCardById(newCard, id)) {
                 return SUCCESS_CARD_MESSAGE;
-            }else{
+            } else {
                 return ERROR_CARD_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException("Can't change user card",e);
+            throw new LogicException("Can't change user card", e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }
 
-    public String changeUserMoney(double money, int id) throws LogicException{
+    public String changeUserMoney(double money, int id) throws LogicException {
         Validator validator = new Validator();
         String msg = validator.isMoneyChangeValid(money);
-        if(!msg.isEmpty()){
+        if (!msg.isEmpty()) {
             return msg;
         }
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if(userDAO.changeMoneyById(money, id)){
+            if (userDAO.changeMoneyById(money, id)) {
                 return SUCCESS_MONEY_MESSAGE;
-            }else{
+            } else {
                 return ERROR_MONEY_MESSAGE;
             }
         } catch (DAOException e) {
-            throw new LogicException("Can't change user money",e);
+            throw new LogicException("Can't change user money", e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }
@@ -191,12 +191,12 @@ public class UserLogic {
         try {
             return userDAO.findUser(login);
         } catch (DAOException e) {
-            throw new LogicException("Can't find user by id",e);
-        }finally {
+            throw new LogicException("Can't find user by id", e);
+        } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull",e);
+                LOG.warn("Connection can't be returned into pull", e);
             }
         }
     }

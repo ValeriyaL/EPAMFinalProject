@@ -33,7 +33,7 @@ public class LoginLogic {
                 return true;
             }
         } catch (DAOException e) {
-            throw new LogicException("Mistake in checking login",e);
+            throw new LogicException("Mistake in checking login", e);
         } finally {
             try {
                 connection.close();

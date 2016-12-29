@@ -35,7 +35,7 @@ public class OrderDAO extends AbstractDAO {
         return null;
     }
 
-    public List<Track> findLastOrders() throws DAOException{
+    public List<Track> findLastOrders() throws DAOException {
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;
         try {
@@ -49,7 +49,7 @@ public class OrderDAO extends AbstractDAO {
                 String artist = set.getString(4);
                 double price = set.getDouble(5);
                 int length = set.getInt(6);
-                tracks.add(new Track(id,title,genre,price,length,artist));
+                tracks.add(new Track(id, title, genre, price, length, artist));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
