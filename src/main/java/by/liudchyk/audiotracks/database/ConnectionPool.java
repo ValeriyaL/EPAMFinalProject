@@ -16,15 +16,32 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
+    private static final Logger LOG = LogManager.getLogger();
     private static ConnectionPool pool;
     private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static ReentrantLock lock = new ReentrantLock();
-    private static final Logger LOG = LogManager.getLogger();
     private ArrayBlockingQueue<ProxyConnection> connectionQueue;
-    private static InitDB init = new InitDB();
+    private static InitDB init;
 
-    private ConnectionPool(ArrayBlockingQueue<ProxyConnection> connectionQueue) {
-        this.connectionQueue = connectionQueue;
+    private ConnectionPool() {
+        init = new InitDB();
+        this.connectionQueue = new ArrayBlockingQueue<>(init.POOL_SIZE);
+        try {
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        }catch (SQLException e){
+            LOG.fatal(e);
+            throw new RuntimeException(e);
+        }
+        int size = init.POOL_SIZE;
+        for (int i = 0; i < size; i++) {
+            try {
+                Connection connection = DriverManager.getConnection(init.DATABASE, init.DB_LOGIN, init.DB_PASSWORD);
+                ProxyConnection pc = new ProxyConnection(connection);
+                this.connectionQueue.put(pc);
+            } catch (SQLException | InterruptedException e) {
+                LOG.warn("Connection wasn't add into connection queue",e);
+            }
+        }
     }
 
     public static ConnectionPool getInstance() {
@@ -32,20 +49,8 @@ public class ConnectionPool {
             lock.lock();
             try {
                 if (pool == null) {
-                    int size = Integer.valueOf(init.getPoolSize());
-                    pool = new ConnectionPool(new ArrayBlockingQueue<>(size));
-                    try {
-                        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-                        for (int i = 0; i < size; i++) {
-                            Connection connection = DriverManager.getConnection(init.getDatabase(), init.getDbLogin(), init.getDbPassword());
-                            ProxyConnection pc = new ProxyConnection(connection);
-                            pool.connectionQueue.put(pc);
-                        }
-                        instanceCreated.getAndSet(true);
-                    } catch (SQLException | InterruptedException e) {
-                        LOG.fatal(e);
-                        throw new RuntimeException(e);
-                    }
+                    pool = new ConnectionPool();
+                    instanceCreated.getAndSet(true);
                 }
             } finally {
                 lock.unlock();
@@ -73,7 +78,7 @@ public class ConnectionPool {
     }
 
     public void closePool() {
-        int size = Integer.valueOf(init.getPoolSize());
+        int size = Integer.valueOf(init.POOL_SIZE);
         try {
             for (int i = 0; i < size; i++) {
                 connectionQueue.take().realClose();

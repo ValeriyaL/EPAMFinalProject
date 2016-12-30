@@ -23,7 +23,7 @@ public class RegistrationCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         UserLogic userLogic = new UserLogic();
         String name = requestContent.getParameter(NAME_PARAM);
         String password = requestContent.getParameter(PASSWORD_PARAM);

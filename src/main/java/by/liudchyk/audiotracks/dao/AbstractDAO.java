@@ -15,8 +15,8 @@ import java.sql.Statement;
 import java.util.List;
 
 public abstract class AbstractDAO<T extends Entity> {
-    protected ProxyConnection connection;
     private static final Logger LOG = LogManager.getLogger();
+    protected ProxyConnection connection;
 
     public AbstractDAO(ProxyConnection connection) {
         this.connection = connection;
@@ -32,7 +32,15 @@ public abstract class AbstractDAO<T extends Entity> {
                 LOG.warn("Statement was null");
             }
         } catch (SQLException e) {
-            LOG.warn("Mistake in statement closing", e);
+            LOG.error("Mistake in statement closing", e);
+        }
+    }
+
+    public void closeConnection(ProxyConnection connection){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            LOG.error("Connection can't be returned into pull", e);
         }
     }
 }

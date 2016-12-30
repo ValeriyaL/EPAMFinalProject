@@ -35,11 +35,7 @@ public class LoginLogic {
         } catch (DAOException e) {
             throw new LogicException("Mistake in checking login", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
         return false;
     }

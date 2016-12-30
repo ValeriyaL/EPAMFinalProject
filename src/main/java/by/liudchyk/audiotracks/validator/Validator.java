@@ -142,7 +142,15 @@ public class Validator {
     }
 
     public boolean isCardValid(String card) {
-        if (card.isEmpty() || (card.length() >= 13 && card.length() <= 19)) {
+        if(card.isEmpty()){
+            return true;
+        }
+        if (card.length() >= 13 && card.length() <= 18) {
+            try{
+                Long.valueOf(card);
+            }catch (NumberFormatException e){
+                return false;
+            }
             return true;
         } else {
             return false;

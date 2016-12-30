@@ -50,7 +50,7 @@
                 <label class="control-label col-xs-3" for="card"><fmt:message key="changes.card"/>:</label>
                 <div class="col-xs-9">
                     <input type="number" class="form-control" id="card" name="card"
-                           data-parsley-range="[1000000000000,9999999999999999999]" value="${card}">
+                           data-parsley-range="[1000000000000,999999999999999999]" value="${card}">
                 </div>
             </c:if>
             <c:if test="${'password_change' eq change}">

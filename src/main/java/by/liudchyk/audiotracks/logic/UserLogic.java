@@ -51,11 +51,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Mistake in adding user", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 
@@ -76,11 +72,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't change user email", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 
@@ -101,11 +93,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't change user logic", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 
@@ -127,11 +115,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't change user password", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 
@@ -152,11 +136,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't change user card", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 
@@ -177,11 +157,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't change user money", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 
@@ -193,11 +169,7 @@ public class UserLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't find user by id", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            userDAO.closeConnection(connection);
         }
     }
 }

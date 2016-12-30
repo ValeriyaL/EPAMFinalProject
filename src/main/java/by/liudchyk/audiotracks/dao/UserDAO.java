@@ -81,13 +81,13 @@ public class UserDAO extends AbstractDAO {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_FIND_PASSWORD_BY_ID);
-            statement.setString(1,""+id);
+            statement.setString(1,Integer.toString(id));
             ResultSet set = statement.executeQuery();
             if(set.next()){
                 password = set.getString(1);
             }
         }catch (SQLException e){
-            throw new DAOException(e);
+            throw new DAOException("", e);
         }finally {
             closeStatement(statement);
         }
@@ -130,7 +130,6 @@ public class UserDAO extends AbstractDAO {
             statement.executeUpdate();
             isAdded = true;
         }catch (SQLException e){
-            //throw new DAOException(e);
             isAdded = false;
         }finally {
             closeStatement(statement);
@@ -205,7 +204,7 @@ public class UserDAO extends AbstractDAO {
         try {
             statement = connection.prepareStatement(SQL_CHANGE_LOGIN);
             statement.setString(1, newLogin);
-            statement.setString(2, "" + id);
+            statement.setString(2, Integer.toString(id));
             int i = statement.executeUpdate();
             if(i!=0){
                 isAdded = true;
@@ -227,7 +226,7 @@ public class UserDAO extends AbstractDAO {
         try {
             statement = connection.prepareStatement(SQL_CHANGE_PASSWORD);
             statement.setString(1, newMD5Password);
-            statement.setString(2, "" + id);
+            statement.setString(2, Integer.toString(id));
             int i = statement.executeUpdate();
             if(i!=0){
                 isAdded = true;
@@ -249,7 +248,7 @@ public class UserDAO extends AbstractDAO {
         try {
             statement = connection.prepareStatement(SQL_CHANGE_MONEY);
             statement.setDouble(1, money);
-            statement.setString(2, "" + id);
+            statement.setString(2, Integer.toString(id));
             int i = statement.executeUpdate();
             if(i!=0){
                 isAdded = true;
@@ -271,7 +270,7 @@ public class UserDAO extends AbstractDAO {
         try {
             statement = connection.prepareStatement(SQL_CHANGE_CARD);
             statement.setString(1, newCard);
-            statement.setString(2, "" + id);
+            statement.setString(2, Integer.toString(id));
             int i = statement.executeUpdate();
             if(i!=0){
                 isAdded = true;
@@ -293,7 +292,7 @@ public class UserDAO extends AbstractDAO {
         try {
             statement = connection.prepareStatement(SQL_CHANGE_EMAIL);
             statement.setString(1, newEmail);
-            statement.setString(2, "" + id);
+            statement.setString(2, Integer.toString(id));
             int i = statement.executeUpdate();
             if(i!=0){
                 isAdded = true;

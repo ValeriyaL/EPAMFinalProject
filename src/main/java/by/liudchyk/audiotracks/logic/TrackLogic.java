@@ -26,11 +26,7 @@ public class TrackLogic {
         } catch (DAOException e) {
             throw new LogicException("Can't find last orders", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOG.warn("Connection can't be returned into pull", e);
-            }
+            orderDAO.closeConnection(connection);
         }
 
     }

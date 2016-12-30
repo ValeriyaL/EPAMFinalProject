@@ -36,7 +36,7 @@
             <label class="control-label col-lg-6" for="lastName"><fmt:message key="register.login"/>: ${user.nickname}</label>
             <div class="col-lg-6">
                 <a href="${pageContext.request.contextPath}/controller?command=account&change=login_change">
-                    <button type="submit" id="lastname" class="btn btn-primary"><fmt:message key="account.button.change"/></button>
+                    <button type="submit" id="lastname" class="btn btn-primary btn-sm"><fmt:message key="account.button.change"/></button>
                 </a>
             </div>
         </div>
@@ -44,28 +44,28 @@
             <label class="control-label col-lg-6" for="email"><fmt:message key="register.mail"/>: ${user.email}</label>
             <div class="col-lg-6">
                 <a href="${pageContext.request.contextPath}/controller?command=account&change=email_change">
-                    <button type="submit" id="email" class="btn btn-primary"><fmt:message key="account.button.change"/></button></a>
+                    <button type="submit" id="email" class="btn btn-primary  btn-sm"><fmt:message key="account.button.change"/></button></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-lg-6" for="card"><fmt:message key="register.card"/>: ${user.cardNumber}</label>
             <div class="col-lg-6">
                 <a href="${pageContext.request.contextPath}/controller?command=account&change=card_change">
-                    <button type="submit" id="card" class="btn btn-primary"><fmt:message key="account.button.change"/></button></a>
+                    <button type="submit" id="card" class="btn btn-primary btn-sm"><fmt:message key="account.button.change"/></button></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-lg-6" for="password"><fmt:message key="account.change.password"/></label>
             <div class="col-lg-6">
                 <a href="${pageContext.request.contextPath}/controller?command=account&change=password_change">
-                    <button type="submit" id="password" class="btn btn-primary"><fmt:message key="account.button.change"/></button></a>
+                    <button type="submit" id="password" class="btn btn-primary btn-sm"><fmt:message key="account.button.change"/></button></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-lg-6" for="money"><fmt:message key="account.money"/>: ${user.money}</label>
             <div class="col-lg-6">
                 <a href="${pageContext.request.contextPath}/controller?command=account&change=money_change">
-                    <button type="submit" id="money" class="btn btn-default"><fmt:message key="account.button.add"/></button></a>
+                    <button type="submit" id="money" class="btn btn-default btn-sm"><fmt:message key="account.button.add"/></button></a>
             </div>
         </div>
         <div class="form-group">
@@ -73,7 +73,7 @@
             <ctg:adminTag role="${role}">
                 <div class="col-lg-6">
                     <a href="#">
-                        <button type="submit" class="btn btn-info"><fmt:message key="account.button.admin.fill"/></button></a>
+                        <button type="submit" class="btn btn-info btn-sm"><fmt:message key="account.button.admin.fill"/></button></a>
                 </div>
             </ctg:adminTag>
         </div>
