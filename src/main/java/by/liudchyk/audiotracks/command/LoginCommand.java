@@ -23,7 +23,7 @@ public class LoginCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         LoginLogic loginLogic = new LoginLogic();
         String name = requestContent.getParameter(NAME_PARAM);
         String password = requestContent.getParameter(PASSWORD_PARAM);

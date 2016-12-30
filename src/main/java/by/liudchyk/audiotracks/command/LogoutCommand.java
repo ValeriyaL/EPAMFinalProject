@@ -16,7 +16,7 @@ public class LogoutCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         requestContent.setSessionAttribute(IS_LOGIN_ATTRIBUTE, null);
         requestContent.setSessionAttribute(NAME_PARAM, null);
         requestContent.setSessionAttribute(USER_ATTRIBUTE, null);

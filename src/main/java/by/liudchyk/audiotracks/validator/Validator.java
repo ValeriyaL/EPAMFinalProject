@@ -54,8 +54,10 @@ public class Validator {
         if (!isEmailUnique(email)) {
             return EMAIL_UNIQUE_MSG;
         }
-        if (!isCardUnique(card)) {
-            return CARD_UNIQUE_MSG;
+        if(!card.isEmpty()) {
+            if (!isCardUnique(card)) {
+                return CARD_UNIQUE_MSG;
+            }
         }
         return res;
     }
@@ -87,8 +89,10 @@ public class Validator {
         if (!isCardValid(newCard)) {
             return CARD_MSG;
         }
-        if (!isCardUnique(newCard)) {
-            return CARD_UNIQUE_MSG;
+        if(!newCard.isEmpty()) {
+            if (!isCardUnique(newCard)) {
+                return CARD_UNIQUE_MSG;
+            }
         }
         return res;
     }

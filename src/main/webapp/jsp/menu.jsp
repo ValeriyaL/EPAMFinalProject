@@ -24,7 +24,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="menu.tracks"/><b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><fmt:message key="menu.alphabet"/></a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=alphabet_order"><fmt:message key="menu.alphabet"/></a></li>
                         <li><a href="#"><fmt:message key="menu.performers"/></a></li>
                         <li><a href="#"><fmt:message key="menu.price"/></a></li>
                         <li><a href="#"><fmt:message key="menu.popular"/></a></li>
@@ -44,13 +44,13 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${empty isLogin}">
-                    <li><a href="${pageContext.request.contextPath}/jsp/registration.jsp"><span class="glyphicon glyphicon-user"></span><fmt:message key="menu.registration"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}/jsp/login.jsp"><span class="glyphicon glyphicon-log-in"></span><fmt:message key="menu.login"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/jsp/registration.jsp"><span class="glyphicon glyphicon-user"></span> <fmt:message key="menu.registration"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/jsp/login.jsp"><span class="glyphicon glyphicon-log-in"></span> <fmt:message key="menu.login"/></a></li>
                 </c:if>
-                <c:if test="${isLogin eq 'true'}">
-                    <li><a href="${pageContext.request.contextPath}/jsp/account.jsp"><span class="glyphicon glyphicon-user"></span>${user.nickname}</a></li>
-                    <li><a href="${pageContext.request.contextPath}/controller?command=logout"><span class="glyphicon glyphicon-log-out"></span><fmt:message key="menu.logout"/></a></li>
-                </c:if>
+                <ctg:isLogined>
+                    <li><a href="${pageContext.request.contextPath}/jsp/account.jsp"><span class="glyphicon glyphicon-user"></span> ${user.nickname}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/controller?command=logout"><span class="glyphicon glyphicon-log-out"></span> <fmt:message key="menu.logout"/></a></li>
+                </ctg:isLogined>
             </ul>
         </div>
     </div>

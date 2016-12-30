@@ -268,9 +268,15 @@ public class UserDAO extends AbstractDAO {
         boolean isAdded;
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(SQL_CHANGE_CARD);
-            statement.setString(1, newCard);
-            statement.setString(2, Integer.toString(id));
+            if(!newCard.isEmpty()) {
+                statement = connection.prepareStatement(SQL_CHANGE_CARD);
+                statement.setString(1, newCard);
+                statement.setString(2, Integer.toString(id));
+            }else{
+                statement = connection.prepareStatement(SQL_CHANGE_CARD);
+                statement.setString(1,null);
+                statement.setString(2, Integer.toString(id));
+            }
             int i = statement.executeUpdate();
             if(i!=0){
                 isAdded = true;

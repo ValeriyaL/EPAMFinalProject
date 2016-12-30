@@ -64,6 +64,11 @@ public enum CommandType {
         {
             this.command = new MainCommand();
         }
+    },
+    ALPHABET_ORDER{
+        {
+            this.command = new TracksAlphabetCommand();
+        }
     };
     ActionCommand command;
 

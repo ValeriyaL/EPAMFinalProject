@@ -28,6 +28,17 @@ public class TrackLogic {
         } finally {
             orderDAO.closeConnection(connection);
         }
+    }
 
+    public ArrayList<Track> findAllTracksInOrder() throws LogicException {
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        OrderDAO orderDAO = new OrderDAO(connection);
+        try {
+            return (ArrayList<Track>) orderDAO.findAllInOrder();
+        } catch (DAOException e) {
+            throw new LogicException("Can't find all tracks in order", e);
+        } finally {
+            orderDAO.closeConnection(connection);
+        }
     }
 }
