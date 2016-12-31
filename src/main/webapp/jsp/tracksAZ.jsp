@@ -21,7 +21,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.1.1.min.js"></script>
-</head>
+  </head>
 <body>
 <c:set var="page" value="path.page.tracksAZ" scope="session"/>
 <%@ include file="menu.jsp"%>
@@ -61,17 +61,32 @@
                                         <a href="${pageContext.request.contextPath}/jsp/login.jsp" class="btn btn-default btn-lg ind"><span class="glyphicon glyphicon-shopping-cart"></span> <fmt:message key="tracks.order.buy"/></a>
                                     </c:if>
                                     <ctg:isLogined>
-                                        <a href="#" class="btn btn-default btn-lg ind" style="margin: 2px"><span class="glyphicon glyphicon-shopping-cart"></span> <fmt:message key="tracks.order.buy"/></a>
+                                        <a href="#" class="btn btn-default btn-lg" style="margin: 2px"><span class="glyphicon glyphicon-shopping-cart"></span> <fmt:message key="tracks.order.buy"/></a>
                                     </ctg:isLogined>
                                     <ctg:adminTag role="${role}">
-                                        <a href="#" class="btn btn-primary btn-sm ind" style="margin: 2px"><span class="glyphicon glyphicon-pencil"></span> <fmt:message key="tracks.order.change"/></a>
-                                        <a href="#" class="btn btn-primary btn-sm ind" style="margin: 2px"><span class="glyphicon glyphicon-trash"></span> <fmt:message key="tracks.order.delete"/></a>
+                                        <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span class="glyphicon glyphicon-pencil"></span> <fmt:message key="tracks.order.change"/></a>
+                                        <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span class="glyphicon glyphicon-trash"></span> <fmt:message key="tracks.order.delete"/></a>
                                     </ctg:adminTag>
                                 </div>
                             </div>
                         </div>
                         <hr>
                     </c:forEach>
+                    <c:if test="${isPagination eq true}">
+
+                            <ul class="pagination">
+                                <c:forEach var="i" begin="1" end="${numOfPages}">
+                                    <c:choose>
+                                        <c:when test="${pageNumber eq i}">
+                                            <li class="active"><a href="${pageContext.request.contextPath}/controller?command=switch_page&pageNumber=${i}">${i}</a></li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li><a href="${pageContext.request.contextPath}/controller?command=switch_page&pageNumber=${i}">${i}</a></li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </ul>
+                    </c:if>
                     <hr>
                 </div>
             </div>

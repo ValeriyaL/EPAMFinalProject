@@ -69,6 +69,11 @@ public enum CommandType {
         {
             this.command = new TracksAlphabetCommand();
         }
+    },
+    SWITCH_PAGE{
+        {
+            this.command = new SwitchPageCommand();
+        }
     };
     ActionCommand command;
 
