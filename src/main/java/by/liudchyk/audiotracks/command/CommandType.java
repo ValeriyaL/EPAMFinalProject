@@ -79,6 +79,11 @@ public enum CommandType {
         {
             this.command = new GenreOrderCommand();
         }
+    },
+    SEARCH{
+        {
+            this.command = new SearchCommand();
+        }
     };
     ActionCommand command;
 

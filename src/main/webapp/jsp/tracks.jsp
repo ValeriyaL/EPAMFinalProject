@@ -35,8 +35,8 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <c:if test="${comm eq 'title'}">
-                                <h5><span class="glyphicon glyphicon-list"></span> <fmt:message
-                                        key="tracks.order.ordered"/></h5>
+                                    <h5><span class="glyphicon glyphicon-list"></span> <fmt:message
+                                            key="tracks.order.ordered"/></h5>
                                 </c:if>
                                 <c:if test="${comm eq 'price'}">
                                     <h5><span class="glyphicon glyphicon-list"></span> <fmt:message
@@ -62,12 +62,10 @@
                                     <h5><span class="glyphicon glyphicon-list"></span> <fmt:message
                                             key="main.genre.rock"/></h5>
                                 </c:if>
-                            </div>
-                            <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-sm btn-block">
-                                    <span class="glyphicon glyphicon-refresh"></span> <fmt:message
-                                        key="tracks.order.update"/>
-                                </button>
+                                <c:if test="${comm eq 'search'}">
+                                    <h5><span class="glyphicon glyphicon-list"></span> <fmt:message
+                                            key="menu.search"/></h5>
+                                </c:if>
                             </div>
                         </div>
                     </div>

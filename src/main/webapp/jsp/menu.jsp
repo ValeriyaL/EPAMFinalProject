@@ -47,11 +47,13 @@
                 </li>
                 <li><a href="${pageContext.request.contextPath}/jsp/about.jsp"><fmt:message key="menu.about"/></a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" name="search"
+                  action="${pageContext.request.contextPath}/controller">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder=<fmt:message key="menu.search"/>>
+                    <input type="text" name="find" class="form-control" placeholder=<fmt:message key="menu.find"/>>
                 </div>
-                <button type="submit" class="btn btn-default"><fmt:message key="menu.search"/></button>
+                <button type="submit" class="btn btn-default" name="command"
+                        value="search"><fmt:message key="menu.search"/></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <ctg:notLogined>

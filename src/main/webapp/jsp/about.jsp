@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2354.2974937246986!2d27.56564341530443!3d53.837572480084866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbd1a1e612a92b%3A0x286a96a33f5ae02d!2z0YPQu9C40YbQsCDQr9C90LrQuCDQm9GD0YfQuNC90YsgNiwg0JzQuNC90YHQug!5e0!3m2!1sru!2sby!4v1483284096111"
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d18829.4370546344!2d27.56954916931152!3d53.848561779781186!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbd1a1e612a92b%3A0x286a96a33f5ae02d!2z0YPQu9C40YbQsCDQr9C90LrQuCDQm9GD0YfQuNC90YsgNiwg0JzQuNC90YHQuiwg0JHQtdC70LDRgNGD0YHRjA!5e0!3m2!1sru!2sby!4v1483309484775"
                     width="565" height="430" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>

@@ -73,4 +73,16 @@ public class TrackLogic {
         }
         return res;
     }
+
+    public ArrayList<Track> findAppropriate(ArrayList<Track> tracks, String substring){
+        ArrayList<Track> res = new ArrayList<>();
+        for(Track temp: tracks){
+            if(temp.getTitle().toUpperCase().contains(substring.toUpperCase())){
+                res.add(temp);
+            }else if(temp.getArtist().toUpperCase().contains(substring.toUpperCase())){
+                res.add(temp);
+            }
+        }
+        return res;
+    }
 }
