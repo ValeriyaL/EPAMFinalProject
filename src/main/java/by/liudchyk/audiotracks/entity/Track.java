@@ -43,4 +43,10 @@ public class Track extends Entity {
     public String getArtist() {
         return artist;
     }
+
+    public String getLengthTranslated(){
+        int minutes = length / 60;
+        int seconds = length % 60;
+        return new String(Integer.toString(minutes)+":"+seconds);
+    }
 }

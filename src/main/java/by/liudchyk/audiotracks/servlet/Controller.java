@@ -42,7 +42,7 @@ public class Controller extends HttpServlet implements ServletContextListener {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String page = null;
+        String page;
         SessionRequestContent sessionRequestContent = new SessionRequestContent();
         sessionRequestContent.extractValues(request);
         ActionFactory client = new ActionFactory();

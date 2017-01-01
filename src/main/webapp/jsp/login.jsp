@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
-<fmt:setBundle basename="properties.content" />
+<fmt:setBundle basename="properties.content"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -24,7 +24,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.login" scope="session"/>
-<%@ include file="menu.jsp"%>
+<%@ include file="menu.jsp" %>
 <c:if test="${not empty mistake}">
     <div class="alert alert-danger col-lg-4 col-lg-offset-4">${mistake}</div>
 </c:if>
@@ -33,7 +33,8 @@
 </c:if>
 <div class="form col-lg-4 col-lg-offset-4  col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
     <h2 class="text-center"><fmt:message key="login.label"/></h2>
-    <form class="form-horizontal" id="logform" method="post" name="login" action="${pageContext.request.contextPath}/controller">
+    <form class="form-horizontal" id="logform" method="post" name="login"
+          action="${pageContext.request.contextPath}/controller">
         <div class="form-group">
             <label class="control-label col-xs-3" for="lastName"><fmt:message key="login.login"/>:</label>
             <div class="col-xs-9">
@@ -48,16 +49,16 @@
                        required data-parsley-length="[4,20]" data-parsley-required value="${password}">
             </div>
         </div>
-        <br />
+        <br/>
         <div class="form-group">
             <div class="col-xs-offset-3 col-xs-9">
                 <button type="submit" class="btn btn-primary" name="command"
-                       value="login"><fmt:message key="login.placeholder.enter"/></button>
+                        value="login"><fmt:message key="login.placeholder.enter"/></button>
             </div>
         </div>
     </form>
 </div>
-<%@ include file="footer.jsp"%>
+<%@ include file="footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -67,7 +68,7 @@
 <script src="../js/i18n/ru.js"></script>
 <script src="../js/i18n/en.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('#logform').parsley();
         window.Parsley.setLocale($("#locale").val());
     });

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
-<fmt:setBundle basename="properties.content" />
+<fmt:setBundle basename="properties.content"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -23,7 +23,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.main" scope="session"/>
-<%@ include file="menu.jsp"%>
+<%@ include file="menu.jsp" %>
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-lg-12 col-md-12">
@@ -44,7 +44,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="row" items="${tracks}" >
+                <c:forEach var="row" items="${tracks}">
                 <tr>
                     <td><c:out value="${row.title}"/></td>
                     <td><c:out value="${row.artist}"/></td>
@@ -59,17 +59,23 @@
             <aside>
                 <div class="list-group">
                     <h3><fmt:message key="main.popularGenres"/></h3>
-                    <a href="#" class="list-group-item list-group-item-action"><fmt:message key="main.genre.pop"/></a>
-                    <a href="#" class="list-group-item list-group-item-action"><fmt:message key="main.genre.rap"/></a>
-                    <a href="#" class="list-group-item list-group-item-action"><fmt:message key="main.genre.classic"/></a>
-                    <a href="#" class="list-group-item list-group-item-action"><fmt:message key="main.genre.jazz"/></a>
-                    <a href="#" class="list-group-item list-group-item-action"><fmt:message key="main.genre.disco"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=pop"
+                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.pop"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=rap"
+                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.rap"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=rock"
+                       class="list-group-item list-group-item-action"><fmt:message
+                            key="main.genre.rock"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=jazz"
+                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.jazz"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=disco"
+                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.disco"/></a>
                 </div>
             </aside>
         </div>
     </div>
 </div>
-<%@ include file="footer.jsp"%>
+<%@ include file="footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

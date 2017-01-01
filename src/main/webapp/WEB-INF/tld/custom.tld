@@ -21,4 +21,9 @@
         <tag-class>by.liudchyk.audiotracks.tag.LoginTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
+    <tag>
+        <name>notLogined</name>
+        <tag-class>by.liudchyk.audiotracks.tag.NotLoginTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
 </taglib>

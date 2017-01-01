@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
-<fmt:setBundle basename="properties.content" />
+<fmt:setBundle basename="properties.content"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -24,7 +24,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.error" scope="session"/>
-<%@ include file="menu.jsp"%>
+<%@ include file="menu.jsp" %>
 <img class="oops col-lg-4 col-lg-offset-4" src="../images/oops.png">
 <div class="form col-lg-4 col-lg-offset-4">
     <div class="row">
@@ -37,13 +37,15 @@
         <label class="control-label">${errorMessage}</label>
     </div>
     <div class="row">
-    <label class="control-label"><fmt:message key="label.error.request"/> ${pageContext.errorData.requestURI} <fmt:message key="label.error.failed"/></label>
+        <label class="control-label"><fmt:message key="label.error.request"/> ${pageContext.errorData.requestURI}
+            <fmt:message key="label.error.failed"/></label>
     </div>
     <div class="row">
         <label class="control-label"><fmt:message key="label.error.code"/>: ${pageContext.errorData.statusCode}</label>
     </div>
     <div class="row">
-        <label class="control-label"><fmt:message key="label.error.exception"/>: ${pageContext.errorData.throwable}</label>
+        <label class="control-label"><fmt:message
+                key="label.error.exception"/>: ${pageContext.errorData.throwable}</label>
     </div>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -55,7 +57,7 @@
 <script src="../js/i18n/ru.js"></script>
 <script src="../js/i18n/en.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('#regform').parsley();
     });
 </script>

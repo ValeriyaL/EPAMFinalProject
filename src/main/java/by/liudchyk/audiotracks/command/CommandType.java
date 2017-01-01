@@ -65,14 +65,19 @@ public enum CommandType {
             this.command = new MainCommand();
         }
     },
-    ALPHABET_ORDER{
+    TRACKS_ORDER {
         {
-            this.command = new TracksAlphabetCommand();
+            this.command = new TracksInOrderCommand();
         }
     },
     SWITCH_PAGE{
         {
             this.command = new SwitchPageCommand();
+        }
+    },
+    GENRE_ORDER{
+        {
+            this.command = new GenreOrderCommand();
         }
     };
     ActionCommand command;

@@ -1,6 +1,7 @@
 package by.liudchyk.audiotracks.logic;
 
 import by.liudchyk.audiotracks.dao.OrderDAO;
+import by.liudchyk.audiotracks.dao.TrackDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.Track;
@@ -31,13 +32,25 @@ public class TrackLogic {
         }
     }
 
-    public ArrayList<Track> findAllTracksInOrder() throws LogicException {
+    public ArrayList<Track> findAllTracksInOrder(String order) throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-        OrderDAO orderDAO = new OrderDAO(connection);
+        TrackDAO orderDAO = new TrackDAO(connection);
         try {
-            return (ArrayList<Track>) orderDAO.findAllInOrder();
+            return (ArrayList<Track>) orderDAO.findAllInOrder(order);
         } catch (DAOException e) {
             throw new LogicException("Can't find all tracks in order", e);
+        } finally {
+            orderDAO.closeConnection(connection);
+        }
+    }
+
+    public ArrayList<Track> findTracksByGenre(String genre) throws LogicException {
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO orderDAO = new TrackDAO(connection);
+        try {
+            return (ArrayList<Track>) orderDAO.findTracksByGenre(genre);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find all tracks by genre", e);
         } finally {
             orderDAO.closeConnection(connection);
         }
