@@ -84,7 +84,7 @@
                                     <small><c:out value="${tempTrack.genre}"/></small>
                                 </h4>
                                 <h4>
-                                    <small><a href="#"><fmt:message key="tracks.order.more"/>...</a></small>
+                                    <small><a href="${pageContext.request.contextPath}/controller?command=track_info&track=${tempTrack.id}"><fmt:message key="tracks.order.more"/>...</a></small>
                                 </h4>
                             </div>
                             <div class="col-xs-6">

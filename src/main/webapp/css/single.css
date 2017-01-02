@@ -1,0 +1,49 @@
+.product{
+    height: 321px;
+}
+
+.product>img{
+    max-width: 180px;
+}
+
+.product-title{
+    font-size: 25px;
+}
+
+.product-desc{
+    font-size: 18px;
+}
+
+.product-price{
+    font-size: 15px;
+}
+
+.product-stock{
+    font-size: 15px;
+    margin-top: 6px;
+}
+
+.product-info{
+    margin-top: 10px;
+}
+
+.content-wrapper {
+    background: #fbfbfb;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border: 0px;
+    border-radius: 3px;
+}
+
+.marg {
+    padding-top: 20px;
+    margin-bottom: 60px;
+}
+
+.padd{
+    padding-top: 30px;
+}
+
+.cont{
+   margin-bottom: 60px;
+}

@@ -82,7 +82,12 @@ public enum CommandType {
     },
     SEARCH{
         {
-            this.command = new SearchCommand();
+            this.command = new SearchOrderCommand();
+        }
+    },
+    TRACK_INFO{
+        {
+            this.command = new TrackInfoCommand();
         }
     };
     ActionCommand command;

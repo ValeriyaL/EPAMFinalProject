@@ -140,9 +140,9 @@ public class UserLogic {
         }
     }
 
-    public String changeUserMoney(double money, int id) throws LogicException {
+    public String changeUserMoney(double money, int id, String card) throws LogicException {
         Validator validator = new Validator();
-        String msg = validator.isMoneyChangeValid(money);
+        String msg = validator.isMoneyChangeValid(money, card);
         if (!msg.isEmpty()) {
             return msg;
         }

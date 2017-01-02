@@ -13,18 +13,7 @@ import java.util.Map;
 /**
  * Created by Admin on 30.12.2016.
  */
-public class TracksInOrderCommand extends ActionCommand {
-    private final String TRACKS_ATTRIBUTE = "allTracks";
-    private final String TRACKS_AZ_PATH = "path.page.tracksAZ";
-    private final int TRACKS_ON_PAGE = 5;
-    private final String IS_PAGINATION = "isPagination";
-    private final String NUM_PAGE_ATTRIBUTE = "pageNumber";
-    private final int FIRST_PAGE = 1;
-    private final String TRACKS_ON_PAGES_ATTR = "tracksPaged";
-    private final String NUMBER_OF_PAGES_ATTR = "numOfPages";
-    private final String COMM_PARAMETER = "comm";
-    private final String TRUE = "true";
-    private final String FALSE = "false";
+public class TracksInOrderCommand extends OrderCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -37,17 +26,7 @@ public class TracksInOrderCommand extends ActionCommand {
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             HashMap<Integer, ArrayList<Track>> tracksMap;
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
-            if (!all.isEmpty()) {
-                tracksMap = (HashMap<Integer, ArrayList<Track>>) trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
-                tracks = tracksMap.get(FIRST_PAGE);
-                requestContent.setSessionAttribute(IS_PAGINATION, TRUE);
-                requestContent.setSessionAttribute(TRACKS_ON_PAGES_ATTR, tracksMap);
-                requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, tracksMap.size());
-            }else{
-                requestContent.setSessionAttribute(IS_PAGINATION, FALSE);
-                requestContent.setSessionAttribute(TRACKS_ON_PAGES_ATTR, null);
-                requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, 0);
-            }
+            tracks = paginationTracks(requestContent, tracks, trackLogic, all);
             requestContent.setSessionAttribute(COMM_PARAMETER, order);
             requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);

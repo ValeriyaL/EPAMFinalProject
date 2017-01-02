@@ -4,6 +4,7 @@ import by.liudchyk.audiotracks.dao.OrderDAO;
 import by.liudchyk.audiotracks.dao.TrackDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
+import by.liudchyk.audiotracks.entity.Comment;
 import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
@@ -46,13 +47,13 @@ public class TrackLogic {
 
     public ArrayList<Track> findTracksByGenre(String genre) throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-        TrackDAO orderDAO = new TrackDAO(connection);
+        TrackDAO trackDAO = new TrackDAO(connection);
         try {
-            return (ArrayList<Track>) orderDAO.findTracksByGenre(genre);
+            return (ArrayList<Track>) trackDAO.findTracksByGenre(genre);
         } catch (DAOException e) {
             throw new LogicException("Can't find all tracks by genre", e);
         } finally {
-            orderDAO.closeConnection(connection);
+            trackDAO.closeConnection(connection);
         }
     }
 
@@ -84,5 +85,29 @@ public class TrackLogic {
             }
         }
         return res;
+    }
+
+    public ArrayList<Comment> findAllCommentsById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return (ArrayList<Comment>) trackDAO.findCommentsByTrackId(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find all comments by track id", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public Track findTrackById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return trackDAO.findTrackById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find track by id", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
     }
 }
