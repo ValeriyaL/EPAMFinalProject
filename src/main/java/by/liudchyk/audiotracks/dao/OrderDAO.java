@@ -29,11 +29,6 @@ public class OrderDAO extends AbstractDAO {
         super(connection);
     }
 
-    @Override
-    public List findAll() throws DAOException {
-        return null;
-    }
-
     public List<Track> findLastOrders() throws DAOException {
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;

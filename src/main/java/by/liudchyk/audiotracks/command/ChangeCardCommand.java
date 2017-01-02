@@ -19,7 +19,7 @@ public class ChangeCardCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         UserLogic userLogic = new UserLogic();
         String newCard = requestContent.getParameter(NAME_PARAM);
         try {
@@ -36,7 +36,6 @@ public class ChangeCardCommand extends ActionCommand {
                 String message = LanguageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
-
             }
         } catch (LogicException e) {
             LOG.error(e);

@@ -26,102 +26,122 @@
 <c:set var="page" value="path.page.track" scope="session"/>
 <%@ include file="menu.jsp" %>
 <div class="col-sm-10 col-sm-offset-1">
-<div class="container-fluid cont">
-    <div class="content-wrapper">
-        <div class="item-container padd">
-            <div class="container">
-                <div class="col-md-3">
-                    <div class="product col-md-3 service-image-left">
-                        <img id="item-display" src="../images/iTunes.jpg" alt=""/>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="product-title">${trackInfo.title}</div>
-                    <div class="product-desc">${trackInfo.artist}</div>
-                    <div class="product-stock">${trackinfo.genre}</div>
-                    <hr>
-                    <div class="product-stock">${trackInfo.lengthTranslated}</div>
-                    <div class="product-price">${trackInfo.price} BYN</div>
-                    <hr>
-                    <div class="btn-group cart">
-                        <ctg:notLogined>
-                            <a href="${pageContext.request.contextPath}/jsp/login.jsp"
-                               class="btn btn-default btn-lg ind"><span
-                                    class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
-                                    key="tracks.order.buy"/></a>
-                        </ctg:notLogined>
-                        <ctg:isLogined>
-                            <a href="#" class="btn btn-default btn-lg" style="margin: 2px"><span
-                                    class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
-                                    key="tracks.order.buy"/></a>
-                        </ctg:isLogined>
-                    </div>
-                    <ctg:adminTag role="${role}">
-                        <div class="btn-group wishlist">
-                            <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
-                                    class="glyphicon glyphicon-pencil"></span> <fmt:message
-                                    key="tracks.order.change"/></a>
-                            <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
-                                    class="glyphicon glyphicon-trash"></span> <fmt:message
-                                    key="tracks.order.delete"/></a>
+    <div class="container-fluid cont">
+        <div class="content-wrapper">
+            <div class="item-container padd">
+                <div class="container">
+                    <div class="col-md-3">
+                        <div class="product col-md-3 service-image-left">
+                            <img id="item-display" src="../images/iTunes.jpg" alt=""/>
                         </div>
-                    </ctg:adminTag>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="product-title">${trackInfo.title}</div>
+                        <div class="product-desc">${trackInfo.artist}</div>
+                        <div class="product-stock">${trackinfo.genre}</div>
+                        <hr>
+                        <div class="product-stock">${trackInfo.lengthTranslated}</div>
+                        <div class="product-price">${trackInfo.price} BYN</div>
+                        <hr>
+                        <div class="btn-group cart">
+                            <ctg:notLogined>
+                                <a href="${pageContext.request.contextPath}/jsp/login.jsp"
+                                   class="btn btn-default btn-lg ind"><span
+                                        class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
+                                        key="tracks.order.buy"/></a>
+                            </ctg:notLogined>
+                            <ctg:isLogined>
+                                <a href="#" class="btn btn-default btn-lg" style="margin: 2px"><span
+                                        class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
+                                        key="tracks.order.buy"/></a>
+                            </ctg:isLogined>
+                        </div>
+                        <ctg:adminTag role="${role}">
+                            <div class="btn-group wishlist">
+                                <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
+                                        class="glyphicon glyphicon-pencil"></span> <fmt:message
+                                        key="tracks.order.change"/></a>
+                                <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
+                                        class="glyphicon glyphicon-trash"></span> <fmt:message
+                                        key="tracks.order.delete"/></a>
+                            </div>
+                        </ctg:adminTag>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid">
-            <div class="col-md-12 product-info">
-                <ul id="myTab" class="nav nav-tabs nav_tabs">
-                    <li class="active"><fmt:message key="track.comments"/></li>
-                </ul>
-                <section class="marg">
-                    <c:forEach var="temp" items="${comments}">
-                        <article class="row">
-                            <div class="col-md-2 col-sm-2 hidden-xs">
-                                <figure class="thumbnail">
-                                    <img class="img-responsive"
-                                         src="../images/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg"/>
-                                    <figcaption class="text-center">${temp.user}</figcaption>
-                                </figure>
-                            </div>
-                            <div class="col-md-10 col-sm-10">
-                                <div class="panel panel-default arrow left">
-                                    <div class="panel-body">
-                                        <header class="text-left">
-                                            <time class="comment-date"><i
-                                                    class=" glyphicon glyphicon-time"></i> ${temp.date}
-                                            </time>
-                                        </header>
-                                        <div class="comment-post">
-                                            <p>
-                                                    ${temp.text}
-                                            </p>
+            <div class="container-fluid">
+                <div class="col-md-12 product-info">
+                    <ul id="myTab" class="nav nav-tabs nav_tabs">
+                        <li class="active"><fmt:message key="track.comments"/></li>
+                    </ul>
+                    <section class="marg">
+                        <c:forEach var="temp" items="${comments}">
+                            <article class="row">
+                                <div class="col-md-2 col-sm-2 hidden-xs">
+                                    <figure class="thumbnail">
+                                        <img class="img-responsive"
+                                             src="../images/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg"/>
+                                        <figcaption class="text-center">${temp.user}</figcaption>
+                                    </figure>
+                                </div>
+                                <div class="col-md-10 col-sm-10">
+                                    <div class="panel panel-default arrow left">
+                                        <div class="panel-body">
+                                            <header class="text-left">
+                                                <time class="comment-date"><i
+                                                        class=" glyphicon glyphicon-time"></i> ${temp.date}
+                                                </time>
+                                            </header>
+                                            <div class="comment-post">
+                                                <p>
+                                                        ${temp.text}
+                                                </p>
+                                            </div>
+                                            <c:choose>
+                                                <c:when test="${user.nickname eq temp.user}">
+                                                    <a href="#" class="btn btn-default btn-sm"><span
+                                                            class="glyphicon glyphicon-trash"></span> <fmt:message
+                                                            key="track.comment.delete"/></a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <ctg:adminTag role="${role}">
+                                                        <a href="#" class="btn btn-default btn-sm"><span
+                                                                class="glyphicon glyphicon-trash"></span> <fmt:message
+                                                                key="track.comment.delete"/></a>
+                                                    </ctg:adminTag>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
-                                        <ctg:adminTag role="${role}">
-                                            <a href="#" class="btn btn-default btn-sm"><span
-                                                    class="glyphicon glyphicon-trash"></span> <fmt:message
-                                                    key="track.comment.delete"/></a>
-                                        </ctg:adminTag>
                                     </div>
                                 </div>
-                            </div>
-                        </article>
-                    </c:forEach>
-                    <div class="well">
-                        <h4><fmt:message key="track.comment.leave"/>:</h4>
-                        <form role="form">
-                            <div class="form-group">
-                                <textarea class="form-control" rows="5"></textarea>
-                            </div>
-                            <a href="#" class="btn btn-primary btn-lg"> <fmt:message
-                                    key="track.comment.send"/></a>
-                        </form>
-                    </div>
-                </section>
+                            </article>
+                        </c:forEach>
+                        <div class="well">
+                            <h4><fmt:message key="track.comment.leave"/>:</h4>
+                            <form role="form" method="post" name="comment_add"
+                                  action="${pageContext.request.contextPath}/controller">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="5" name="text"></textarea>
+                                </div>
+                                <ctg:isLogined>
+                                    <button type="submit" class="btn btn-primary btn-lg" name="command"
+                                            value="comment_add"><fmt:message key="track.comment.send"/></button>
+                                </ctg:isLogined>
+                                <ctg:notLogined>
+                                    <a href="${pageContext.request.contextPath}/jsp/login.jsp"
+                                       class="btn btn-primary btn-lg"> <fmt:message
+                                            key="track.comment.send"/></a>
+                                </ctg:notLogined>
+                            </form>
+                        </div>
+                        <c:if test="${not empty mistake}">
+                            <div class="alert alert-danger col-lg-4 col-lg-offset-4">${mistake}</div>
+                        </c:if>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <%@ include file="footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

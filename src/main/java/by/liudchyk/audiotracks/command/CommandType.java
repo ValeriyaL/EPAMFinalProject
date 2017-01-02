@@ -89,6 +89,11 @@ public enum CommandType {
         {
             this.command = new TrackInfoCommand();
         }
+    },
+    COMMENT_ADD{
+        {
+            this.command = new CommentAddCommand();
+        }
     };
     ActionCommand command;
 

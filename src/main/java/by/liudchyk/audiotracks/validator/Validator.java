@@ -31,6 +31,7 @@ public class Validator {
     private final String INCORRECT_PASSWORD_MSG = "message.error.password.incorrect";
     private final String INCORRECT_MONEY_MSG = "message.error.money.incorrect";
     private final String CARD_IS_EMPTY_MSG = "message.error.card.empty";
+    private final String COMMENT_LENGTH_MSG = "message.error.comment.length";
 
     public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException {
         String res = "";
@@ -247,6 +248,14 @@ public class Validator {
             } catch (SQLException e) {
                 LOG.warn("Connection can't be returned into pull", e);
             }
+        }
+    }
+
+    public String isCommentValid(String text){
+        if(text.length()>0 && text.length()<= 65535){
+            return "";
+        }else{
+            return COMMENT_LENGTH_MSG;
         }
     }
 }

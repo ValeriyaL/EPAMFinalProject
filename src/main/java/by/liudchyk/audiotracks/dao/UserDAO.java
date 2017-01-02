@@ -30,7 +30,6 @@ public class UserDAO extends AbstractDAO {
         super(connection);
     }
 
-    @Override
     public List findAll() throws DAOException {
         ArrayList<User> users = new ArrayList<>();
         Statement statement = null;

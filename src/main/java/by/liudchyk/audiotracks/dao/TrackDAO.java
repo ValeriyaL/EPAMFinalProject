@@ -38,10 +38,6 @@ public class TrackDAO extends AbstractDAO {
         super(connection);
     }
 
-    @Override
-    public List findAll() throws DAOException {
-        return null;
-    }
 
     public List<Track> findAllInOrder(String order) throws DAOException {
         List<Track> tracks = new ArrayList<>();

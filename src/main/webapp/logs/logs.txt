@@ -26,3 +26,4 @@
 01:17:12.532 [http-apr-8088-exec-1] WARN  by.liudchyk.audiotracks.servlet.Controller - TRY
 01:17:15.729 [http-apr-8088-exec-2] WARN  by.liudchyk.audiotracks.servlet.Controller - TRY
 16:43:51.445 [http-apr-8088-exec-3] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.TRACK_INFO
+23:58:53.506 [http-apr-8088-exec-10] ERROR by.liudchyk.audiotracks.command.ActionFactory - java.lang.IllegalArgumentException: No enum constant by.liudchyk.audiotracks.command.CommandType.COMMENT
