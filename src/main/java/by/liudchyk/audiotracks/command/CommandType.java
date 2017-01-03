@@ -94,6 +94,11 @@ public enum CommandType {
         {
             this.command = new CommentAddCommand();
         }
+    },
+    COMMENT_DELETE{
+        {
+            this.command = new CommentDeleteCommand();
+        }
     };
     ActionCommand command;
 

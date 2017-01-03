@@ -99,13 +99,15 @@
                                             </div>
                                             <c:choose>
                                                 <c:when test="${user.nickname eq temp.user}">
-                                                    <a href="#" class="btn btn-default btn-sm"><span
+                                                    <a href="${pageContext.request.contextPath}/controller?command=comment_delete&userName=${temp.user}&date=${temp.date}"
+                                                       class="btn btn-default btn-sm"><span
                                                             class="glyphicon glyphicon-trash"></span> <fmt:message
                                                             key="track.comment.delete"/></a>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <ctg:adminTag role="${role}">
-                                                        <a href="#" class="btn btn-default btn-sm"><span
+                                                        <a href="${pageContext.request.contextPath}/controller?command=comment_delete&userName=${temp.user}&date=${temp.date}"
+                                                           class="btn btn-default btn-sm"><span
                                                                 class="glyphicon glyphicon-trash"></span> <fmt:message
                                                                 key="track.comment.delete"/></a>
                                                     </ctg:adminTag>

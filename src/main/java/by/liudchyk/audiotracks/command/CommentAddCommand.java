@@ -35,23 +35,17 @@ public class CommentAddCommand extends ActionCommand {
         SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         String df = format.format(date);
         CommentLogic commentLogic = new CommentLogic();
-        try {
-            String errCom = commentLogic.addComment(date, text, userId, trackId);
-            if(errCom.isEmpty()) {
-                ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
-                Comment comment = new Comment(text, tempUser.getNickname(), df);
-                comments.add(comment);
-                requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
-                path = ConfigurationManager.getProperty(PATH_TRACK);
-            }else{
-                String message = LanguageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-                path = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
-            }
-        }catch (LogicException e){
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            path = ConfigurationManager.getProperty(ERROR_PATH);
+        String errCom = commentLogic.addComment(date, text, userId, trackId);
+        if(errCom.isEmpty()) {
+            ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
+            Comment comment = new Comment(text, tempUser.getNickname(), df);
+            comments.add(comment);
+            requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
+            path = ConfigurationManager.getProperty(PATH_TRACK);
+        }else{
+            String message = LanguageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
+            requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+            path = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
         }
         return path;
     }
