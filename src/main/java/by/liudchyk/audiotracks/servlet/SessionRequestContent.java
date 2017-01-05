@@ -51,6 +51,10 @@ public class SessionRequestContent {
         return requestParameters.get(key)[0];
     }
 
+    public boolean isParameter(String key){
+        return requestParameters.containsKey(key);
+    }
+
     public Object getAttribute(String key) {
         return requestAttributes.get(key);
     }

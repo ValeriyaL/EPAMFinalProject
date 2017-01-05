@@ -7,13 +7,13 @@ import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Admin on 30.12.2016.
+ * Created by Admin on 05.01.2017.
  */
-public class TracksInOrderCommand extends OrderCommand {
+public class DeletedTracksCommand extends OrderCommand {
+    private final String DELETED_PATH = "path.page.deleted";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -21,16 +21,14 @@ public class TracksInOrderCommand extends OrderCommand {
         ArrayList<Track> tracks;
         TrackLogic trackLogic = new TrackLogic();
         try {
-            String order = requestContent.getParameter(COMM_PARAMETER);
-            tracks = trackLogic.findAllTracksInOrder(order);
+            tracks = trackLogic.findAllDeletedTracks();
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
             tracks = paginationTracks(requestContent, tracks, trackLogic, all);
-            requestContent.setSessionAttribute(COMM_PARAMETER, order);
             requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
             requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
-            page = ConfigurationManager.getProperty(TRACKS_AZ_PATH);
+            page = ConfigurationManager.getProperty(DELETED_PATH);
         } catch (LogicException e) {
             LOG.error(e);
             requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());

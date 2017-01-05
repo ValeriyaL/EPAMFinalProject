@@ -35,12 +35,15 @@
                                     key="menu.price"/></a></li>
                         <ctg:isLogined>
                             <li class="divider"></li>
-                            <li><a href="#"><fmt:message key="menu.orders"/></a></li>
+                            <li><a href="${pageContext.request.contextPath}/controller?command=orders"><fmt:message
+                                    key="menu.orders"/></a></li>
                         </ctg:isLogined>
                         <ctg:adminTag role="${role}">
                             <li class="divider"></li>
                             <li><a href="#"><fmt:message key="menu.tracks.add"/></a></li>
-                            <li><a href="#"><fmt:message key="menu.tracks.reestablish"/></a></li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/controller?command=deleted_tracks"><fmt:message
+                                        key="menu.tracks.reestablish"/></a></li>
                             <li class="divider"></li>
                         </ctg:adminTag>
                     </ul>

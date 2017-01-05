@@ -7,13 +7,13 @@ package by.liudchyk.audiotracks.manager;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class LanguageManager {
+public class MessageManager {
     private static final String RUS = "ru_RU";
     private static final String ENG = "en_US";
     private static final String FILE = "properties.content";
     private static ResourceBundle resourceBundle;
 
-    private LanguageManager() {
+    private MessageManager() {
     }
 
     public static String getProperty(String key, String lang) {

@@ -5,8 +5,9 @@ import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.logic.CommentLogic;
+import by.liudchyk.audiotracks.logic.TrackLogic;
 import by.liudchyk.audiotracks.manager.ConfigurationManager;
-import by.liudchyk.audiotracks.manager.LanguageManager;
+import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 import java.text.SimpleDateFormat;
@@ -34,18 +35,26 @@ public class CommentAddCommand extends ActionCommand {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         String df = format.format(date);
-        CommentLogic commentLogic = new CommentLogic();
-        String errCom = commentLogic.addComment(date, text, userId, trackId);
-        if(errCom.isEmpty()) {
-            ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
-            Comment comment = new Comment(text, tempUser.getNickname(), df);
-            comments.add(comment);
-            requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
-            path = ConfigurationManager.getProperty(PATH_TRACK);
-        }else{
-            String message = LanguageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
-            requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-            path = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        try {
+            CommentLogic commentLogic = new CommentLogic();
+            TrackLogic trackLogic = new TrackLogic();
+            String errCom = commentLogic.addComment(date, text, userId, trackId);
+            if (errCom.isEmpty()) {
+                // ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
+                ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
+               // Comment comment = new Comment(text, tempUser.getNickname(), df);
+               // comments.add(comment);
+                requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
+                path = ConfigurationManager.getProperty(PATH_TRACK);
+            } else {
+                String message = MessageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
+                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                path = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+            }
+        }catch (LogicException e){
+            LOG.error(e);
+            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
+            path = ConfigurationManager.getProperty(ERROR_PATH);
         }
         return path;
     }

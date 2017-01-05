@@ -99,6 +99,36 @@ public enum CommandType {
         {
             this.command = new CommentDeleteCommand();
         }
+    },
+    ORDERS{
+        {
+            this.command = new OrdersCommand();
+        }
+    },
+    DOWNLOAD{
+        {
+            this.command = new DownloadCommand();
+        }
+    },
+    DELETE_TRACK{
+        {
+            this.command = new DeleteTrackCommand();
+        }
+    },
+    DELETED_TRACKS{
+        {
+            this.command = new DeletedTracksCommand();
+        }
+    },
+    RECOVER_TRACK{
+        {
+            this.command = new RecoverTrackCommand();
+        }
+    },
+    PRICE_CHANGE{
+        {
+            this.command = new ChangePriceCommand();
+        }
     };
     ActionCommand command;
 

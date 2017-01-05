@@ -1,5 +1,6 @@
 package by.liudchyk.audiotracks.command;
 
+import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
@@ -8,6 +9,6 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 public class EmptyCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
-        return null;
+        return ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
     }
 }

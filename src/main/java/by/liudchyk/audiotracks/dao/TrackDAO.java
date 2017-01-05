@@ -8,6 +8,7 @@ import by.liudchyk.audiotracks.exception.DAOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +34,17 @@ public class TrackDAO extends AbstractDAO {
             "FROM tracks\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
             "WHERE tracks.id=?";
+    private static final String SQL_DELETE_TRACK = "UPDATE tracks SET visible=0 WHERE id=?";
+    private static final String SQL_SELECT_DELETED_TRACKS = "SELECT tracks.id, tracks.title, genres.name AS genre, tracks.artists, tracks.price, tracks.length\n" +
+            "FROM tracks\n" +
+            "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
+            "WHERE visible=0";
+    private static final String SQL_RECOVER_TRACK = "UPDATE tracks SET visible=1 WHERE id=?";
+    private static final String SQL_CHANGE_PRICE = "UPDATE tracks SET price=? WHERE id=?";
 
     public TrackDAO(ProxyConnection connection) {
         super(connection);
     }
-
 
     public List<Track> findAllInOrder(String order) throws DAOException {
         List<Track> tracks = new ArrayList<>();
@@ -106,5 +113,68 @@ public class TrackDAO extends AbstractDAO {
             closeStatement(statement);
         }
         return track;
+    }
+
+    public  void deleteTrackById(int id) throws DAOException{
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement(SQL_DELETE_TRACK);
+            statement.setString(1, Integer.toString(id));
+            statement.executeUpdate();
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+    }
+
+    public void recoverTrackById(int id) throws DAOException{
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement(SQL_RECOVER_TRACK);
+            statement.setString(1, Integer.toString(id));
+            statement.executeUpdate();
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+    }
+
+    public boolean changeTrackPriceById(double newPrice,int trackId) throws DAOException{
+        boolean isAdded;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_PRICE);
+            statement.setDouble(1, newPrice);
+            statement.setString(2, Integer.toString(trackId));
+            int i = statement.executeUpdate();
+            if(i!=0){
+                isAdded = true;
+            }else{
+                isAdded = false;
+            }
+        }catch (SQLException e){
+            // throw new DAOException(e);
+            isAdded = false;
+        }finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public List<Track> findAllDeletedTracks() throws DAOException{
+        List<Track> tracks = new ArrayList<>();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet set = statement.executeQuery(SQL_SELECT_DELETED_TRACKS);
+            tracks = takeTracks(set);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement);
+        }
+        return tracks;
     }
 }

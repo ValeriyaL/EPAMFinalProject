@@ -13,7 +13,6 @@ public class User extends Entity {
     private String cardNumber;
     private String email;
 
-
     public User(int id, String nickname, String password, int status, double money, int bonus, String cardNumber, String email) {
         this.id = id;
         this.nickname = nickname;

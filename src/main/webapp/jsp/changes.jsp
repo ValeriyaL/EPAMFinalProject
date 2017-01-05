@@ -30,75 +30,105 @@
 </c:if>
 <div class="form col-lg-4 col-lg-offset-4">
     <h2 class="text-center"><fmt:message key="changes.title"/></h2>
-    <form class="form-horizontal" id="changeform" method="post" name="login"
-          action="${pageContext.request.contextPath}/controller">
-        <div class="form-group">
-            <c:if test="${'login_change' eq change}">
-                <label class="control-label col-xs-3" for="lastName"><fmt:message key="changes.login"/>:</label>
-                <div class="col-xs-9">
-                    <input type="text" class="form-control" id="lastName" name="nickname"
-                           required data-parsley-length="[4,15]" data-parsley-required value="${nickname}">
-                </div>
-            </c:if>
-            <c:if test="${'email_change' eq change}">
-                <label class="control-label col-xs-3" for="email"><fmt:message key="changes.email"/>:</label>
-                <div class="col-xs-9">
-                    <input type="email" class="form-control" id="email" name="email"
-                           data-parsley-required value="${email}">
-                </div>
-            </c:if>
-            <c:if test="${'card_change' eq change}">
-                <label class="control-label col-xs-3" for="card"><fmt:message key="changes.card"/>:</label>
-                <div class="col-xs-9">
-                    <input type="number" class="form-control" id="card" name="card"
-                           data-parsley-range="[1000000000000,999999999999999999]" value="${card}">
-                </div>
-            </c:if>
-            <c:if test="${'password_change' eq change}">
-                <div class="form-group" style="padding-right: 8px; padding-left: 15px;">
-                    <label class="control-label col-xs-3" for="passwordOld"><fmt:message
-                            key="changes.password.old"/>:</label>
+    <c:choose>
+        <c:when test="${'price_change' eq change}">
+            <form class="form-horizontal" id="form" method="post" name="login"
+                  action="${pageContext.request.contextPath}/controller">
+                <div class="form-group">
+                    <label class="control-label col-xs-3" for="price"><fmt:message key="changes.price"/>:</label>
                     <div class="col-xs-9">
-                        <input type="password" class="form-control" id="passwordOld" name="passwordOld"
-                               required data-parsley-length="[4,20]" data-parsley-required value="${passwordOld}">
+                        <input type="number" class="form-control" id="price" name="price"
+                               value="${price}}">
                     </div>
                 </div>
-                <div class="form-group" style="padding-right: 8px; padding-left: 15px;">
-                    <label class="control-label col-xs-3" for="passwordNew"><fmt:message
-                            key="changes.password.new"/>:</label>
-                    <div class="col-xs-9">
-                        <input type="password" class="form-control" id="passwordNew" name="passwordNew"
-                               required data-parsley-length="[4,20]" data-parsley-required value="${passwordNew}">
+                <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                        <button type="submit" class="btn btn-primary" name="command"
+                                value="${change}"><fmt:message key="changes.button.save"/></button>
+                        <a href="${pageContext.request.contextPath}/controller?command=track_info&track=${trackId}">
+                            <button type="button" class="btn btn-default">
+                                <fmt:message key="changes.button.track"/></button>
+                        </a>
                     </div>
                 </div>
-                <div class="form-group" style="padding-right: 8px; padding-left: 15px;">
-                    <label class="control-label col-xs-3" for="passwordNewConf"><fmt:message
-                            key="changes.password.new.confirm"/>:</label>
-                    <div class="col-xs-9">
-                        <input type="password" class="form-control" id="passwordNewConf" name="passwordNewConfirm"
-                               data-parsley-equalto="#passwordNew" data-parsley-required value="${passwordNewConfirm}">
+            </form>
+        </c:when>
+        <c:otherwise>
+            <form class="form-horizontal" id="changeform" method="post" name="login"
+                  action="${pageContext.request.contextPath}/controller">
+                <div class="form-group">
+                    <c:if test="${'login_change' eq change}">
+                        <label class="control-label col-xs-3" for="lastName"><fmt:message key="changes.login"/>:</label>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="lastName" name="nickname"
+                                   required data-parsley-length="[4,15]" data-parsley-required value="${nickname}">
+                        </div>
+                    </c:if>
+                    <c:if test="${'email_change' eq change}">
+                        <label class="control-label col-xs-3" for="email"><fmt:message key="changes.email"/>:</label>
+                        <div class="col-xs-9">
+                            <input type="email" class="form-control" id="email" name="email"
+                                   data-parsley-required value="${email}">
+                        </div>
+                    </c:if>
+                    <c:if test="${'card_change' eq change}">
+                        <label class="control-label col-xs-3" for="card"><fmt:message key="changes.card"/>:</label>
+                        <div class="col-xs-9">
+                            <input type="number" class="form-control" id="card" name="card"
+                                   data-parsley-range="[1000000000000,999999999999999999]" value="${card}">
+                        </div>
+                    </c:if>
+                    <c:if test="${'password_change' eq change}">
+                        <div class="form-group" style="padding-right: 8px; padding-left: 15px;">
+                            <label class="control-label col-xs-3" for="passwordOld"><fmt:message
+                                    key="changes.password.old"/>:</label>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control" id="passwordOld" name="passwordOld"
+                                       required data-parsley-length="[4,20]" data-parsley-required
+                                       value="${passwordOld}">
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-right: 8px; padding-left: 15px;">
+                            <label class="control-label col-xs-3" for="passwordNew"><fmt:message
+                                    key="changes.password.new"/>:</label>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control" id="passwordNew" name="passwordNew"
+                                       required data-parsley-length="[4,20]" data-parsley-required
+                                       value="${passwordNew}">
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-right: 8px; padding-left: 15px;">
+                            <label class="control-label col-xs-3" for="passwordNewConf"><fmt:message
+                                    key="changes.password.new.confirm"/>:</label>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control" id="passwordNewConf"
+                                       name="passwordNewConfirm"
+                                       data-parsley-equalto="#passwordNew" data-parsley-required
+                                       value="${passwordNewConfirm}">
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${'money_change' eq change}">
+                        <label class="control-label col-xs-3" for="money"><fmt:message key="changes.money"/>:</label>
+                        <div class="col-xs-9">
+                            <input type="number" class="form-control" id="money" name="money"
+                                   data-parsley-range="[1,9999]" value="${money}">
+                        </div>
+                    </c:if>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                        <button type="submit" class="btn btn-primary" name="command"
+                                value="${change}"><fmt:message key="changes.button.save"/></button>
+                        <a href="${pageContext.request.contextPath}/jsp/account.jsp">
+                            <button type="button" class="btn btn-default">
+                                <fmt:message key="changes.button.back"/></button>
+                        </a>
                     </div>
                 </div>
-            </c:if>
-            <c:if test="${'money_change' eq change}">
-                <label class="control-label col-xs-3" for="money"><fmt:message key="changes.money"/>:</label>
-                <div class="col-xs-9">
-                    <input type="number" class="form-control" id="money" name="money"
-                           data-parsley-range="[1,9999]" value="${money}">
-                </div>
-            </c:if>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-3 col-xs-9">
-                <button type="submit" class="btn btn-primary" name="command"
-                        value="${change}"><fmt:message key="changes.button.save"/></button>
-                <a href="${pageContext.request.contextPath}/jsp/account.jsp">
-                    <button type="button" class="btn btn-default">
-                        <fmt:message key="changes.button.back"/></button>
-                </a>
-            </div>
-        </div>
-    </form>
+            </form>
+        </c:otherwise>
+    </c:choose>
 </div>
 <%@ include file="footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -12,7 +12,11 @@ public class LogoutCommand extends ActionCommand {
     private final String ACCOUNT_PATH = "path.page.account";
     private final String CHANGES_PATH = "path.page.changes";
     private final String MAIN_PATH = "path.page.main";
+    private final String ORDERS_PATH = "path.page.orders";
     private final String ROLE_ATTRIBUTE = "role";
+    private final String ERROR_PATH = "path.page.error";
+    private final String MESSAGE_PATH = "path.page.message";
+    private final String DELETED_PATH = "path.page.deleted";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -22,7 +26,11 @@ public class LogoutCommand extends ActionCommand {
         requestContent.setSessionAttribute(USER_ATTRIBUTE, null);
         requestContent.setSessionAttribute(ROLE_ATTRIBUTE, null);
         if (ACCOUNT_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                CHANGES_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE))) {
+                CHANGES_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
+                ORDERS_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
+                ERROR_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
+                MESSAGE_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
+                DELETED_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE))) {
             page = ConfigurationManager.getProperty(MAIN_PATH);
         } else {
             page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));

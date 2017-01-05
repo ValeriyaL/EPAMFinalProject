@@ -3,10 +3,8 @@ package by.liudchyk.audiotracks.command;
 import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.logic.UserLogic;
 import by.liudchyk.audiotracks.manager.ConfigurationManager;
-import by.liudchyk.audiotracks.manager.LanguageManager;
+import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Admin on 25.12.2016.
@@ -33,7 +31,7 @@ public class RegistrationCommand extends ActionCommand {
         try {
             String msgPath = userLogic.registerUser(name, email, password, confirmPassword, card);
             if (MESSAGE.equals(msgPath)) {
-                String message = LanguageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty(LOGIN_PATH);
             } else {
@@ -42,7 +40,7 @@ public class RegistrationCommand extends ActionCommand {
                 requestContent.setAttribute(EMAIL_PARAM, email);
                 requestContent.setAttribute(CONF_PASS_PARAM, confirmPassword);
                 requestContent.setAttribute(CARD_PARAM, card);
-                String message = LanguageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

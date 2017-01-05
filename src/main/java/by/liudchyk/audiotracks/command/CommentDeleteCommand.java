@@ -4,9 +4,10 @@ import by.liudchyk.audiotracks.entity.Comment;
 import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.logic.CommentLogic;
+import by.liudchyk.audiotracks.logic.TrackLogic;
 import by.liudchyk.audiotracks.logic.UserLogic;
 import by.liudchyk.audiotracks.manager.ConfigurationManager;
-import by.liudchyk.audiotracks.manager.LanguageManager;
+import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 import java.util.ArrayList;
@@ -29,24 +30,26 @@ public class CommentDeleteCommand extends ActionCommand {
         String date = requestContent.getParameter(DATE_PARAMETER);
         String nickname = requestContent.getParameter(USER_NAME_ATTRIBUTE);
         UserLogic userLogic = new UserLogic();
+        TrackLogic trackLogic = new TrackLogic();
         try {
             int userId = userLogic.findUserByLogin(nickname).getId();
             int trackId = track.getId();
             CommentLogic commentLogic = new CommentLogic();
             boolean isDeleted = commentLogic.deleteComment(userId,trackId,date);
             if(isDeleted){
-                ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
-                Comment deleted = null;
+                //ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
+                ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
+             /*   Comment deleted = null;
                 for (Comment temp:comments){
                     if(date.equals(temp.getDate()) && nickname.equals(temp.getUser())){
                         deleted = temp;
                     }
                 }
-                comments.remove(deleted);
+                comments.remove(deleted);*/
                 requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
                 page = ConfigurationManager.getProperty(PATH_TRACK);
             }else{
-                String message = LanguageManager.getProperty(DELETE_COMMENT, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = MessageManager.getProperty(DELETE_COMMENT, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

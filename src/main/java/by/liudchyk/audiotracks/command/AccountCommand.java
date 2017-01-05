@@ -9,13 +9,17 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 public class AccountCommand extends ActionCommand {
     private final String CHANGE_PARAM = "change";
     private final String CHANGES_PATH = "path.page.changes";
+    private final String TRACK_ID_PARAM = "trackId";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
         String changeCommand = requestContent.getParameter(CHANGE_PARAM);
-        page = ConfigurationManager.getProperty(CHANGES_PATH);
+        if(requestContent.isParameter(TRACK_ID_PARAM)) {
+            requestContent.setSessionAttribute(TRACK_ID_PARAM, requestContent.getParameter(TRACK_ID_PARAM));
+        }else{
+            requestContent.setSessionAttribute(TRACK_ID_PARAM, null);
+        }
         requestContent.setSessionAttribute(CHANGE_PARAM, changeCommand);
-        return page;
+        return ConfigurationManager.getProperty(CHANGES_PATH);
     }
 }

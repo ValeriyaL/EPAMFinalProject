@@ -2,12 +2,14 @@ package by.liudchyk.audiotracks.logic;
 
 import by.liudchyk.audiotracks.dao.OrderDAO;
 import by.liudchyk.audiotracks.dao.TrackDAO;
+import by.liudchyk.audiotracks.dao.UserDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.Comment;
 import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
+import by.liudchyk.audiotracks.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +21,7 @@ import java.util.*;
  * Created by Admin on 28.12.2016.
  */
 public class TrackLogic {
-    private static final Logger LOG = LogManager.getLogger();
+    private final String INCORRECT_PRICE_MSG = "message.error.price";
 
     public ArrayList<Track> findLastOrders() throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -106,6 +108,64 @@ public class TrackLogic {
             return trackDAO.findTrackById(id);
         } catch (DAOException e) {
             throw new LogicException("Can't find track by id", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public void deleteTrackById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            trackDAO.deleteTrackById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't delete track by id", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public void recoverTrackById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            trackDAO.recoverTrackById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't recover track by id", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public ArrayList<Track> findAllDeletedTracks() throws LogicException {
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return (ArrayList<Track>) trackDAO.findAllDeletedTracks();
+        } catch (DAOException e) {
+            throw new LogicException("Can't find all deleted tracks", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public String changeTrackPrice(String newPrice, int trackId) throws LogicException{
+        Validator validator = new Validator();
+        String msg = validator.isPriceChangeValid(newPrice);
+        if (!msg.isEmpty()) {
+            return msg;
+        }
+        Double price = Double.valueOf(newPrice);
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            if (trackDAO.changeTrackPriceById(price, trackId)) {
+                return "";
+            } else {
+                return INCORRECT_PRICE_MSG;
+            }
+        } catch (DAOException e) {
+            throw new LogicException("Can't change track price", e);
         } finally {
             trackDAO.closeConnection(connection);
         }

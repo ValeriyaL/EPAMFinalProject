@@ -21,8 +21,6 @@ public abstract class OrderCommand extends ActionCommand{
     final String TRACKS_ON_PAGES_ATTR = "tracksPaged";
     final String NUMBER_OF_PAGES_ATTR = "numOfPages";
     final String COMM_PARAMETER = "comm";
-    final String TRUE = "true";
-    final String FALSE = "false";
 
     ArrayList<Track> paginationTracks(SessionRequestContent requestContent, ArrayList<Track> tracks, TrackLogic trackLogic, Map<Integer, ArrayList<Track>> all) {
         HashMap<Integer, ArrayList<Track>> tracksMap;

@@ -59,17 +59,41 @@
             <aside>
                 <div class="list-group">
                     <h3><fmt:message key="main.popularGenres"/></h3>
-                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=pop"
-                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.pop"/></a>
-                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=rap"
-                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.rap"/></a>
-                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=rock"
-                       class="list-group-item list-group-item-action"><fmt:message
-                            key="main.genre.rock"/></a>
-                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=jazz"
-                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.jazz"/></a>
-                    <a href="${pageContext.request.contextPath}/controller?command=genre_order&genre=disco"
-                       class="list-group-item list-group-item-action"><fmt:message key="main.genre.disco"/></a>
+                    <form id="popform" method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="genre" value="pop"/>
+                        <input type="hidden" name="command" value="genre_order">
+                        <a href="#" class="list-group-item list-group-item-action"
+                           onclick="document.getElementById('popform').submit(); return false;"><fmt:message
+                                key="main.genre.pop"/></a>
+                    </form>
+                    <form id="rapform" method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="genre" value="rap"/>
+                        <input type="hidden" name="command" value="genre_order">
+                        <a href="#" class="list-group-item list-group-item-action"
+                           onclick="document.getElementById('rapform').submit(); return false;"><fmt:message
+                                key="main.genre.rap"/></a>
+                    </form>
+                    <form id="rockform" method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="genre" value="rock"/>
+                        <input type="hidden" name="command" value="genre_order">
+                        <a href="#" class="list-group-item list-group-item-action"
+                           onclick="document.getElementById('rockform').submit(); return false;"><fmt:message
+                                key="main.genre.rock"/></a>
+                    </form>
+                    <form id="jazzform" method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="genre" value="jazz"/>
+                        <input type="hidden" name="command" value="genre_order">
+                        <a href="#" class="list-group-item list-group-item-action"
+                           onclick="document.getElementById('jazzform').submit(); return false;"><fmt:message
+                                key="main.genre.jazz"/></a>
+                    </form>
+                    <form id="discoform" method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="genre" value="disco"/>
+                        <input type="hidden" name="command" value="genre_order">
+                        <a href="#" class="list-group-item list-group-item-action"
+                           onclick="document.getElementById('discoform').submit(); return false;"><fmt:message
+                                key="main.genre.disco"/></a>
+                    </form>
                 </div>
             </aside>
         </div>

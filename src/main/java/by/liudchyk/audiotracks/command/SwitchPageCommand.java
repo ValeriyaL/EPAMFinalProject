@@ -14,18 +14,17 @@ public class SwitchPageCommand extends ActionCommand {
     private final String NUM_PAGE_ATTRIBUTE = "pageNumber";
     private final String TRACKS_ON_PAGES_ATTR = "tracksPaged";
     private final String TRACKS_ATTRIBUTE = "allTracks";
-    private final String TRACKS_AZ_PATH = "path.page.tracksAZ";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         HashMap<Integer, ArrayList<Track>> tracksPaged = (HashMap<Integer, ArrayList<Track>>) requestContent.getSessionAttribute(TRACKS_ON_PAGES_ATTR);
         Integer pageNumber =Integer.valueOf(requestContent.getParameter(NUM_PAGE_ATTRIBUTE));
         ArrayList<Track> tracks = tracksPaged.get(pageNumber);
         requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
         requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE,pageNumber);
         requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
-        page = ConfigurationManager.getProperty(TRACKS_AZ_PATH);
+        page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
         return page;
     }
 }

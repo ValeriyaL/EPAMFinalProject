@@ -5,10 +5,8 @@ import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.logic.LoginLogic;
 import by.liudchyk.audiotracks.logic.UserLogic;
 import by.liudchyk.audiotracks.manager.ConfigurationManager;
-import by.liudchyk.audiotracks.manager.LanguageManager;
+import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Admin on 24.12.2016.
@@ -40,7 +38,7 @@ public class LoginCommand extends ActionCommand {
             } else {
                 requestContent.setAttribute(NAME_PARAM, name);
                 requestContent.setAttribute(PASSWORD_PARAM, password);
-                String message = LanguageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

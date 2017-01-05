@@ -18,7 +18,7 @@ public class ActionFactory {
             CommandType currentEnum = CommandType.valueOf(actionS.toUpperCase());
             current = currentEnum.getCurrentCommand();
         } catch (IllegalArgumentException e) {
-            LOG.error(e);
+            LOG.error("No such command",e);
         }
         return current;
     }

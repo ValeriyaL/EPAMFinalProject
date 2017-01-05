@@ -107,10 +107,10 @@
                                                 key="tracks.order.buy"/></a>
                                     </ctg:isLogined>
                                     <ctg:adminTag role="${role}">
-                                        <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
+                                        <a href="${pageContext.request.contextPath}/controller?command=account&change=price_change&trackId=${tempTrack.id}" class="btn btn-primary btn-sm" style="margin: 2px"><span
                                                 class="glyphicon glyphicon-pencil"></span> <fmt:message
                                                 key="tracks.order.change"/></a>
-                                        <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
+                                        <a href="${pageContext.request.contextPath}/controller?command=delete_track&track=${tempTrack.id}" class="btn btn-primary btn-sm" style="margin: 2px"><span
                                                 class="glyphicon glyphicon-trash"></span> <fmt:message
                                                 key="tracks.order.delete"/></a>
                                     </ctg:adminTag>

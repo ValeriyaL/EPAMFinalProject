@@ -1,45 +1,45 @@
 package by.liudchyk.audiotracks.command;
 
-import by.liudchyk.audiotracks.entity.User;
+import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.LogicException;
-import by.liudchyk.audiotracks.logic.UserLogic;
+import by.liudchyk.audiotracks.logic.TrackLogic;
 import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 27.12.2016.
+ * Created by Admin on 05.01.2017.
  */
-public class ChangeMoneyCommand extends ActionCommand {
-    private final String NAME_PARAM = "money";
-    private final String SUCCESS_MESSAGE = "message.success.change.money";
-    private final String ERROR_MESSAGE = "message.error.change.money";
-    private final String SUCCESS_PATH = "path.page.account";
+public class ChangePriceCommand extends ActionCommand {
+    private final String PRICE_PARAM = "price";
+    private final String ERROR_MESSAGE = "message.error.change.price";
+    private final String TRACK_ID_PARAM = "trackId";
+    private final String SUCCESS_MESSAGE = "message.success.change.price";
+    private final String MESSAGE_PATH = "path.page.message";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         try {
-            User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
-            UserLogic userLogic = new UserLogic();
-            double newMoney = Double.valueOf(requestContent.getParameter(NAME_PARAM));
-            String msgPath = userLogic.changeUserMoney(newMoney + tempUser.getMoney(), tempUser.getId(), tempUser.getCardNumber());
-            if (SUCCESS_MESSAGE.equals(msgPath)) {
-                tempUser.addMoney(newMoney);
-                requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
+            int trackId = Integer.valueOf((String)requestContent.getSessionAttribute(TRACK_ID_PARAM));
+            TrackLogic trackLogic = new TrackLogic();
+            String newPrice = requestContent.getParameter(PRICE_PARAM);
+            String msgPath = trackLogic.changeTrackPrice(newPrice, trackId);
+            if (msgPath.isEmpty()) {
                 String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty(SUCCESS_PATH);
+                page = ConfigurationManager.getProperty(MESSAGE_PATH);
             } else {
                 String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        } catch (LogicException | NumberFormatException e) {
+        } catch (LogicException e) {
             String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
             requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
             page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
         }
         return page;
+
     }
 }

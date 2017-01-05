@@ -14,6 +14,8 @@ public abstract class ActionCommand {
     static final String PATH_ATTRIBUTE = "page";
     static final String ERROR_PATH = "path.page.error";
     static final String PARAMETER = "locale";
+    static final String TRUE = "true";
+    static final String FALSE = "false";
 
     public abstract String execute(SessionRequestContent requestContent);
 

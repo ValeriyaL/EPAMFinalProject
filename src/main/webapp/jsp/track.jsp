@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title><fmt:message key="main.title"/></title>
+    <title><fmt:message key="track.title"/></title>
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/main.css" rel="stylesheet">
@@ -58,12 +58,9 @@
                         </div>
                         <ctg:adminTag role="${role}">
                             <div class="btn-group wishlist">
-                                <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
+                                <a href="${pageContext.request.contextPath}/controller?command=account&change=price_change&trackId=${trackInfo.id}" class="btn btn-primary btn-sm" style="margin: 2px"><span
                                         class="glyphicon glyphicon-pencil"></span> <fmt:message
                                         key="tracks.order.change"/></a>
-                                <a href="#" class="btn btn-primary btn-sm" style="margin: 2px"><span
-                                        class="glyphicon glyphicon-trash"></span> <fmt:message
-                                        key="tracks.order.delete"/></a>
                             </div>
                         </ctg:adminTag>
                     </div>
