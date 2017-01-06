@@ -92,6 +92,7 @@ public class UserDAO extends AbstractDAO {
         }
         return password;
     }
+
     public String findPasswordForLogin(String login) throws DAOException{
         String password = null;
         PreparedStatement statement = null;

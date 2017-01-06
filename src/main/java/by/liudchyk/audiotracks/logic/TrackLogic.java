@@ -10,6 +10,7 @@ import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.validator.Validator;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +23,8 @@ import java.util.*;
  */
 public class TrackLogic {
     private final String INCORRECT_PRICE_MSG = "message.error.price";
+    private final String MESSAGE = "message.success.add";
+    private final String DEFAULT_MSG = "message.error.track.add";
 
     public ArrayList<Track> findLastOrders() throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -67,29 +70,29 @@ public class TrackLogic {
         int numOfPages = (tracks.size() % pageSize) == 0 ? tracks.size() / pageSize : tracks.size() / pageSize + 1;
         for (int i = 0; i < numOfPages; i++) {
             ArrayList<Track> temp = new ArrayList<>();
-            for(int j=0;j<pageSize;j++){
-                if(tracks.size()>i*pageSize+j) {
+            for (int j = 0; j < pageSize; j++) {
+                if (tracks.size() > i * pageSize + j) {
                     temp.add(tracks.get(i * pageSize + j));
                 }
             }
-            res.put(i+1,temp);
+            res.put(i + 1, temp);
         }
         return res;
     }
 
-    public ArrayList<Track> findAppropriate(ArrayList<Track> tracks, String substring){
+    public ArrayList<Track> findAppropriate(ArrayList<Track> tracks, String substring) {
         ArrayList<Track> res = new ArrayList<>();
-        for(Track temp: tracks){
-            if(temp.getTitle().toUpperCase().contains(substring.toUpperCase())){
+        for (Track temp : tracks) {
+            if (temp.getTitle().toUpperCase().contains(substring.toUpperCase())) {
                 res.add(temp);
-            }else if(temp.getArtist().toUpperCase().contains(substring.toUpperCase())){
+            } else if (temp.getArtist().toUpperCase().contains(substring.toUpperCase())) {
                 res.add(temp);
             }
         }
         return res;
     }
 
-    public ArrayList<Comment> findAllCommentsById(int id) throws LogicException{
+    public ArrayList<Comment> findAllCommentsById(int id) throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -101,7 +104,7 @@ public class TrackLogic {
         }
     }
 
-    public Track findTrackById(int id) throws LogicException{
+    public Track findTrackById(int id) throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -113,7 +116,7 @@ public class TrackLogic {
         }
     }
 
-    public void deleteTrackById(int id) throws LogicException{
+    public void deleteTrackById(int id) throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -125,7 +128,7 @@ public class TrackLogic {
         }
     }
 
-    public void recoverTrackById(int id) throws LogicException{
+    public void recoverTrackById(int id) throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -149,7 +152,7 @@ public class TrackLogic {
         }
     }
 
-    public String changeTrackPrice(String newPrice, int trackId) throws LogicException{
+    public String changeTrackPrice(String newPrice, int trackId) throws LogicException {
         Validator validator = new Validator();
         String msg = validator.isPriceChangeValid(newPrice);
         if (!msg.isEmpty()) {
@@ -166,6 +169,43 @@ public class TrackLogic {
             }
         } catch (DAOException e) {
             throw new LogicException("Can't change track price", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public String findPathByTrackId(int id) throws LogicException {
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return trackDAO.findTrackPathById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find track path by id", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public String addTrack(String title, String artist, String genre, String price, String link, String length) throws LogicException {
+        Validator validator = new Validator();
+        String msg = validator.isAddTrackValid(title,artist,genre,price,link,length);
+        if (!msg.isEmpty()) {
+            return msg;
+        }
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            int genreId = 0;
+            if(!genre.isEmpty()) {
+               genreId = trackDAO.findGenreIdByGenreName(genre);
+            }
+            if (trackDAO.addTrack(title,artist,genreId,price,link,length)) {
+                return MESSAGE;
+            } else {
+                return DEFAULT_MSG;
+            }
+        } catch (DAOException e) {
+            throw new LogicException("Mistake in adding track", e);
         } finally {
             trackDAO.closeConnection(connection);
         }

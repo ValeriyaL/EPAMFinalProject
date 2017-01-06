@@ -22,7 +22,6 @@ public class CommentAddCommand extends ActionCommand {
     private final String COMMENTS_ATTRIBUTE = "comments";
     private final String TRACK_ATTRIBUTE = "trackInfo";
     private final String COMMENT_TEXT_ATTRIBUTE = "text";
-    private final String DATE_PATTERN = "y-MM-DD HH:mm:ss";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -33,17 +32,12 @@ public class CommentAddCommand extends ActionCommand {
         int userId = tempUser.getId();
         int trackId = tempTrack.getId();
         Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
-        String df = format.format(date);
         try {
             CommentLogic commentLogic = new CommentLogic();
             TrackLogic trackLogic = new TrackLogic();
             String errCom = commentLogic.addComment(date, text, userId, trackId);
             if (errCom.isEmpty()) {
-                // ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
                 ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
-               // Comment comment = new Comment(text, tempUser.getNickname(), df);
-               // comments.add(comment);
                 requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
                 path = ConfigurationManager.getProperty(PATH_TRACK);
             } else {

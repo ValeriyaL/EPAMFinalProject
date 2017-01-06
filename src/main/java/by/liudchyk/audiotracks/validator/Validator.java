@@ -1,8 +1,10 @@
 package by.liudchyk.audiotracks.validator;
 
+import by.liudchyk.audiotracks.dao.TrackDAO;
 import by.liudchyk.audiotracks.dao.UserDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
+import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
@@ -10,6 +12,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +22,7 @@ import java.util.regex.Pattern;
  */
 public class Validator {
     private static final Logger LOG = LogManager.getLogger();
+    private final String MUSIC_PATH = "D:\\music\\";
     private final String EMAIL_REGEXP = ".+@[a-z]{2,6}\\.[a-z]{2,4}";
     private final String LOGIN_MSG = "message.lengthLogin";
     private final String PASSWORD_MSG = "message.lengthPass";
@@ -34,6 +38,12 @@ public class Validator {
     private final String COMMENT_LENGTH_MSG = "message.error.comment.length";
     private final String INCORRECT_PRICE_LENGTH = "message.error.price.length";
     private final String INCORRECT_PRICE_MSG = "message.error.price";
+    private final String TITLE_MSG = "message.error.title";
+    private final String ARTIST_MSG = "message.error.artist";
+    private final String LENGTH_MSG = "message.error.length";
+    private final String GENRE_LENGTH_MSG = "message.error.genre.length";
+    private final String LINK_LENGTH_MSG = "message.error.link.length";
+    private final String LINK_MSG = "message.error.link.exist";
 
     public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException {
         String res = "";
@@ -64,6 +74,66 @@ public class Validator {
             }
         }
         return res;
+    }
+
+    public String isAddTrackValid(String title,String artist,String genre,String price,String link,String length) throws LogicException{
+        String res = "";
+        if (!isTitleLengthValid(title)) {
+            return TITLE_MSG;
+        }
+        if (!isTitleLengthValid(artist)) {
+            return ARTIST_MSG;
+        }
+        if (!isPriceChangeValid(price).isEmpty()) {
+            return isPriceChangeValid(price);
+        }
+        if (!isLengthValid(length)) {
+            return LENGTH_MSG;
+        }
+        if (!isGenreLengthValid(genre)){
+            return GENRE_LENGTH_MSG;
+        }
+        if (genre.length()>0){
+            ConnectionPool pool = ConnectionPool.getInstance();
+            ProxyConnection connection = pool.getConnection();
+            TrackDAO trackDAO = new TrackDAO(connection);
+            try {
+                trackDAO.addGenreIfNotExists(genre);
+            } catch (DAOException e) {
+                throw new LogicException(e);
+            } finally {
+                trackDAO.closeConnection(connection);
+            }
+        }
+        if(!isLinkLengthValid(link)){
+            return LINK_LENGTH_MSG;
+        }
+        if(!isLinkValid(link)){
+            return LINK_MSG;
+        }
+        return res;
+    }
+
+    public boolean isLinkValid(String link){
+        File file = new File(MUSIC_PATH+link);
+        return file.exists() && file.isFile();
+    }
+
+    public boolean isLinkLengthValid(String link){
+        return link.length()>0 && link.length()<300;
+    }
+
+    public boolean isLengthValid(String length){
+        try{
+            int len = Integer.valueOf(length);
+            return  len > 0 && len <1000;
+        }catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    public boolean isGenreLengthValid(String genre){
+        return genre.length()<45;
     }
 
     public String isEmailChangeValid(String newEmail) throws LogicException {
@@ -139,19 +209,15 @@ public class Validator {
     }
 
     public boolean isLoginLengthValid(String login) {
-        if (login.length() > 3 && login.length() < 15) {
-            return true;
-        } else {
-            return false;
-        }
+        return login.length() > 3 && login.length() < 15;
+    }
+
+    public boolean isTitleLengthValid(String title) {
+        return title.length() > 0 && title.length() < 200;
     }
 
     public boolean isPasswordLengthValid(String password) {
-        if (password.length() > 4 && password.length() < 20) {
-            return true;
-        } else {
-            return false;
-        }
+        return password.length() > 4 && password.length() < 20;
     }
 
     public boolean isEmailValid(String email) {
@@ -185,11 +251,7 @@ public class Validator {
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if (userDAO.findUser(login) == null) {
-                return true;
-            } else {
-                return false;
-            }
+            return userDAO.findUser(login) == null;
         } catch (DAOException e) {
             throw new LogicException(e);
         } finally {

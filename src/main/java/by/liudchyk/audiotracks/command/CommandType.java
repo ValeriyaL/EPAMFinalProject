@@ -129,6 +129,11 @@ public enum CommandType {
         {
             this.command = new ChangePriceCommand();
         }
+    },
+    ADD_TRACK{
+        {
+            this.command = new AddTrackCommand();
+        }
     };
     ActionCommand command;
 

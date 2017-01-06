@@ -55,7 +55,7 @@
                                             value="${tempTrack.lengthTranslated}"/> </strong></h5>
                                 </div>
                                 <div class="col-xs-2 right">
-                                    <a href="${pageContext.request.contextPath}/controller?command=download" class="btn btn-primary btn-lg" style="margin: 2px"><span
+                                    <a href="${pageContext.request.contextPath}/controller?command=download&track=${tempTrack.id}" class="btn btn-primary btn-lg" style="margin: 2px"><span
                                             class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
                                             key="tracks.order.download"/></a>
                                 </div>

@@ -50,7 +50,7 @@ public class Controller extends HttpServlet implements ServletContextListener {
         ActionCommand command = client.defineCommand(sessionRequestContent);
         if(command instanceof DownloadCommand){
             // reads input file from an absolute path
-            String filePath = "D:\\music\\05_IDEALNOE_MESTO.mp3";
+            String filePath = command.execute(sessionRequestContent);
             File downloadFile = new File(filePath);
             FileInputStream inStream = new FileInputStream(downloadFile);
 

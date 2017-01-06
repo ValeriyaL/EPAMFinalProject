@@ -37,15 +37,7 @@ public class CommentDeleteCommand extends ActionCommand {
             CommentLogic commentLogic = new CommentLogic();
             boolean isDeleted = commentLogic.deleteComment(userId,trackId,date);
             if(isDeleted){
-                //ArrayList<Comment> comments = (ArrayList<Comment>) requestContent.getSessionAttribute(COMMENTS_ATTRIBUTE);
                 ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
-             /*   Comment deleted = null;
-                for (Comment temp:comments){
-                    if(date.equals(temp.getDate()) && nickname.equals(temp.getUser())){
-                        deleted = temp;
-                    }
-                }
-                comments.remove(deleted);*/
                 requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
                 page = ConfigurationManager.getProperty(PATH_TRACK);
             }else{

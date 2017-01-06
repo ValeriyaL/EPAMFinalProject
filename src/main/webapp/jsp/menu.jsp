@@ -40,7 +40,8 @@
                         </ctg:isLogined>
                         <ctg:adminTag role="${role}">
                             <li class="divider"></li>
-                            <li><a href="#"><fmt:message key="menu.tracks.add"/></a></li>
+                            <li><a href="${pageContext.request.contextPath}/jsp/add.jsp"><fmt:message
+                                    key="menu.tracks.add"/></a></li>
                             <li>
                                 <a href="${pageContext.request.contextPath}/controller?command=deleted_tracks"><fmt:message
                                         key="menu.tracks.reestablish"/></a></li>
