@@ -318,4 +318,14 @@ public class Validator {
             return COMMENT_LENGTH_MSG;
         }
     }
+
+    public boolean isBonusValid(String bonus){
+        int bon;
+        try{
+            bon = Integer.valueOf(bonus);
+        }catch (NumberFormatException e){
+            return false;
+        }
+        return bon>=0 && bon<=100;
+    }
 }

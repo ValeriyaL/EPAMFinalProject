@@ -25,6 +25,9 @@ public class UserDAO extends AbstractDAO {
     private static final String SQL_CHANGE_CARD = "UPDATE users SET card_number=? WHERE id=?";
     private static final String SQL_CHANGE_PASSWORD = "UPDATE users SET password=? WHERE id=?";
     private static final String SQL_CHANGE_MONEY = "UPDATE users SET money=? WHERE id=?";
+    private static final String SQL_COMMENTS_NUMBER_BY_ID = "SELECT count(*) FROM comments WHERE user_id=?";
+    private static final String SQL_SET_BONUS_BY_NICKNAME = "UPDATE users SET bonus=? WHERE nickname=?";
+    private static final String SQL_FIND_BONUS = "SELECT bonus FROM users WHERE nickname=?";
 
     public UserDAO(ProxyConnection connection) {
         super(connection);
@@ -312,5 +315,43 @@ public class UserDAO extends AbstractDAO {
             closeStatement(statement);
         }
         return isAdded;
+    }
+
+    public int commentsNumberById(int id) throws DAOException{
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_COMMENTS_NUMBER_BY_ID);
+            statement.setInt(1,id);
+            ResultSet set = statement.executeQuery();
+            if(set.next()){
+                return set.getInt(1);
+            }
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+        return 0;
+    }
+
+    public int changeBonusByNickname(String nickname,String bonus) throws DAOException{
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_SET_BONUS_BY_NICKNAME);
+            statement.setString(1,bonus);
+            statement.setString(2, nickname);
+            statement.executeUpdate();
+            statement = connection.prepareStatement(SQL_FIND_BONUS);
+            statement.setString(1,nickname);
+            ResultSet set = statement.executeQuery();
+            if(set.next()){
+                return set.getInt(1);
+            }
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+        return -1;
     }
 }

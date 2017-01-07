@@ -37,8 +37,8 @@
                 <div class="form-group">
                     <label class="control-label col-xs-3" for="price"><fmt:message key="changes.price"/>:</label>
                     <div class="col-xs-9">
-                        <input type="number" class="form-control" id="price" name="price"
-                               value="${price}}">
+                        <input type="text" class="form-control" id="price" name="price"
+                               value="${price}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -111,8 +111,8 @@
                     <c:if test="${'money_change' eq change}">
                         <label class="control-label col-xs-3" for="money"><fmt:message key="changes.money"/>:</label>
                         <div class="col-xs-9">
-                            <input type="number" class="form-control" id="money" name="money"
-                                   data-parsley-range="[1,9999]" value="${money}">
+                            <input type="text" class="form-control" id="money" name="money"
+                                   value="${money}">
                         </div>
                     </c:if>
                 </div>

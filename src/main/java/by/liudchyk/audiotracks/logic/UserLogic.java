@@ -172,4 +172,32 @@ public class UserLogic {
             userDAO.closeConnection(connection);
         }
     }
+
+    public int findNumberOfCommentsById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        UserDAO userDAO = new UserDAO(connection);
+        try {
+            return userDAO.commentsNumberById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find number of comments by id", e);
+        } finally {
+            userDAO.closeConnection(connection);
+        }
+    }
+
+    public int changeBonusByNickname(String nickname, String bonus) throws LogicException{
+        Validator validator = new Validator();
+        if(!validator.isBonusValid(bonus)){
+            return -1;
+        }
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        UserDAO userDAO = new UserDAO(connection);
+        try {
+            return userDAO.changeBonusByNickname(nickname, bonus);
+        } catch (DAOException e) {
+            throw new LogicException("Can't change bonus by nickname", e);
+        } finally {
+            userDAO.closeConnection(connection);
+        }
+    }
 }

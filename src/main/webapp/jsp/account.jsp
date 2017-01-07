@@ -30,7 +30,8 @@
 <c:if test="${not empty info}">
     <div class="alert alert-success col-lg-4 col-lg-offset-4">${info}</div>
 </c:if>
-<div class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 " style="margin-bottom: 70px">
+<div class="form col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 "
+     style="margin-bottom: 70px">
     <h2 class="text-center"><fmt:message key="account.label"/></h2>
     <div class="form-horizontal">
         <div class="form-group">
@@ -91,10 +92,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-lg-6"><fmt:message key="account.bonus"/>: ${user.bonus}</label>
+            <label class="control-label col-lg-6"><fmt:message key="account.bonus"/>: ${user.bonus}%</label>
             <ctg:adminTag role="${role}">
                 <div class="col-lg-6">
-                    <a href="#">
+                    <a href="${pageContext.request.contextPath}/jsp/bonus.jsp">
                         <button type="submit" class="btn btn-info btn-sm"><fmt:message
                                 key="account.button.admin.fill"/></button>
                     </a>

@@ -134,6 +134,16 @@ public enum CommandType {
         {
             this.command = new AddTrackCommand();
         }
+    },
+    USER_INFO{
+        {
+            this.command = new UserInfoCommand();
+        }
+    },
+    SET_BONUS{
+        {
+            this.command = new SetBonusCommand();
+        }
     };
     ActionCommand command;
 

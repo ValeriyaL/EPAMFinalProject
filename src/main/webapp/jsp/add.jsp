@@ -65,14 +65,14 @@
             <label class="control-label col-xs-3" for="length"><fmt:message key="add.track.length"/>*:</label>
             <div class="col-xs-9">
                 <input type="number" class="form-control" id="length" name="length"
-                       data-parsley-range="[1,1000]" data-parsley-required value="${price}">
+                       data-parsley-range="[1,1000]" data-parsley-required value="${length}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="link"><fmt:message key="add.track.link"/>*:</label>
             <div class="col-xs-9">
                 <input type="text" class="form-control" id="link" name="link"
-                       required data-parsley-length="[1,200]"  data-parsley-required  value="${genre}">
+                       required data-parsley-length="[1,200]"  data-parsley-required  value="${link}">
             </div>
         </div>
         <br/>
