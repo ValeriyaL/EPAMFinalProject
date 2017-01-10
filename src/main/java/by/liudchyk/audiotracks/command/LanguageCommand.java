@@ -11,7 +11,7 @@ public class LanguageCommand extends ActionCommand {
     private static final String LOCALE_ATTRIBUTE = "locale";
 
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         Object str = requestContent.getParameter(LANG_PARAMETER);
         if (str != null) {
             requestContent.setAttribute(LOCALE_ATTRIBUTE, str);

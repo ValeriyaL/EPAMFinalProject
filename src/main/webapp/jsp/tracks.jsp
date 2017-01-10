@@ -102,7 +102,7 @@
                                                 key="tracks.order.buy"/></a>
                                     </ctg:notLogined>
                                     <ctg:isLogined>
-                                        <a href="#" class="btn btn-default btn-lg" style="margin: 2px"><span
+                                        <a href="${pageContext.request.contextPath}/controller?command=order_track&trackId=${tempTrack.id}" class="btn btn-default btn-lg" style="margin: 2px"><span
                                                 class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
                                                 key="tracks.order.buy"/></a>
                                     </ctg:isLogined>

@@ -25,7 +25,7 @@ public class ChangeMoneyCommand extends ActionCommand {
             double newMoney = Double.valueOf(requestContent.getParameter(NAME_PARAM));
             String msgPath = userLogic.changeUserMoney(newMoney + tempUser.getMoney(), tempUser.getId(), tempUser.getCardNumber());
             if (SUCCESS_MESSAGE.equals(msgPath)) {
-                tempUser.addMoney(newMoney);
+                tempUser.setMoney(userLogic.findMoneyById(tempUser.getId()));
                 requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
                 String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);

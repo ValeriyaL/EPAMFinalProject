@@ -28,6 +28,8 @@ public class UserDAO extends AbstractDAO {
     private static final String SQL_COMMENTS_NUMBER_BY_ID = "SELECT count(*) FROM comments WHERE user_id=?";
     private static final String SQL_SET_BONUS_BY_NICKNAME = "UPDATE users SET bonus=? WHERE nickname=?";
     private static final String SQL_FIND_BONUS = "SELECT bonus FROM users WHERE nickname=?";
+    private static final String SQL_FIND_BONUS_BY_ID = "SELECT bonus FROM users WHERE id=?";
+    private static final String SQL_FIND_MONEY_BY_ID = "SELECT money FROM users WHERE id=?";
 
     public UserDAO(ProxyConnection connection) {
         super(connection);
@@ -353,5 +355,35 @@ public class UserDAO extends AbstractDAO {
             closeStatement(statement);
         }
         return -1;
+    }
+
+    public int findBonusById(int id) throws DAOException{
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_FIND_BONUS_BY_ID);
+            statement.setInt(1,id);
+            ResultSet set = statement.executeQuery();
+            set.next();
+            return set.getInt(1);
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+    }
+
+    public double findMoneyById(int id) throws DAOException{
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_FIND_MONEY_BY_ID);
+            statement.setInt(1,id);
+            ResultSet set = statement.executeQuery();
+            set.next();
+            return set.getDouble(1);
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
     }
 }

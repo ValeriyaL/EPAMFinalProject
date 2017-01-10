@@ -28,7 +28,12 @@ public class OrderDAO extends AbstractDAO {
             "FROM orders\n" +
             "JOIN tracks ON tracks.id=orders.track_id\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
-            "WHERE user_id=? AND tracks.visible=1";
+            "WHERE user_id=? AND tracks.visible=1\n"+
+            "ORDER BY tracks.title";
+    private static final String SQL_COUNT_ORDERS = "SELECT COUNT(*) \n" +
+            "FROM orders \n" +
+            "WHERE user_id=? AND track_id=?";
+    private static final String SQL_ADD_ORDER = "INSERT INTO orders(track_id, price, user_id, date) VALUES(?,?,?,?);";
 
     public OrderDAO(ProxyConnection connection) {
         super(connection);
@@ -63,5 +68,37 @@ public class OrderDAO extends AbstractDAO {
             closeStatement(statement);
         }
         return tracks;
+    }
+
+    public boolean isOrderExist(int userId,int trackId) throws DAOException{
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_COUNT_ORDERS);
+            statement.setInt(1,userId);
+            statement.setInt(2, trackId);
+            ResultSet set = statement.executeQuery();
+            set.next();
+            return set.getInt(1)==1;
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
+    }
+
+    public void addOrder(int trackId,double price,int userId,String formatDate) throws DAOException{
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement(SQL_ADD_ORDER);
+            statement.setInt(1,trackId);
+            statement.setDouble(2, price);
+            statement.setInt(3, userId);
+            statement.setString(4, formatDate);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            throw new DAOException(e);
+        }finally {
+            closeStatement(statement);
+        }
     }
 }

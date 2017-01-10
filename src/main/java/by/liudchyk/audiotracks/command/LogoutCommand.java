@@ -19,6 +19,7 @@ public class LogoutCommand extends ActionCommand {
     private final String DELETED_PATH = "path.page.deleted";
     private final String INFO_PATH = "path.page.info";
     private final String BONUS_PATH = "path.page.bonus";
+    private final String BUY_PATH = "path.page.buy";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -34,7 +35,8 @@ public class LogoutCommand extends ActionCommand {
                 MESSAGE_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
                 DELETED_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
                 INFO_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                BONUS_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE))) {
+                BONUS_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
+                BUY_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE))) {
             page = ConfigurationManager.getProperty(MAIN_PATH);
         } else {
             page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));

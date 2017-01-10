@@ -17,8 +17,8 @@ public class CommentDAO extends AbstractDAO {
     private final String DATE_PATTERN = "y-MM-DD HH:mm:ss";
     private final String SQL_ADD_COMMENT = "INSERT INTO comments(date,track_id,user_id,text) \n" +
             "VALUES (?,?,?,?)";
-    private final String SQL_DELETE_COMMENT="delete from comments \n" +
-            "where comments.date=? \n" +
+    private final String SQL_DELETE_COMMENT="DELETE FROM comments \n" +
+            "WHERE comments.date=? \n" +
             "AND track_id=? \n" +
             "AND user_id=?";
 

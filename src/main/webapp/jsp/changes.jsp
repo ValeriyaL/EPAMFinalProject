@@ -74,7 +74,7 @@
                     <c:if test="${'card_change' eq change}">
                         <label class="control-label col-xs-3" for="card"><fmt:message key="changes.card"/>:</label>
                         <div class="col-xs-9">
-                            <input type="number" class="form-control" id="card" name="card"
+                            <input type="number" class="form-control" id="card" name="card" data-parsley-required
                                    data-parsley-range="[1000000000000,999999999999999999]" value="${card}">
                         </div>
                     </c:if>
@@ -112,7 +112,7 @@
                         <label class="control-label col-xs-3" for="money"><fmt:message key="changes.money"/>:</label>
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="money" name="money"
-                                   value="${money}">
+                                   data-parsley-required value="${money}">
                         </div>
                     </c:if>
                 </div>

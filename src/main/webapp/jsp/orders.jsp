@@ -26,6 +26,9 @@
 <body>
 <c:set var="page" value="path.page.orders" scope="session"/>
 <%@ include file="menu.jsp" %>
+<c:if test="${not empty info}">
+    <div class="alert alert-success col-lg-4 col-lg-offset-4">${info}</div>
+</c:if>
 <div class="container">
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
@@ -56,7 +59,7 @@
                                 </div>
                                 <div class="col-xs-2 right">
                                     <a href="${pageContext.request.contextPath}/controller?command=download&track=${tempTrack.id}" class="btn btn-primary btn-lg" style="margin: 2px"><span
-                                            class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
+                                            class="glyphicon glyphicon-download-alt"></span> <fmt:message
                                             key="tracks.order.download"/></a>
                                 </div>
                             </div>

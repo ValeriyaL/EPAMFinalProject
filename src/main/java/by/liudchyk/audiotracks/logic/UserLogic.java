@@ -200,4 +200,28 @@ public class UserLogic {
             userDAO.closeConnection(connection);
         }
     }
+
+    public int findBonusById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        UserDAO userDAO = new UserDAO(connection);
+        try {
+            return userDAO.findBonusById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find bonus by id", e);
+        } finally {
+            userDAO.closeConnection(connection);
+        }
+    }
+
+    public double findMoneyById(int id) throws LogicException{
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        UserDAO userDAO = new UserDAO(connection);
+        try {
+            return userDAO.findMoneyById(id);
+        } catch (DAOException e) {
+            throw new LogicException("Can't find money by id", e);
+        } finally {
+            userDAO.closeConnection(connection);
+        }
+    }
 }

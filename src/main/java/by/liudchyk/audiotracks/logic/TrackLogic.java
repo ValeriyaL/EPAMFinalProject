@@ -25,6 +25,7 @@ public class TrackLogic {
     private final String INCORRECT_PRICE_MSG = "message.error.price";
     private final String MESSAGE = "message.success.add";
     private final String DEFAULT_MSG = "message.error.track.add";
+    private final double PERCENTS = 100.0;
 
     public ArrayList<Track> findLastOrders() throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -209,5 +210,9 @@ public class TrackLogic {
         } finally {
             trackDAO.closeConnection(connection);
         }
+    }
+
+    public double calculateBonusPrice(double price,int bonus){
+        return price-(price*bonus/PERCENTS);
     }
 }
