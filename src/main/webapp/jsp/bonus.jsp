@@ -37,7 +37,7 @@
             <label class="control-label col-xs-3" for="lastName"><fmt:message key="info.user"/>:</label>
             <div class="col-xs-9">
                 <input type="text" class="form-control" id="lastName" name="userNickname"
-                       required data-parsley-length="[4,15]" data-parsley-required >
+                       required data-parsley-length="[4,15]" data-parsley-required>
             </div>
         </div>
         <br/>
@@ -45,6 +45,9 @@
             <div class="col-xs-offset-3 col-xs-9">
                 <button type="submit" class="btn btn-primary" name="command"
                         value="user_info"><fmt:message key="menu.find"/></button>
+                <a href="${pageContext.request.contextPath}/controller?command=all_users" class="btn btn-primary">
+                    <fmt:message key="changes.users.all"/>
+                </a>
                 <a href="${pageContext.request.contextPath}/jsp/account.jsp">
                     <button type="button" class="btn btn-default">
                         <fmt:message key="changes.button.back"/></button>

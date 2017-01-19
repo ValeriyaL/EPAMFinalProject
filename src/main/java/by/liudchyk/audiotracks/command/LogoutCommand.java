@@ -20,6 +20,7 @@ public class LogoutCommand extends ActionCommand {
     private final String INFO_PATH = "path.page.info";
     private final String BONUS_PATH = "path.page.bonus";
     private final String BUY_PATH = "path.page.buy";
+    private final String USERS_PATH = "path.page.users";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -28,15 +29,12 @@ public class LogoutCommand extends ActionCommand {
         requestContent.setSessionAttribute(NAME_PARAM, null);
         requestContent.setSessionAttribute(USER_ATTRIBUTE, null);
         requestContent.setSessionAttribute(ROLE_ATTRIBUTE, null);
-        if (ACCOUNT_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                CHANGES_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                ORDERS_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                ERROR_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                MESSAGE_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                DELETED_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                INFO_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                BONUS_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
-                BUY_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE))) {
+        String tempPath = (String) requestContent.getSessionAttribute(PATH_ATTRIBUTE);
+        if (ACCOUNT_PATH.equals(tempPath) || CHANGES_PATH.equals(tempPath) ||
+                ORDERS_PATH.equals(tempPath) || ERROR_PATH.equals(tempPath) ||
+                MESSAGE_PATH.equals(tempPath) || DELETED_PATH.equals(tempPath) ||
+                INFO_PATH.equals(tempPath) || BONUS_PATH.equals(tempPath) ||
+                BUY_PATH.equals(tempPath) || USERS_PATH.equals(tempPath)) {
             page = redirectToMain(requestContent);
         } else {
             page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));

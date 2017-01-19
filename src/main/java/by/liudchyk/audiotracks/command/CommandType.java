@@ -154,6 +154,11 @@ public enum CommandType {
         {
             this.command = new BuyTrackCommand();
         }
+    },
+    ALL_USERS{
+        {
+            this.command = new AllUsersCommand();
+        }
     };
     ActionCommand command;
 

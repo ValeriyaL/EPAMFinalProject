@@ -60,14 +60,14 @@
                     </div>
                 </div>
                 <input type="hidden" name="userNickname" value="${userNickname}">
-                <div class="form-group">
-                    <div class="col-md-offset-1">
+                <div class="form-group row">
+                    <div>
                         <button type="submit" name="command" value="set_bonus" class="btn btn-primary  btn-sm">
                             <fmt:message
                                     key="account.button.add"/></button>
                         <a href="${pageContext.request.contextPath}/jsp/bonus.jsp">
                             <button type="button" class="btn btn-default">
-                                <fmt:message key="changes.button.back"/></button>
+                                <fmt:message key="changes.button.bonus"/></button>
                         </a>
                     </div>
                 </div>

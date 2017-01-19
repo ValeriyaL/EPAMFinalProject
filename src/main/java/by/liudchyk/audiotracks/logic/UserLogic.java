@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.jws.soap.SOAPBinding;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by Admin on 24.12.2016.
@@ -195,6 +196,18 @@ public class UserLogic {
             return userDAO.findMoneyById(id);
         } catch (DAOException e) {
             throw new LogicException("Can't find money by id", e);
+        } finally {
+            userDAO.closeConnection(connection);
+        }
+    }
+
+    public ArrayList<User> findAllUsers() throws LogicException {
+        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        UserDAO userDAO = new UserDAO(connection);
+        try {
+            return userDAO.findAllUsers();
+        } catch (DAOException e) {
+            throw new LogicException("Can't find all users", e);
         } finally {
             userDAO.closeConnection(connection);
         }

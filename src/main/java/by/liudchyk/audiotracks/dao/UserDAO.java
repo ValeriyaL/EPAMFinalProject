@@ -1,6 +1,7 @@
 package by.liudchyk.audiotracks.dao;
 
 import by.liudchyk.audiotracks.database.ProxyConnection;
+import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
 
@@ -30,6 +31,7 @@ public class UserDAO extends AbstractDAO {
     private static final String SQL_FIND_BONUS = "SELECT bonus FROM users WHERE nickname=?";
     private static final String SQL_FIND_BONUS_BY_ID = "SELECT bonus FROM users WHERE id=?";
     private static final String SQL_FIND_MONEY_BY_ID = "SELECT money FROM users WHERE id=?";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM users ORDER BY nickname";
 
     public UserDAO(ProxyConnection connection) {
         super(connection);
@@ -325,5 +327,32 @@ public class UserDAO extends AbstractDAO {
         } finally {
             closeStatement(statement);
         }
+    }
+
+    public ArrayList<User> findAllUsers() throws DAOException {
+        ArrayList<User> users = new ArrayList<>();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet set = statement.executeQuery(SQL_SELECT_ALL_USERS);
+            User tempUser;
+            while (set.next()) {
+                int id = set.getInt(1);
+                String name = set.getString(2);
+                String password = set.getString(3);
+                int status = set.getInt(4);
+                double money = set.getDouble(5);
+                int bonus = set.getInt(6);
+                String card = set.getString(7);
+                String mail = set.getString(8);
+                tempUser = new User(id, name, password, status, money, bonus, card, mail);
+                users.add(tempUser);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement);
+        }
+        return users;
     }
 }
