@@ -4,8 +4,6 @@ import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,17 +16,16 @@ import java.util.List;
  * Created by Admin on 28.12.2016.
  */
 public class OrderDAO extends AbstractDAO {
-    private static final String SQL_SELECT_LAST_ORDERS = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length\n" +
+    private static final String SQL_SELECT_MOST_ORDERED = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length, count(*) AS count \n" +
             "FROM orders\n" +
-            "JOIN tracks ON orders.track_id=tracks.id\n" +
+            "LEFT JOIN tracks ON tracks.id = track_id\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
-            "WHERE tracks.visible = 1\n" +
-            "GROUP BY tracks.title ORDER BY orders.date DESC LIMIT 5 ";
+            "GROUP BY tracks.id ORDER BY count DESC LIMIT 5;";
     private static final String SQL_SELECT_ORDERS_BY_USER = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length\n" +
             "FROM orders\n" +
             "JOIN tracks ON tracks.id=orders.track_id\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
-            "WHERE user_id=? AND tracks.visible=1\n"+
+            "WHERE user_id=?\n" +
             "ORDER BY tracks.title";
     private static final String SQL_COUNT_ORDERS = "SELECT COUNT(*) \n" +
             "FROM orders \n" +
@@ -39,12 +36,12 @@ public class OrderDAO extends AbstractDAO {
         super(connection);
     }
 
-    public List<Track> findLastOrders() throws DAOException {
+    public List<Track> findMostOrdered() throws DAOException {
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;
         try {
             statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(SQL_SELECT_LAST_ORDERS);
+            ResultSet set = statement.executeQuery(SQL_SELECT_MOST_ORDERED);
             tracks = takeTracks(set);
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -54,12 +51,12 @@ public class OrderDAO extends AbstractDAO {
         return tracks;
     }
 
-    public List<Track> findOrdersByUser(User user) throws DAOException{
+    public List<Track> findOrdersByUser(User user) throws DAOException {
         List<Track> tracks = new ArrayList<>();
         PreparedStatement statement = null;
-        try{
+        try {
             statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_USER);
-            statement.setString(1,Integer.toString(user.getId()));
+            statement.setString(1, Integer.toString(user.getId()));
             ResultSet set = statement.executeQuery();
             tracks = takeTracks(set);
         } catch (SQLException e) {
@@ -70,34 +67,34 @@ public class OrderDAO extends AbstractDAO {
         return tracks;
     }
 
-    public boolean isOrderExist(int userId,int trackId) throws DAOException{
+    public boolean isOrderExist(int userId, int trackId) throws DAOException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_COUNT_ORDERS);
-            statement.setInt(1,userId);
+            statement.setInt(1, userId);
             statement.setInt(2, trackId);
             ResultSet set = statement.executeQuery();
             set.next();
-            return set.getInt(1)==1;
-        }catch (SQLException e){
+            return set.getInt(1) == 1;
+        } catch (SQLException e) {
             throw new DAOException(e);
-        }finally {
+        } finally {
             closeStatement(statement);
         }
     }
 
-    public void addOrder(int trackId,double price,int userId,String formatDate) throws DAOException{
+    public void addOrder(int trackId, double price, int userId, String formatDate) throws DAOException {
         PreparedStatement statement = null;
-        try{
+        try {
             statement = connection.prepareStatement(SQL_ADD_ORDER);
-            statement.setInt(1,trackId);
+            statement.setInt(1, trackId);
             statement.setDouble(2, price);
             statement.setInt(3, userId);
             statement.setString(4, formatDate);
             statement.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException(e);
-        }finally {
+        } finally {
             closeStatement(statement);
         }
     }

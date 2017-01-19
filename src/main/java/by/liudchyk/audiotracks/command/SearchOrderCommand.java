@@ -29,7 +29,6 @@ public class SearchOrderCommand extends OrderCommand {
             tracks = trackLogic.findAllTracksInOrder(ORDER);
             tracks = trackLogic.findAppropriate(tracks, substr);
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
-            HashMap<Integer, ArrayList<Track>> tracksMap;
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
             tracks = paginationTracks(requestContent, tracks, trackLogic, all);
             requestContent.setSessionAttribute(COMM_PARAMETER, SEARCH);
@@ -38,9 +37,7 @@ public class SearchOrderCommand extends OrderCommand {
             requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
             page = ConfigurationManager.getProperty(TRACKS_AZ_PATH);
         } catch (LogicException e) {
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

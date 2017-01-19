@@ -13,8 +13,10 @@ public class SessionRequestContent {
     private HashMap<String, Object> requestAttributes;
     private Map<String, String[]> requestParameters;
     private HashMap<String, Object> sessionAttributes;
+    private String realPath;
 
     public void extractValues(HttpServletRequest request) {
+        realPath = request.getServletContext().getRealPath("");
         requestParameters = request.getParameterMap();
         requestAttributes = new HashMap<String, Object>();
         Enumeration<String> attr = request.getAttributeNames();
@@ -49,6 +51,10 @@ public class SessionRequestContent {
             return null;
         }
         return requestParameters.get(key)[0];
+    }
+
+    public String getRealPath() {
+        return realPath;
     }
 
     public boolean isParameter(String key){

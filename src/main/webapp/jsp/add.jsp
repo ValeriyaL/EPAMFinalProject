@@ -31,7 +31,7 @@
 </c:if>
 <div class="form col-lg-4 col-lg-offset-4  col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
     <h2 class="text-center"><fmt:message key="add.label"/></h2>
-    <form class="form-horizontal" id="addform" method="post" name="add"
+    <form class="form-horizontal" id="addform" method="post" name="add" enctype="multipart/form-data"
           action="${pageContext.request.contextPath}/controller">
         <div class="form-group">
             <label class="control-label col-xs-3" for="title"><fmt:message key="add.track.title"/>*:</label>
@@ -68,13 +68,7 @@
                        data-parsley-range="[1,1000]" data-parsley-required value="${length}">
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-xs-3" for="link"><fmt:message key="add.track.link"/>*:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control" id="link" name="link"
-                       required data-parsley-length="[1,200]"  data-parsley-required  value="${link}">
-            </div>
-        </div>
+        <input type="file" name="upfile" data-parsley-required>
         <br/>
         <div class="form-group">
             <div class="col-xs-offset-3 col-xs-9">

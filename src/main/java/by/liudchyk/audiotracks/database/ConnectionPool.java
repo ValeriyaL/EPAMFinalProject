@@ -39,7 +39,7 @@ public class ConnectionPool {
                 ProxyConnection pc = new ProxyConnection(connection);
                 this.connectionQueue.put(pc);
             } catch (SQLException | InterruptedException e) {
-                LOG.warn("Connection wasn't add into connection queue",e);
+                LOG.error("Connection wasn't add into connection queue",e);
             }
         }
     }

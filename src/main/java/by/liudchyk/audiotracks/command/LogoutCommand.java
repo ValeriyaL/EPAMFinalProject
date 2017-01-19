@@ -37,7 +37,7 @@ public class LogoutCommand extends ActionCommand {
                 INFO_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
                 BONUS_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE)) ||
                 BUY_PATH.equals(requestContent.getSessionAttribute(PATH_ATTRIBUTE))) {
-            page = ConfigurationManager.getProperty(MAIN_PATH);
+            page = redirectToMain(requestContent);
         } else {
             page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
         }

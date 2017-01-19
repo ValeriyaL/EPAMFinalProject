@@ -17,7 +17,6 @@ import java.sql.SQLException;
  * Created by Admin on 24.12.2016.
  */
 public class LoginLogic {
-    private static final Logger LOG = LogManager.getLogger();
 
     public boolean checkLogin(String login, String password) throws LogicException {
         Validator validator = new Validator();

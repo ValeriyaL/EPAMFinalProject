@@ -17,7 +17,7 @@ public class CommentDAO extends AbstractDAO {
     private final String DATE_PATTERN = "y-MM-DD HH:mm:ss";
     private final String SQL_ADD_COMMENT = "INSERT INTO comments(date,track_id,user_id,text) \n" +
             "VALUES (?,?,?,?)";
-    private final String SQL_DELETE_COMMENT="DELETE FROM comments \n" +
+    private final String SQL_DELETE_COMMENT = "DELETE FROM comments \n" +
             "WHERE comments.date=? \n" +
             "AND track_id=? \n" +
             "AND user_id=?";
@@ -26,10 +26,10 @@ public class CommentDAO extends AbstractDAO {
         super(connection);
     }
 
-    public boolean addComment(Date date, String text, int userId, int trackId){
+    public boolean addComment(Date date, String text, int userId, int trackId) {
         SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         String df = format.format(date);
-        boolean isAdded;
+        boolean isAdded = false;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_ADD_COMMENT);
@@ -40,19 +40,17 @@ public class CommentDAO extends AbstractDAO {
             int i = statement.executeUpdate();
             if (i != 0) {
                 isAdded = true;
-            } else {
-                isAdded = false;
             }
         } catch (SQLException e) {
-            isAdded = false;
+            LOG.warn("SQLException in addComment", e);
         } finally {
             closeStatement(statement);
         }
         return isAdded;
     }
 
-    public boolean deleteComment(int userId, int trackId, String date){
-        boolean isDeleted;
+    public boolean deleteComment(int userId, int trackId, String date) {
+        boolean isDeleted = false;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_DELETE_COMMENT);
@@ -62,11 +60,9 @@ public class CommentDAO extends AbstractDAO {
             int i = statement.executeUpdate();
             if (i != 0) {
                 isDeleted = true;
-            } else {
-                isDeleted = false;
             }
         } catch (SQLException e) {
-            isDeleted = false;
+            LOG.warn("SQLException in deleteComment", e);
         } finally {
             closeStatement(statement);
         }

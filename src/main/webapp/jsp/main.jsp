@@ -32,7 +32,7 @@
     </div>
     <div class="row-fluid">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <h3><fmt:message key="main.lastTracks"/></h3>
+            <h3><fmt:message key="main.ordered.tracks"/></h3>
             <table class="table table-hover">
                 <thead>
                 <tr>

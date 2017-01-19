@@ -46,9 +46,7 @@ public class CommentDeleteCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         }catch (LogicException e){
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

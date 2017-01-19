@@ -2,7 +2,6 @@ package by.liudchyk.audiotracks.logic;
 
 import by.liudchyk.audiotracks.dao.OrderDAO;
 import by.liudchyk.audiotracks.dao.TrackDAO;
-import by.liudchyk.audiotracks.dao.UserDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.Comment;
@@ -10,12 +9,7 @@ import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.validator.Validator;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -27,13 +21,13 @@ public class TrackLogic {
     private final String DEFAULT_MSG = "message.error.track.add";
     private final double PERCENTS = 100.0;
 
-    public ArrayList<Track> findLastOrders() throws LogicException {
+    public ArrayList<Track> findMostOrdered() throws LogicException {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {
-            return (ArrayList<Track>) orderDAO.findLastOrders();
+            return (ArrayList<Track>) orderDAO.findMostOrdered();
         } catch (DAOException e) {
-            throw new LogicException("Can't find last orders", e);
+            throw new LogicException("Can't find most ordered", e);
         } finally {
             orderDAO.closeConnection(connection);
         }
@@ -189,7 +183,7 @@ public class TrackLogic {
 
     public String addTrack(String title, String artist, String genre, String price, String link, String length) throws LogicException {
         Validator validator = new Validator();
-        String msg = validator.isAddTrackValid(title,artist,genre,price,link,length);
+        String msg = validator.isAddTrackValid(title,artist,genre,price,length);
         if (!msg.isEmpty()) {
             return msg;
         }

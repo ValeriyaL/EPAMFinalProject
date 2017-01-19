@@ -33,9 +33,7 @@ public class GenreOrderCommand extends OrderCommand {
             requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
             page = ConfigurationManager.getProperty(TRACKS_AZ_PATH);
         } catch (LogicException e) {
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  */
 class InitDB {
     static final Logger LOG = LogManager.getLogger();
-    final ResourceBundle RESOURSE;
+    final ResourceBundle RESOURCE;
     final String DATABASE;
     final String DB_LOGIN;
     final int POOL_SIZE;
@@ -19,11 +19,11 @@ class InitDB {
 
      InitDB() {
         try {
-            RESOURSE = ResourceBundle.getBundle("properties.database");
-            DATABASE = RESOURSE.getString("db.url");
-            DB_LOGIN = RESOURSE.getString("db.user");
-            POOL_SIZE = Integer.valueOf(RESOURSE.getString("db.poolsize"));
-            DB_PASSWORD = RESOURSE.getString("db.password");
+            RESOURCE = ResourceBundle.getBundle("properties.database");
+            DATABASE = RESOURCE.getString("db.url");
+            DB_LOGIN = RESOURCE.getString("db.user");
+            POOL_SIZE = Integer.valueOf(RESOURCE.getString("db.poolsize"));
+            DB_PASSWORD = RESOURCE.getString("db.password");
         } catch (NumberFormatException | MissingResourceException e) {
             LOG.fatal("Can't init database", e);
             throw new RuntimeException("Can't init database", e);

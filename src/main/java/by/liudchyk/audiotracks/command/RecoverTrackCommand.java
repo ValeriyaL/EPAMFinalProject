@@ -25,9 +25,7 @@ public class RecoverTrackCommand extends ActionCommand {
             requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
             page = ConfigurationManager.getProperty(MESSAGE_PATH);
         }catch (LogicException e){
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

@@ -30,9 +30,7 @@ public class TrackInfoCommand extends ActionCommand {
             requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
             page = ConfigurationManager.getProperty(PAGE_TRACK_PATH);
         }catch (LogicException e){
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

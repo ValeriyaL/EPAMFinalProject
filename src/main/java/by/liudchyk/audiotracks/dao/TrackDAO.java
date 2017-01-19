@@ -16,7 +16,6 @@ import java.util.List;
  * Created by Admin on 01.01.2017.
  */
 public class TrackDAO extends AbstractDAO {
-    private final String MUSIC_PATH = "D:\\music\\";
     private static final String SQL_SELECT_ALL_IN_ORDER = "SELECT tracks.id, tracks.title, genres.name AS genre, tracks.artists, tracks.price, tracks.length\n" +
             "FROM tracks\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
@@ -148,7 +147,7 @@ public class TrackDAO extends AbstractDAO {
     }
 
     public boolean changeTrackPriceById(double newPrice, int trackId) throws DAOException {
-        boolean isAdded;
+        boolean isAdded = false;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_CHANGE_PRICE);
@@ -157,12 +156,9 @@ public class TrackDAO extends AbstractDAO {
             int i = statement.executeUpdate();
             if (i != 0) {
                 isAdded = true;
-            } else {
-                isAdded = false;
             }
         } catch (SQLException e) {
-            // throw new DAOException(e);
-            isAdded = false;
+            LOG.warn("SQLException in changeTrackPriceById", e);
         } finally {
             closeStatement(statement);
         }
@@ -236,9 +232,9 @@ public class TrackDAO extends AbstractDAO {
     }
 
     public boolean addTrack(String title, String artist, int genreId, String price, String link, String length) {
-        boolean isAdded;
+        boolean isAdded = false;
         PreparedStatement statement = null;
-        String realLink = MUSIC_PATH + link;
+        String realLink = link;
         try {
             if (genreId != 0) {
                 statement = connection.prepareStatement(SQL_ADD_TRACK);
@@ -259,7 +255,7 @@ public class TrackDAO extends AbstractDAO {
             statement.executeUpdate();
             isAdded = true;
         } catch (SQLException e) {
-            isAdded = false;
+            LOG.warn("SQLException in addTrack", e);
         } finally {
             closeStatement(statement);
         }

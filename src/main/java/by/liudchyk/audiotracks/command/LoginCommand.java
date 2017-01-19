@@ -18,6 +18,7 @@ public class LoginCommand extends ActionCommand {
     private final String MESSAGE = "message.error.login";
     private final String IS_LOGIN_ATTRIBUTE = "isLogin";
     private final String ROLE_ATTRIBUTE = "role";
+    private final String ADMIN = "Admin";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -28,12 +29,12 @@ public class LoginCommand extends ActionCommand {
         try {
             if (loginLogic.checkLogin(name, password)) {
                 page = ConfigurationManager.getProperty(PATH);
-                requestContent.setSessionAttribute(IS_LOGIN_ATTRIBUTE, "true");
+                requestContent.setSessionAttribute(IS_LOGIN_ATTRIBUTE, TRUE);
                 UserLogic userLogic = new UserLogic();
                 User user = userLogic.findUserByLogin(name);
                 requestContent.setSessionAttribute(USER_ATTRIBUTE, user);
                 if(user.getStatus()==0) {
-                    requestContent.setSessionAttribute(ROLE_ATTRIBUTE, "Admin");
+                    requestContent.setSessionAttribute(ROLE_ATTRIBUTE, ADMIN);
                 }
             } else {
                 requestContent.setAttribute(NAME_PARAM, name);
@@ -43,9 +44,7 @@ public class LoginCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

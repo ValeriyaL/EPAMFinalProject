@@ -1,7 +1,11 @@
 package by.liudchyk.audiotracks.command;
 
 import by.liudchyk.audiotracks.entity.Track;
+import by.liudchyk.audiotracks.entity.User;
+import by.liudchyk.audiotracks.exception.LogicException;
+import by.liudchyk.audiotracks.logic.OrderLogic;
 import by.liudchyk.audiotracks.logic.TrackLogic;
+import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 import java.util.ArrayList;
@@ -21,8 +25,9 @@ public abstract class OrderCommand extends ActionCommand{
     final String TRACKS_ON_PAGES_ATTR = "tracksPaged";
     final String NUMBER_OF_PAGES_ATTR = "numOfPages";
     final String COMM_PARAMETER = "comm";
+    final String ORDERS_PATH = "path.page.orders";
 
-    ArrayList<Track> paginationTracks(SessionRequestContent requestContent, ArrayList<Track> tracks, TrackLogic trackLogic, Map<Integer, ArrayList<Track>> all) {
+    public ArrayList<Track> paginationTracks(SessionRequestContent requestContent, ArrayList<Track> tracks, TrackLogic trackLogic, Map<Integer, ArrayList<Track>> all) {
         HashMap<Integer, ArrayList<Track>> tracksMap;
         if (!all.isEmpty()) {
             tracksMap = (HashMap<Integer, ArrayList<Track>>) trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
@@ -37,4 +42,25 @@ public abstract class OrderCommand extends ActionCommand{
         }
         return tracks;
     }
+    public String tracksInOrder(SessionRequestContent requestContent){
+        String page;
+        ArrayList<Track> tracks;
+        TrackLogic trackLogic = new TrackLogic();
+        OrderLogic orderLogic = new OrderLogic();
+        try {
+            User user = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+            tracks = orderLogic.findAllUserOrders(user);
+            Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
+            requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
+            tracks = paginationTracks(requestContent, tracks, trackLogic, all);
+            requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
+            requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
+            requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
+            page = ConfigurationManager.getProperty(ORDERS_PATH);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent,e);
+        }
+        return page;
+    }
+
 }

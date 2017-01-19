@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
  */
 public class Validator {
     private static final Logger LOG = LogManager.getLogger();
-    private final String MUSIC_PATH = "D:\\music\\";
     private final String EMAIL_REGEXP = ".+@[a-z]{2,6}\\.[a-z]{2,4}";
     private final String LOGIN_MSG = "message.lengthLogin";
     private final String PASSWORD_MSG = "message.lengthPass";
@@ -44,9 +43,26 @@ public class Validator {
     private final String GENRE_LENGTH_MSG = "message.error.genre.length";
     private final String LINK_LENGTH_MSG = "message.error.link.length";
     private final String LINK_MSG = "message.error.link.exist";
+    private final String EMPTY_STRING = "";
+    private final int ZERO_LENGTH = 0;
+    private final int MAX_LINK_LENGTH = 300;
+    private final int MAX_TRACK_LENGTH = 1000;
+    private final int MAX_GENRE_LENGTH = 45;
+    private final int MIN_MONEY_LENGTH = 1;
+    private final int MAX_MONEY_LENGTH = 4;
+    private final int MAX_PRICE_LENGTH = 2;
+    private final int MIN_LOGIN_LENGTH = 3;
+    private final int MAX_LOGIN_LENGTH = 15;
+    private final int MAX_TITLE_LENGTH = 200;
+    private final int MIN_PASSWORD_LENGTH = 4;
+    private final int MAX_PASSWORD_LENGTH = 20;
+    private final int MIN_CARD_LENGTH = 13;
+    private final int MAX_CARD_LENGTH = 18;
+    private final int MAX_COMMENT_LENGTH = 65_535;
+    private final int MAX_BONUS_LENGTH = 100;
+
 
     public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException {
-        String res = "";
         if (!isLoginLengthValid(name)) {
             return LOGIN_MSG;
         }
@@ -68,16 +84,15 @@ public class Validator {
         if (!isEmailUnique(email)) {
             return EMAIL_UNIQUE_MSG;
         }
-        if(!card.isEmpty()) {
+        if (!card.isEmpty()) {
             if (!isCardUnique(card)) {
                 return CARD_UNIQUE_MSG;
             }
         }
-        return res;
+        return EMPTY_STRING;
     }
 
-    public String isAddTrackValid(String title,String artist,String genre,String price,String link,String length) throws LogicException{
-        String res = "";
+    public String isAddTrackValid(String title, String artist, String genre, String price, String length) throws LogicException {
         if (!isTitleLengthValid(title)) {
             return TITLE_MSG;
         }
@@ -90,10 +105,10 @@ public class Validator {
         if (!isLengthValid(length)) {
             return LENGTH_MSG;
         }
-        if (!isGenreLengthValid(genre)){
+        if (!isGenreLengthValid(genre)) {
             return GENRE_LENGTH_MSG;
         }
-        if (genre.length()>0){
+        if (genre.length() > ZERO_LENGTH) {
             ConnectionPool pool = ConnectionPool.getInstance();
             ProxyConnection connection = pool.getConnection();
             TrackDAO trackDAO = new TrackDAO(connection);
@@ -105,70 +120,56 @@ public class Validator {
                 trackDAO.closeConnection(connection);
             }
         }
-        if(!isLinkLengthValid(link)){
-            return LINK_LENGTH_MSG;
-        }
-        if(!isLinkValid(link)){
-            return LINK_MSG;
-        }
-        return res;
+        return EMPTY_STRING;
     }
 
-    public boolean isLinkValid(String link){
-        File file = new File(MUSIC_PATH+link);
-        return file.exists() && file.isFile();
+    public boolean isLinkLengthValid(String link) {
+        return link.length() > ZERO_LENGTH && link.length() < MAX_LINK_LENGTH;
     }
 
-    public boolean isLinkLengthValid(String link){
-        return link.length()>0 && link.length()<300;
-    }
-
-    public boolean isLengthValid(String length){
-        try{
+    public boolean isLengthValid(String length) {
+        try {
             int len = Integer.valueOf(length);
-            return  len > 0 && len <1000;
-        }catch (NumberFormatException e){
+            return len > ZERO_LENGTH && len < MAX_TRACK_LENGTH;
+        } catch (NumberFormatException e) {
             return false;
         }
     }
 
-    public boolean isGenreLengthValid(String genre){
-        return genre.length()<45;
+    public boolean isGenreLengthValid(String genre) {
+        return genre.length() < MAX_GENRE_LENGTH;
     }
 
     public String isEmailChangeValid(String newEmail) throws LogicException {
-        String res = "";
         if (!isEmailValid(newEmail)) {
             return EMAIL_MSG;
         }
         if (!isEmailUnique(newEmail)) {
             return EMAIL_UNIQUE_MSG;
         }
-        return res;
+        return EMPTY_STRING;
     }
 
     public String isLoginChangeValid(String newLogin) throws LogicException {
-        String res = "";
         if (!isLoginLengthValid(newLogin)) {
             return LOGIN_MSG;
         }
         if (!isLoginUnique(newLogin)) {
             return LOGIN_UNIQUE_MSG;
         }
-        return res;
+        return EMPTY_STRING;
     }
 
     public String isCardChangeValid(String newCard) throws LogicException {
-        String res = "";
         if (!isCardValid(newCard)) {
             return CARD_MSG;
         }
-        if(!newCard.isEmpty()) {
+        if (!newCard.isEmpty()) {
             if (!isCardUnique(newCard)) {
                 return CARD_UNIQUE_MSG;
             }
         }
-        return res;
+        return EMPTY_STRING;
     }
 
     public String isPasswordChangeValid(String oldPass, String newPass, String newPassConf, int id) throws LogicException {
@@ -186,38 +187,37 @@ public class Validator {
     }
 
     public String isMoneyChangeValid(Double money, String card) {
-        if(card == null || card.isEmpty()){
+        if (card == null || card.isEmpty()) {
             return CARD_IS_EMPTY_MSG;
         }
-        String res = "";
-        if (String.valueOf(money).length() < 1 && String.valueOf(money).length() > 4) {
+        if (String.valueOf(money).length() < MIN_MONEY_LENGTH && String.valueOf(money).length() > MAX_MONEY_LENGTH) {
             return INCORRECT_MONEY_MSG;
         }
-        return res;
+        return EMPTY_STRING;
     }
 
-    public String isPriceChangeValid(String price){
+    public String isPriceChangeValid(String price) {
         try {
             Double newPrice = Double.valueOf(price);
-            if(String.valueOf(newPrice.intValue()).length() > 2){
+            if (String.valueOf(newPrice.intValue()).length() > MAX_PRICE_LENGTH) {
                 return INCORRECT_PRICE_LENGTH;
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return INCORRECT_PRICE_MSG;
         }
-        return "";
+        return EMPTY_STRING;
     }
 
     public boolean isLoginLengthValid(String login) {
-        return login.length() > 3 && login.length() < 15;
+        return login.length() > MIN_LOGIN_LENGTH && login.length() < MAX_LOGIN_LENGTH;
     }
 
     public boolean isTitleLengthValid(String title) {
-        return title.length() > 0 && title.length() < 200;
+        return title.length() > ZERO_LENGTH && title.length() < MAX_TITLE_LENGTH;
     }
 
     public boolean isPasswordLengthValid(String password) {
-        return password.length() > 4 && password.length() < 20;
+        return password.length() > MIN_PASSWORD_LENGTH && password.length() < MAX_PASSWORD_LENGTH;
     }
 
     public boolean isEmailValid(String email) {
@@ -231,13 +231,14 @@ public class Validator {
     }
 
     public boolean isCardValid(String card) {
-        if(card.isEmpty()){
+        if (card.isEmpty()) {
             return true;
         }
-        if (card.length() >= 13 && card.length() <= 18) {
-            try{
+        if (card.length() >= MIN_CARD_LENGTH && card.length() <= MAX_CARD_LENGTH) {
+            try {
                 Long.valueOf(card);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
+                LOG.warn("NumberFormatException in isCardValid", e);
                 return false;
             }
             return true;
@@ -264,11 +265,7 @@ public class Validator {
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if (userDAO.findUserByEmail(email) == null) {
-                return true;
-            } else {
-                return false;
-            }
+            return userDAO.findUserByEmail(email) == null;
         } catch (DAOException e) {
             throw new LogicException(e);
         } finally {
@@ -282,11 +279,7 @@ public class Validator {
         UserDAO userDAO = new UserDAO(connection);
         String md5Password = DigestUtils.md5Hex(password);
         try {
-            if (md5Password.equals(userDAO.findPasswordById(id))) {
-                return true;
-            } else {
-                return false;
-            }
+            return md5Password.equals(userDAO.findPasswordById(id));
         } catch (DAOException e) {
             throw new LogicException(e);
         } finally {
@@ -299,11 +292,7 @@ public class Validator {
         ProxyConnection connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            if (userDAO.findUserByCard(card) == null) {
-                return true;
-            } else {
-                return false;
-            }
+            return  userDAO.findUserByCard(card) == null;
         } catch (DAOException e) {
             throw new LogicException(e);
         } finally {
@@ -311,21 +300,17 @@ public class Validator {
         }
     }
 
-    public String isCommentValid(String text){
-        if(text.length()>0 && text.length()<= 65535){
-            return "";
-        }else{
-            return COMMENT_LENGTH_MSG;
-        }
+    public String isCommentValid(String text) {
+        return text.length() > ZERO_LENGTH && text.length() <= MAX_COMMENT_LENGTH? EMPTY_STRING:COMMENT_LENGTH_MSG;
     }
 
-    public boolean isBonusValid(String bonus){
+    public boolean isBonusValid(String bonus) {
         int bon;
-        try{
+        try {
             bon = Integer.valueOf(bonus);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
-        return bon>=0 && bon<=100;
+        return bon >= ZERO_LENGTH && bon <= MAX_BONUS_LENGTH;
     }
 }

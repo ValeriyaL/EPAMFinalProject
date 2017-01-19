@@ -18,6 +18,8 @@ public class AddTrackCommand extends ActionCommand {
     private final String LINK_PARAM = "link";
     private final String MESSAGE = "message.success.add";
     private final String MESSAGE_PATH = "path.page.message";
+    private final String DATA_PATH = "D:\\Apache Software Foundation\\Tomcat 8.0\\tracks\\";
+    private final String ITEM_ATTRIBUTE = "item";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
@@ -27,7 +29,7 @@ public class AddTrackCommand extends ActionCommand {
         String artist = requestContent.getParameter(ARTIST_PARAM);
         String genre = requestContent.getParameter(GENRE_PARAM);
         String price = requestContent.getParameter(PRICE_PARAM);
-        String link = requestContent.getParameter(LINK_PARAM);
+        String link = DATA_PATH+requestContent.getAttribute(ITEM_ATTRIBUTE);
         String length  = requestContent.getParameter(LENGTH_PARAM);
         try {
             String msgPath = trackLogic.addTrack(title,artist,genre,price,link,length);
@@ -47,9 +49,7 @@ public class AddTrackCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

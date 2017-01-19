@@ -25,7 +25,7 @@ public class CommentAddCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String path;
+        String page;
         User tempUser = (User)requestContent.getSessionAttribute(USER_ATTRIBUTE);
         Track tempTrack = (Track)requestContent.getSessionAttribute(TRACK_ATTRIBUTE);
         String text = requestContent.getParameter(COMMENT_TEXT_ATTRIBUTE);
@@ -39,17 +39,15 @@ public class CommentAddCommand extends ActionCommand {
             if (errCom.isEmpty()) {
                 ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
                 requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
-                path = ConfigurationManager.getProperty(PATH_TRACK);
+                page = ConfigurationManager.getProperty(PATH_TRACK);
             } else {
                 String message = MessageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-                path = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+                page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         }catch (LogicException e){
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            path = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
-        return path;
+        return page;
     }
 }

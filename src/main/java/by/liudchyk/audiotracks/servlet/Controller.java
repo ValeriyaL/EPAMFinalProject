@@ -5,6 +5,7 @@ import by.liudchyk.audiotracks.command.ActionFactory;
 import by.liudchyk.audiotracks.command.CommandType;
 import by.liudchyk.audiotracks.command.DownloadCommand;
 import by.liudchyk.audiotracks.database.ConnectionPool;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet implements ServletContextListener {
@@ -44,45 +47,23 @@ public class Controller extends HttpServlet implements ServletContextListener {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String page;
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        Map<String, String[]> requestParameters = new HashMap<>();
+        if (isMultipart) {
+            ServerFileCreator fileCreator = new ServerFileCreator();
+            requestParameters = fileCreator.createServerFile(request);
+        }
         SessionRequestContent sessionRequestContent = new SessionRequestContent();
         sessionRequestContent.extractValues(request);
+        if (isMultipart) {
+            sessionRequestContent.setRequestParameters(requestParameters);
+        }
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(sessionRequestContent);
         if(command instanceof DownloadCommand){
-            // reads input file from an absolute path
             String filePath = command.execute(sessionRequestContent);
-            File downloadFile = new File(filePath);
-            FileInputStream inStream = new FileInputStream(downloadFile);
-
-            // obtains ServletContext
-            ServletContext context = getServletContext();
-
-            // gets MIME type of the file
-            String mimeType = context.getMimeType(filePath);
-            if (mimeType == null) {
-                // set to binary type if MIME mapping not found
-                mimeType = "application/octet-stream";
-            }
-            // modifies response
-            response.setContentType(mimeType);
-            response.setContentLength((int) downloadFile.length());
-
-            // forces download
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
-            response.setHeader(headerKey, headerValue);
-
-            // obtains response's output stream
-            OutputStream outStream = response.getOutputStream();
-
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
-
-            while ((bytesRead = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
-            }
-            inStream.close();
-            outStream.close();
+            Downloader downloader = new Downloader();
+            downloader.downloadTrack(filePath,response, getServletContext());
         }else {
             page = command.execute(sessionRequestContent);
             sessionRequestContent.insertAttributes(request);

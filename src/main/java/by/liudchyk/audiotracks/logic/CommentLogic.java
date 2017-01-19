@@ -16,7 +16,7 @@ import java.util.Date;
 public class CommentLogic {
     private final String ERROR_ADD_MESSAGE = "message.error.comment.add";
 
-    public String addComment(Date date,String text,int userId,int trackId){
+    public String addComment(Date date, String text, int userId, int trackId) {
         Validator validator = new Validator();
         String msg = validator.isCommentValid(text);
         if (!msg.isEmpty()) {
@@ -25,17 +25,13 @@ public class CommentLogic {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         CommentDAO commentDAO = new CommentDAO(connection);
         try {
-            if (commentDAO.addComment(date,text,userId,trackId)) {
-                return "";
-            } else {
-                return ERROR_ADD_MESSAGE;
-            }
+            return commentDAO.addComment(date, text, userId, trackId) ? "" : ERROR_ADD_MESSAGE;
         } finally {
-           commentDAO.closeConnection(connection);
+            commentDAO.closeConnection(connection);
         }
     }
 
-    public boolean deleteComment(int userId, int trackId, String date){
+    public boolean deleteComment(int userId, int trackId, String date) {
         ProxyConnection connection = ConnectionPool.getInstance().getConnection();
         CommentDAO commentDAO = new CommentDAO(connection);
         try {

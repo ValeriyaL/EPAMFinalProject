@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by Admin on 10.01.2017.
  */
-public class BuyTrackCommand extends ActionCommand {
+public class BuyTrackCommand extends OrderCommand {
     private final String ORDERED_MESSAGE = "message.success.order.track";
     private final String TRACK_ID_ATTRIBUTE = "trackId";
     private final String BONUS_PRICE_ATTRIBUTE = "bonusPrice";
@@ -40,17 +40,14 @@ public class BuyTrackCommand extends ActionCommand {
                 requestContent.setSessionAttribute(USER_ATTRIBUTE,user);
                 String message = MessageManager.getProperty(ORDERED_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                OrdersCommand ordersCommand = new OrdersCommand();
-                page = ordersCommand.execute(requestContent);
+                page = tracksInOrder(requestContent);
             } else {
                 String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         }catch (LogicException e ){
-            LOG.error(e);
-            requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
-            page = ConfigurationManager.getProperty(ERROR_PATH);
+            page = redirectToErrorPage(requestContent,e);
         }
         return page;
     }

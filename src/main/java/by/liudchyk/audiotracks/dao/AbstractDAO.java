@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractDAO<T extends Entity> {
-    private static final Logger LOG = LogManager.getLogger();
-    protected ProxyConnection connection;
+    static final Logger LOG = LogManager.getLogger();
+    ProxyConnection connection;
 
     public AbstractDAO(ProxyConnection connection) {
         this.connection = connection;
@@ -37,7 +37,7 @@ public abstract class AbstractDAO<T extends Entity> {
         }
     }
 
-    public void closeConnection(ProxyConnection connection){
+    public void closeConnection(ProxyConnection connection) {
         try {
             connection.close();
         } catch (SQLException e) {
@@ -45,17 +45,21 @@ public abstract class AbstractDAO<T extends Entity> {
         }
     }
 
-    public List<Track> takeTracks(ResultSet set) throws SQLException {
+    public List<Track> takeTracks(ResultSet set) throws DAOException {
         List<Track> tracks;
         tracks = new ArrayList<>();
-        while (set.next()) {
-            int id = set.getInt(1);
-            String title = set.getString(2);
-            String genre = set.getString(3);
-            String artist = set.getString(4);
-            double price = set.getDouble(5);
-            int length = set.getInt(6);
-            tracks.add(new Track(id, title, genre, price, length, artist));
+        try {
+            while (set.next()) {
+                int id = set.getInt(1);
+                String title = set.getString(2);
+                String genre = set.getString(3);
+                String artist = set.getString(4);
+                double price = set.getDouble(5);
+                int length = set.getInt(6);
+                tracks.add(new Track(id, title, genre, price, length, artist));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
         }
         return tracks;
     }
