@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +38,8 @@ public class ServerFileCreator {
         while (iter.hasNext()) {
             FileItem item = (FileItem) iter.next();
             if (item.isFormField()) {
-                requestParameters.put(item.getFieldName(), new String[]{item.getString()});
+                String value = item.getString();
+                requestParameters.put(item.getFieldName(), new String[]{value});
             }else{
                 byte[] data = item.get();
                 FileOutputStream fos;

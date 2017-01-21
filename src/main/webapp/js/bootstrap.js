@@ -237,7 +237,7 @@ if (typeof jQuery === 'undefined') {
         this.$element.toggleClass('active')
       }
       $input.prop('checked', this.$element.hasClass('active'))
-      if (changed) $input.trigger('change')
+      if (changed) $input.trigger('account')
     } else {
       this.$element.attr('aria-pressed', !this.$element.hasClass('active'))
       this.$element.toggleClass('active')

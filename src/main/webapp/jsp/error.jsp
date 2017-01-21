@@ -24,7 +24,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.error" scope="session"/>
-<%@ include file="menu.jsp" %>
+<%@ include file="common/menu.jsp" %>
 <img class="oops col-lg-4 col-lg-offset-4" src="../images/oops.png">
 <div class="form col-lg-4 col-lg-offset-4">
     <div class="row">

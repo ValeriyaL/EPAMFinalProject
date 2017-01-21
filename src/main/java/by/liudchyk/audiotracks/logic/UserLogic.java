@@ -6,14 +6,9 @@ import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
-import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 import by.liudchyk.audiotracks.validator.Validator;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.jws.soap.SOAPBinding;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -39,7 +34,7 @@ public class UserLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Pass = DigestUtils.md5Hex(password);
         try {
@@ -57,12 +52,12 @@ public class UserLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.changeEmailById(newEmail, id) ? SUCCESS_MESSAGE : ERROR_MESSAGE;
         } catch (DAOException e) {
-            throw new LogicException("Can't change user email", e);
+            throw new LogicException("Can't account user email", e);
         } finally {
             userDAO.closeConnection(connection);
         }
@@ -74,12 +69,12 @@ public class UserLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.changeLoginById(newLogin, id) ? SUCCESS_LOGIN_MESSAGE : ERROR_LOGIN_MESSAGE;
         } catch (DAOException e) {
-            throw new LogicException("Can't change user logic", e);
+            throw new LogicException("Can't account user logic", e);
         } finally {
             userDAO.closeConnection(connection);
         }
@@ -91,13 +86,13 @@ public class UserLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Password = DigestUtils.md5Hex(newPassword);
         try {
             return userDAO.changePasswordById(md5Password, id) ? SUCCESS_PASSWORD_MESSAGE : ERROR_PASSWORD_MESSAGE;
         } catch (DAOException e) {
-            throw new LogicException("Can't change user password", e);
+            throw new LogicException("Can't account user password", e);
         } finally {
             userDAO.closeConnection(connection);
         }
@@ -109,12 +104,12 @@ public class UserLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.changeCardById(newCard, id) ? SUCCESS_CARD_MESSAGE : ERROR_CARD_MESSAGE;
         } catch (DAOException e) {
-            throw new LogicException("Can't change user card", e);
+            throw new LogicException("Can't account user card", e);
         } finally {
             userDAO.closeConnection(connection);
         }
@@ -126,19 +121,19 @@ public class UserLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.changeMoneyById(money, id) ? SUCCESS_MONEY_MESSAGE : ERROR_MONEY_MESSAGE;
         } catch (DAOException e) {
-            throw new LogicException("Can't change user money", e);
+            throw new LogicException("Can't account user money", e);
         } finally {
             userDAO.closeConnection(connection);
         }
     }
 
     public User findUserByLogin(String login) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findUser(login);
@@ -150,7 +145,7 @@ public class UserLogic {
     }
 
     public int findNumberOfCommentsById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.commentsNumberById(id);
@@ -166,19 +161,19 @@ public class UserLogic {
         if (!validator.isBonusValid(bonus)) {
             return -1;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.changeBonusByNickname(nickname, bonus);
         } catch (DAOException e) {
-            throw new LogicException("Can't change bonus by nickname", e);
+            throw new LogicException("Can't account bonus by nickname", e);
         } finally {
             userDAO.closeConnection(connection);
         }
     }
 
     public int findBonusById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findBonusById(id);
@@ -190,7 +185,7 @@ public class UserLogic {
     }
 
     public double findMoneyById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findMoneyById(id);
@@ -202,7 +197,7 @@ public class UserLogic {
     }
 
     public ArrayList<User> findAllUsers() throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findAllUsers();

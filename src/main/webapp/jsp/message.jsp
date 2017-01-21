@@ -23,7 +23,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.message" scope="session"/>
-<%@ include file="menu.jsp" %>
+<%@ include file="common/menu.jsp" %>
 <div class="col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3" style="margin-top: 50px">
     <div class="alert alert-success">
         <span class="glyphicon glyphicon-ok"></span> <strong><fmt:message key="message.success"/></strong>

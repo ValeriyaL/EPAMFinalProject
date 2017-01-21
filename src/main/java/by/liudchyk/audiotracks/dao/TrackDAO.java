@@ -41,6 +41,10 @@ public class TrackDAO extends AbstractDAO {
             "WHERE visible=0";
     private static final String SQL_RECOVER_TRACK = "UPDATE tracks SET visible=1 WHERE id=?";
     private static final String SQL_CHANGE_PRICE = "UPDATE tracks SET price=? WHERE id=?";
+    private static final String SQL_CHANGE_LENGTH = "UPDATE tracks SET length=? WHERE id=?";
+    private static final String SQL_CHANGE_TITLE = "UPDATE tracks SET title=? WHERE id=?";
+    private static final String SQL_CHANGE_ARTIST = "UPDATE tracks SET artists=? WHERE id=?";
+    private static final String SQL_CHANGE_GENRE = "UPDATE tracks SET genre_id=? WHERE id=?";
     private static final String SQL_SELECT_PATH_BY_ID = "SELECT tracks.link FROM tracks WHERE id=?";
     private static final String SQL_SELECT_GENRE_ID = "SELECT genres.id FROM genres WHERE genres.name=?;";
     private static final String SQL_ADD_GENRE = "INSERT INTO genres(name) VALUES(?);";
@@ -165,6 +169,86 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
+    public boolean changeTrackLengthById(int length,int trackId) throws DAOException{
+        boolean isAdded = false;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_LENGTH);
+            statement.setString(2, Integer.toString(trackId));
+            statement.setDouble(1, length);
+            int i = statement.executeUpdate();
+            if (i != 0) {
+                isAdded = true;
+            }
+        } catch (SQLException e) {
+            LOG.warn("SQLException in changeTrackLengthById", e);
+        } finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public boolean changeTrackTitleById(String newTitle,int trackId) throws DAOException{
+        boolean isAdded = false;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_TITLE);
+            statement.setString(2, Integer.toString(trackId));
+            statement.setString(1, newTitle);
+            int i = statement.executeUpdate();
+            if (i != 0) {
+                isAdded = true;
+            }
+        } catch (SQLException e) {
+            LOG.warn("SQLException in changeTrackTitleById", e);
+        } finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public boolean changeTrackArtistById(String newArtist,int trackId) throws DAOException{
+        boolean isAdded = false;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_ARTIST);
+            statement.setString(1, newArtist);
+            statement.setString(2, Integer.toString(trackId));
+            int i = statement.executeUpdate();
+            if (i != 0) {
+                isAdded = true;
+            }
+        } catch (SQLException e) {
+            LOG.warn("SQLException in changeTrackArtistById", e);
+        } finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
+    public boolean changeTrackGenreById(int genreId, int trackId) throws DAOException{
+        boolean isAdded = false;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_GENRE);
+            if(genreId!=0) {
+                statement.setString(1, Integer.toString(genreId));
+            }else {
+                statement.setString(1, null);
+            }
+            statement.setString(2, Integer.toString(trackId));
+            int i = statement.executeUpdate();
+            if (i != 0) {
+                isAdded = true;
+            }
+        } catch (SQLException e) {
+            LOG.warn("SQLException in changeTrackGenreById", e);
+        } finally {
+            closeStatement(statement);
+        }
+        return isAdded;
+    }
+
     public List<Track> findAllDeletedTracks() throws DAOException {
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;
@@ -234,7 +318,6 @@ public class TrackDAO extends AbstractDAO {
     public boolean addTrack(String title, String artist, int genreId, String price, String link, String length) {
         boolean isAdded = false;
         PreparedStatement statement = null;
-        String realLink = link;
         try {
             if (genreId != 0) {
                 statement = connection.prepareStatement(SQL_ADD_TRACK);
@@ -243,14 +326,14 @@ public class TrackDAO extends AbstractDAO {
                 statement.setString(3, Integer.toString(genreId));
                 statement.setString(4, price);
                 statement.setString(5, length);
-                statement.setString(6, realLink);
+                statement.setString(6, link);
             } else {
                 statement = connection.prepareStatement(SQL_ADD_TRACK_WITHOUT_GENRE);
                 statement.setString(1, title);
                 statement.setString(2, artist);
                 statement.setString(3, price);
                 statement.setString(4, length);
-                statement.setString(5, realLink);
+                statement.setString(5, link);
             }
             statement.executeUpdate();
             isAdded = true;

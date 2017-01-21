@@ -16,14 +16,14 @@ import java.util.Map;
  * Created by Admin on 02.01.2017.
  */
 public abstract class OrderCommand extends ActionCommand{
-    final String TRACKS_ATTRIBUTE = "allTracks";
+    public final String TRACKS_ATTRIBUTE = "allTracks";
     final String TRACKS_AZ_PATH = "path.page.tracksAZ";
-    final int TRACKS_ON_PAGE = 5;
+    public final int TRACKS_ON_PAGE = 5;
     final String IS_PAGINATION = "isPagination";
-    final String NUM_PAGE_ATTRIBUTE = "pageNumber";
-    final int FIRST_PAGE = 1;
+    public final String NUM_PAGE_ATTRIBUTE = "pageNumber";
+    public final int FIRST_PAGE = 1;
     final String TRACKS_ON_PAGES_ATTR = "tracksPaged";
-    final String NUMBER_OF_PAGES_ATTR = "numOfPages";
+    public final String NUMBER_OF_PAGES_ATTR = "numOfPages";
     final String COMM_PARAMETER = "comm";
     final String ORDERS_PATH = "path.page.orders";
 
@@ -42,7 +42,8 @@ public abstract class OrderCommand extends ActionCommand{
         }
         return tracks;
     }
-    public String tracksInOrder(SessionRequestContent requestContent){
+
+    public String userTracks(SessionRequestContent requestContent){
         String page;
         ArrayList<Track> tracks;
         TrackLogic trackLogic = new TrackLogic();

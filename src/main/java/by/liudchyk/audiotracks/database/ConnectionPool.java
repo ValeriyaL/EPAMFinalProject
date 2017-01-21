@@ -28,19 +28,38 @@ public class ConnectionPool {
         this.connectionQueue = new ArrayBlockingQueue<>(init.POOL_SIZE);
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOG.fatal(e);
             throw new RuntimeException(e);
         }
         int size = init.POOL_SIZE;
         for (int i = 0; i < size; i++) {
-            try {
-                Connection connection = DriverManager.getConnection(init.DATABASE, init.DB_LOGIN, init.DB_PASSWORD);
-                ProxyConnection pc = new ProxyConnection(connection);
-                this.connectionQueue.put(pc);
-            } catch (SQLException | InterruptedException e) {
-                LOG.error("Connection wasn't add into connection queue",e);
+            addConnection();
+        }
+        checkNumberOfConnections();
+    }
+
+    private void addConnection() {
+        try {
+            Connection connection = DriverManager.getConnection(init.DATABASE, init.DB_LOGIN, init.DB_PASSWORD);
+            ProxyConnection pc = new ProxyConnection(connection);
+            this.connectionQueue.put(pc);
+        } catch (SQLException | InterruptedException e) {
+            LOG.error("Connection wasn't add into connection queue", e);
+        }
+    }
+
+    private void checkNumberOfConnections() {
+        if (connectionQueue.size() != init.POOL_SIZE) {
+            int number = init.POOL_SIZE - connectionQueue.size();
+            LOG.warn("Trying to recreate " + number + " connections");
+            for (int i = 0; i < number; i++) {
+                addConnection();
             }
+        }
+        if (connectionQueue.size() == 0) {
+            LOG.fatal("Can't add any connection into pull");
+            throw new RuntimeException();
         }
     }
 
@@ -59,7 +78,7 @@ public class ConnectionPool {
         return pool;
     }
 
-    public ProxyConnection getConnection() {
+    public ProxyConnection takeConnection() {
         ProxyConnection connection = null;
         try {
             connection = connectionQueue.take();

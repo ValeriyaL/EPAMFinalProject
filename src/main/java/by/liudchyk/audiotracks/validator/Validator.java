@@ -4,16 +4,12 @@ import by.liudchyk.audiotracks.dao.TrackDAO;
 import by.liudchyk.audiotracks.dao.UserDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
-import by.liudchyk.audiotracks.entity.Track;
-import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,11 +37,8 @@ public class Validator {
     private final String ARTIST_MSG = "message.error.artist";
     private final String LENGTH_MSG = "message.error.length";
     private final String GENRE_LENGTH_MSG = "message.error.genre.length";
-    private final String LINK_LENGTH_MSG = "message.error.link.length";
-    private final String LINK_MSG = "message.error.link.exist";
     private final String EMPTY_STRING = "";
     private final int ZERO_LENGTH = 0;
-    private final int MAX_LINK_LENGTH = 300;
     private final int MAX_TRACK_LENGTH = 1000;
     private final int MAX_GENRE_LENGTH = 45;
     private final int MIN_MONEY_LENGTH = 1;
@@ -109,22 +102,32 @@ public class Validator {
             return GENRE_LENGTH_MSG;
         }
         if (genre.length() > ZERO_LENGTH) {
-            ConnectionPool pool = ConnectionPool.getInstance();
-            ProxyConnection connection = pool.getConnection();
-            TrackDAO trackDAO = new TrackDAO(connection);
-            try {
-                trackDAO.addGenreIfNotExists(genre);
-            } catch (DAOException e) {
-                throw new LogicException(e);
-            } finally {
-                trackDAO.closeConnection(connection);
-            }
+            addGenreIfNotExists(genre);
         }
         return EMPTY_STRING;
     }
 
-    public boolean isLinkLengthValid(String link) {
-        return link.length() > ZERO_LENGTH && link.length() < MAX_LINK_LENGTH;
+    public String checkGenre(String genre) throws LogicException {
+        if (!isGenreLengthValid(genre)) {
+            return GENRE_LENGTH_MSG;
+        }
+        if (genre.length() > ZERO_LENGTH) {
+            addGenreIfNotExists(genre);
+        }
+        return EMPTY_STRING;
+    }
+
+    private void addGenreIfNotExists(String genre) throws LogicException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = pool.takeConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            trackDAO.addGenreIfNotExists(genre);
+        } catch (DAOException e) {
+            throw new LogicException(e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
     }
 
     public boolean isLengthValid(String length) {
@@ -173,7 +176,6 @@ public class Validator {
     }
 
     public String isPasswordChangeValid(String oldPass, String newPass, String newPassConf, int id) throws LogicException {
-        String res = "";
         if (!isPasswordCorrect(oldPass, id)) {
             return INCORRECT_PASSWORD_MSG;
         }
@@ -183,7 +185,7 @@ public class Validator {
         if (!isConfirmPasswordValid(newPass, newPassConf)) {
             return CONFIRM_MSG;
         }
-        return res;
+        return EMPTY_STRING;
     }
 
     public String isMoneyChangeValid(Double money, String card) {
@@ -191,6 +193,9 @@ public class Validator {
             return CARD_IS_EMPTY_MSG;
         }
         if (String.valueOf(money).length() < MIN_MONEY_LENGTH && String.valueOf(money).length() > MAX_MONEY_LENGTH) {
+            return INCORRECT_MONEY_MSG;
+        }
+        if(money<0){
             return INCORRECT_MONEY_MSG;
         }
         return EMPTY_STRING;
@@ -201,6 +206,9 @@ public class Validator {
             Double newPrice = Double.valueOf(price);
             if (String.valueOf(newPrice.intValue()).length() > MAX_PRICE_LENGTH) {
                 return INCORRECT_PRICE_LENGTH;
+            }
+            if(newPrice<0){
+                return INCORRECT_PRICE_MSG;
             }
         } catch (NumberFormatException e) {
             return INCORRECT_PRICE_MSG;
@@ -231,25 +239,23 @@ public class Validator {
     }
 
     public boolean isCardValid(String card) {
+        boolean res = false;
         if (card.isEmpty()) {
             return true;
         }
         if (card.length() >= MIN_CARD_LENGTH && card.length() <= MAX_CARD_LENGTH) {
             try {
-                Long.valueOf(card);
+                return Long.valueOf(card)>ZERO_LENGTH;
             } catch (NumberFormatException e) {
-                LOG.warn("NumberFormatException in isCardValid", e);
-                return false;
+                LOG.debug("NumberFormatException in isCardValid", e);
             }
-            return true;
-        } else {
-            return false;
         }
+        return res;
     }
 
     public boolean isLoginUnique(String login) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = pool.takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findUser(login) == null;
@@ -262,7 +268,7 @@ public class Validator {
 
     public boolean isEmailUnique(String email) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = pool.takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findUserByEmail(email) == null;
@@ -275,7 +281,7 @@ public class Validator {
 
     public boolean isPasswordCorrect(String password, int id) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = pool.takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Password = DigestUtils.md5Hex(password);
         try {
@@ -289,10 +295,10 @@ public class Validator {
 
     public boolean isCardUnique(String card) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        ProxyConnection connection = pool.takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
-            return  userDAO.findUserByCard(card) == null;
+            return userDAO.findUserByCard(card) == null;
         } catch (DAOException e) {
             throw new LogicException(e);
         } finally {
@@ -301,7 +307,7 @@ public class Validator {
     }
 
     public String isCommentValid(String text) {
-        return text.length() > ZERO_LENGTH && text.length() <= MAX_COMMENT_LENGTH? EMPTY_STRING:COMMENT_LENGTH_MSG;
+        return text.length() > ZERO_LENGTH && text.length() <= MAX_COMMENT_LENGTH ? EMPTY_STRING : COMMENT_LENGTH_MSG;
     }
 
     public boolean isBonusValid(String bonus) {

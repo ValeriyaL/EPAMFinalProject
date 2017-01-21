@@ -24,7 +24,10 @@
 </head>
 <body>
 <c:set var="page" value="path.page.track" scope="session"/>
-<%@ include file="menu.jsp" %>
+<%@ include file="common/menu.jsp" %>
+<c:if test="${not empty info}">
+    <div class="alert alert-success col-lg-4 col-lg-offset-4">${info}</div>
+</c:if>
 <div class="col-sm-10 col-sm-offset-1">
     <div class="container-fluid cont">
         <div class="content-wrapper">
@@ -36,12 +39,47 @@
                         </div>
                     </div>
                     <div class="col-md-7">
-                        <div class="product-title">${trackInfo.title}</div>
-                        <div class="product-desc">${trackInfo.artist}</div>
-                        <div class="product-stock">${trackinfo.genre}</div>
+                        <div class="product-title">${trackInfo.title}
+                            <ctg:adminTag role="${role}">
+                            <div class="btn-group wishlist">
+                                <a href="${pageContext.request.contextPath}/controller?command=account&change=title_change&trackId=${trackInfo.id}" class="btn btn-default btn-sm" style="margin: 2px"><span
+                                        class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+                            </ctg:adminTag>
+                        </div>
+                        <div class="product-desc">${trackInfo.artist}
+                            <ctg:adminTag role="${role}">
+                                <div class="btn-group wishlist">
+                                    <a href="${pageContext.request.contextPath}/controller?command=account&change=artist_change&trackId=${trackInfo.id}" class="btn btn-default btn-sm" style="margin: 2px"><span
+                                            class="glyphicon glyphicon-pencil"></span></a>
+                                </div>
+                            </ctg:adminTag>
+                        </div>
+                        <div class="product-stock">${trackInfo.genre}
+                            <ctg:adminTag role="${role}">
+                                <div class="btn-group wishlist">
+                                    <a href="${pageContext.request.contextPath}/controller?command=account&change=genre_change&trackId=${trackInfo.id}" class="btn btn-default btn-sm" style="margin: 2px"><span
+                                            class="glyphicon glyphicon-pencil"></span></a>
+                                </div>
+                            </ctg:adminTag>
+                        </div>
                         <hr>
-                        <div class="product-stock">${trackInfo.lengthTranslated}</div>
-                        <div class="product-price">${trackInfo.price} BYN</div>
+                        <div class="product-stock">${trackInfo.lengthTranslated}
+                            <ctg:adminTag role="${role}">
+                                <div class="btn-group wishlist">
+                                    <a href="${pageContext.request.contextPath}/controller?command=account&change=length_change&trackId=${trackInfo.id}" class="btn btn-default btn-sm" style="margin: 2px"><span
+                                            class="glyphicon glyphicon-pencil"></span></a>
+                                </div>
+                            </ctg:adminTag>
+                        </div>
+                        <div class="product-price">${trackInfo.price} BYN
+                            <ctg:adminTag role="${role}">
+                                <div class="btn-group wishlist">
+                                    <a href="${pageContext.request.contextPath}/controller?command=account&change=price_change&trackId=${trackInfo.id}" class="btn btn-default btn-sm" style="margin: 2px"><span
+                                            class="glyphicon glyphicon-pencil"></span></a>
+                                </div>
+                            </ctg:adminTag>
+                        </div>
                         <hr>
                         <div class="btn-group cart">
                             <ctg:notLogined>
@@ -56,13 +94,6 @@
                                         key="tracks.order.buy"/></a>
                             </ctg:isLogined>
                         </div>
-                        <ctg:adminTag role="${role}">
-                            <div class="btn-group wishlist">
-                                <a href="${pageContext.request.contextPath}/controller?command=account&change=price_change&trackId=${trackInfo.id}" class="btn btn-primary btn-sm" style="margin: 2px"><span
-                                        class="glyphicon glyphicon-pencil"></span> <fmt:message
-                                        key="tracks.order.change"/></a>
-                            </div>
-                        </ctg:adminTag>
                     </div>
                 </div>
             </div>
@@ -142,7 +173,7 @@
         </div>
     </div>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="common/footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

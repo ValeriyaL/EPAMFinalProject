@@ -1,11 +1,8 @@
 package by.liudchyk.audiotracks.logic;
 
 import by.liudchyk.audiotracks.dao.CommentDAO;
-import by.liudchyk.audiotracks.dao.UserDAO;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
-import by.liudchyk.audiotracks.exception.DAOException;
-import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.validator.Validator;
 
 import java.util.Date;
@@ -22,7 +19,7 @@ public class CommentLogic {
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         CommentDAO commentDAO = new CommentDAO(connection);
         try {
             return commentDAO.addComment(date, text, userId, trackId) ? "" : ERROR_ADD_MESSAGE;
@@ -32,7 +29,7 @@ public class CommentLogic {
     }
 
     public boolean deleteComment(int userId, int trackId, String date) {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         CommentDAO commentDAO = new CommentDAO(connection);
         try {
             return commentDAO.deleteComment(userId, trackId, date);

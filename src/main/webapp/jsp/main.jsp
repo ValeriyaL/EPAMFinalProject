@@ -23,7 +23,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.main" scope="session"/>
-<%@ include file="menu.jsp" %>
+<%@ include file="common/menu.jsp" %>
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-lg-12 col-md-12">
@@ -99,7 +99,7 @@
         </div>
     </div>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="common/footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

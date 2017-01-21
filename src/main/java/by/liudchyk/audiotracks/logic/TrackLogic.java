@@ -19,10 +19,16 @@ public class TrackLogic {
     private final String INCORRECT_PRICE_MSG = "message.error.price";
     private final String MESSAGE = "message.success.add";
     private final String DEFAULT_MSG = "message.error.track.add";
+    private final String LENGTH_MSG = "message.error.length";
+    private final String TITLE_LENGTH_MSG = "message.error.title";
+    private final String TITLE_MSG = "message.error.change.title";
+    private final String ARTIST_MSG = "message.error.artist";
+    private final String ARTIST_ERROR_MSG = "message.error.change.artist";
+    private final String GENRE_ERROR_MSG = "message.error.change.genre";
     private final double PERCENTS = 100.0;
 
     public ArrayList<Track> findMostOrdered() throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {
             return (ArrayList<Track>) orderDAO.findMostOrdered();
@@ -34,7 +40,7 @@ public class TrackLogic {
     }
 
     public ArrayList<Track> findAllTracksInOrder(String order) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO orderDAO = new TrackDAO(connection);
         try {
             return (ArrayList<Track>) orderDAO.findAllInOrder(order);
@@ -46,7 +52,7 @@ public class TrackLogic {
     }
 
     public ArrayList<Track> findTracksByGenre(String genre) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             return (ArrayList<Track>) trackDAO.findTracksByGenre(genre);
@@ -88,7 +94,7 @@ public class TrackLogic {
     }
 
     public ArrayList<Comment> findAllCommentsById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             return (ArrayList<Comment>) trackDAO.findCommentsByTrackId(id);
@@ -100,7 +106,7 @@ public class TrackLogic {
     }
 
     public Track findTrackById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             return trackDAO.findTrackById(id);
@@ -112,7 +118,7 @@ public class TrackLogic {
     }
 
     public void deleteTrackById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             trackDAO.deleteTrackById(id);
@@ -124,7 +130,7 @@ public class TrackLogic {
     }
 
     public void recoverTrackById(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             trackDAO.recoverTrackById(id);
@@ -136,7 +142,7 @@ public class TrackLogic {
     }
 
     public ArrayList<Track> findAllDeletedTracks() throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             return (ArrayList<Track>) trackDAO.findAllDeletedTracks();
@@ -154,23 +160,19 @@ public class TrackLogic {
             return msg;
         }
         Double price = Double.valueOf(newPrice);
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
-            if (trackDAO.changeTrackPriceById(price, trackId)) {
-                return "";
-            } else {
-                return INCORRECT_PRICE_MSG;
-            }
+            return trackDAO.changeTrackPriceById(price, trackId) ? "" : INCORRECT_PRICE_MSG;
         } catch (DAOException e) {
-            throw new LogicException("Can't change track price", e);
+            throw new LogicException("Can't account track price", e);
         } finally {
             trackDAO.closeConnection(connection);
         }
     }
 
     public String findPathByTrackId(int id) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             return trackDAO.findTrackPathById(id);
@@ -183,18 +185,18 @@ public class TrackLogic {
 
     public String addTrack(String title, String artist, String genre, String price, String link, String length) throws LogicException {
         Validator validator = new Validator();
-        String msg = validator.isAddTrackValid(title,artist,genre,price,length);
+        String msg = validator.isAddTrackValid(title, artist, genre, price, length);
         if (!msg.isEmpty()) {
             return msg;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
             int genreId = 0;
-            if(!genre.isEmpty()) {
-               genreId = trackDAO.findGenreIdByGenreName(genre);
+            if (!genre.isEmpty()) {
+                genreId = trackDAO.findGenreIdByGenreName(genre);
             }
-            if (trackDAO.addTrack(title,artist,genreId,price,link,length)) {
+            if (trackDAO.addTrack(title, artist, genreId, price, link, length)) {
                 return MESSAGE;
             } else {
                 return DEFAULT_MSG;
@@ -206,7 +208,74 @@ public class TrackLogic {
         }
     }
 
-    public double calculateBonusPrice(double price,int bonus){
-        return price-(price*bonus/PERCENTS);
+    public double calculateBonusPrice(double price, int bonus) {
+        return price - (price * bonus / PERCENTS);
+    }
+
+    public String changeTrackLength(String newLength, int trackId) throws LogicException {
+        Validator validator = new Validator();
+        if (!validator.isLengthValid(newLength)) {
+            return LENGTH_MSG;
+        }
+        int length = Integer.valueOf(newLength);
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return trackDAO.changeTrackLengthById(length, trackId) ? "" : INCORRECT_PRICE_MSG;
+        } catch (DAOException e) {
+            throw new LogicException("Can't account track length", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public String changeTrackTitle(String newTitle,int trackId) throws LogicException{
+        Validator validator = new Validator();
+        if(!validator.isTitleLengthValid(newTitle)){
+            return TITLE_LENGTH_MSG;
+        }
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return trackDAO.changeTrackTitleById(newTitle, trackId) ? "" : TITLE_MSG;
+        } catch (DAOException e) {
+            throw new LogicException("Can't account track title", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public String changeTrackArtist(String newArtist,int trackId) throws LogicException{
+        Validator validator = new Validator();
+        if(!validator.isTitleLengthValid(newArtist)){
+            return ARTIST_MSG;
+        }
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            return trackDAO.changeTrackArtistById(newArtist, trackId) ? "" : ARTIST_ERROR_MSG;
+        } catch (DAOException e) {
+            throw new LogicException("Can't account track artist", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
+    }
+
+    public String changeTrackGenre(String newGenre,int trackId) throws LogicException{
+        Validator validator = new Validator();
+        String msg;
+        if(!(msg=validator.checkGenre(newGenre)).isEmpty()){
+            return msg;
+        }
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
+        TrackDAO trackDAO = new TrackDAO(connection);
+        try {
+            int genreId = trackDAO.findGenreIdByGenreName(newGenre);
+            return trackDAO.changeTrackGenreById(genreId, trackId) ? "" : GENRE_ERROR_MSG;
+        } catch (DAOException e) {
+            throw new LogicException("Can't account track genre", e);
+        } finally {
+            trackDAO.closeConnection(connection);
+        }
     }
 }

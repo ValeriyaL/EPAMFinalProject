@@ -24,7 +24,7 @@
 </head>
 <body>
 <c:set var="page" value="path.page.login" scope="session"/>
-<%@ include file="menu.jsp" %>
+<%@ include file="common/menu.jsp" %>
 <c:if test="${not empty mistake}">
     <div class="alert alert-danger col-lg-4 col-lg-offset-4">${mistake}</div>
 </c:if>
@@ -58,7 +58,7 @@
         </div>
     </form>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="common/footer.jsp" %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

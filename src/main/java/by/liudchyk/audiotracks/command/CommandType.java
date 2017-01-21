@@ -1,5 +1,9 @@
 package by.liudchyk.audiotracks.command;
 
+import by.liudchyk.audiotracks.command.admin.*;
+import by.liudchyk.audiotracks.command.account.*;
+import by.liudchyk.audiotracks.command.client.*;
+
 /**
  * Created by Admin on 23.12.2016.
  */
@@ -158,6 +162,26 @@ public enum CommandType {
     ALL_USERS{
         {
             this.command = new AllUsersCommand();
+        }
+    },
+    LENGTH_CHANGE{
+        {
+            this.command = new LengthChangeCommand();
+        }
+    },
+    TITLE_CHANGE{
+        {
+            this.command = new TitleChangeCommand();
+        }
+    },
+    ARTIST_CHANGE{
+        {
+            this.command = new ArtistChangeCommand();
+        }
+    },
+    GENRE_CHANGE{
+        {
+            this.command = new GenreChangeCommand();
         }
     };
     ActionCommand command;

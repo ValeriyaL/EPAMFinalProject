@@ -14,23 +14,15 @@ import java.util.ArrayList;
  */
 public class TrackInfoCommand extends ActionCommand {
     private final String TRACK_ID_PARAMETER = "track";
-    private final String TRACK_ATTRIBUTE = "trackInfo";
-    private final String COMMENTS_ATTRIBUTE = "comments";
-    private final String PAGE_TRACK_PATH = "path.page.track";
 
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
         int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_PARAMETER));
-        TrackLogic trackLogic = new TrackLogic();
         try {
-            ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
-            Track track = trackLogic.findTrackById(trackId);
-            requestContent.setSessionAttribute(TRACK_ATTRIBUTE, track);
-            requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
-            page = ConfigurationManager.getProperty(PAGE_TRACK_PATH);
-        }catch (LogicException e){
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToTrackPage(trackId, requestContent);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

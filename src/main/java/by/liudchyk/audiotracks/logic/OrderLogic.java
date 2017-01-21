@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class OrderLogic {
     public ArrayList<Track> findAllUserOrders(User user) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {
             return (ArrayList<Track>) orderDAO.findOrdersByUser(user);
@@ -29,7 +29,7 @@ public class OrderLogic {
     }
 
     public boolean isOrderExist(int userId, int trackId) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {
             return orderDAO.isOrderExist(userId, trackId);
@@ -41,7 +41,7 @@ public class OrderLogic {
     }
 
     public boolean isBuyingValid(double price, int userId) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return userDAO.findMoneyById(userId)>=price;
@@ -53,7 +53,7 @@ public class OrderLogic {
     }
 
     public void addOrder(int trackId,double price, int userId,String formatDate) throws LogicException {
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance().takeConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         UserDAO userDAO = new UserDAO(connection);
         try {

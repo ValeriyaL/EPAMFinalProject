@@ -2,22 +2,16 @@ package by.liudchyk.audiotracks.servlet;
 
 import by.liudchyk.audiotracks.command.ActionCommand;
 import by.liudchyk.audiotracks.command.ActionFactory;
-import by.liudchyk.audiotracks.command.CommandType;
-import by.liudchyk.audiotracks.command.DownloadCommand;
+import by.liudchyk.audiotracks.command.client.DownloadCommand;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
