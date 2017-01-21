@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code UsertDAO} is used to connect with data base.
+ * Does all actions connected with users.
+ *
+ * @author Liudchyk Valeriya
+ * @see AbstractDAO
  */
 @SuppressWarnings("Duplicates")
 public class UserDAO extends AbstractDAO {

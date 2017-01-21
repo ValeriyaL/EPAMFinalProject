@@ -1,9 +1,5 @@
 package by.liudchyk.audiotracks.dao;
 
-/**
- * Created by Admin on 24.12.2016.
- */
-
 import by.liudchyk.audiotracks.database.ProxyConnection;
 import by.liudchyk.audiotracks.entity.Entity;
 import by.liudchyk.audiotracks.entity.Track;
@@ -17,14 +13,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class {@code AbstractDAO} is used to connect with data base.
+ * Class is a superclass for all DAO classes.
+ *
+ * @author Liudchyk Valeriya
+ * @see by.liudchyk.audiotracks.entity.Entity
+ */
+
 public abstract class AbstractDAO<T extends Entity> {
     static final Logger LOG = LogManager.getLogger();
     ProxyConnection connection;
 
+    /**
+     * Fill connection that will be used in DAO method.
+     *
+     * @param connection is ProxyConnection object
+     */
     public AbstractDAO(ProxyConnection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Closes statement
+     *
+     * @param statement is Statement object
+     */
     public void closeStatement(Statement statement) {
         try {
             if (statement != null) {
@@ -37,6 +51,11 @@ public abstract class AbstractDAO<T extends Entity> {
         }
     }
 
+    /**
+     * Closes connection
+     *
+     * @param connection is ProxeConnection object
+     */
     public void closeConnection(ProxyConnection connection) {
         try {
             connection.close();
@@ -45,6 +64,13 @@ public abstract class AbstractDAO<T extends Entity> {
         }
     }
 
+    /**
+     * Takes all Tracks from ResultSet and puts it into List
+     *
+     * @param set is ResultSet of Tracks
+     * @return List of tracks
+     * @throws DAOException if SQLException was catched
+     */
     public List<Track> takeTracks(ResultSet set) throws DAOException {
         List<Track> tracks;
         tracks = new ArrayList<>();

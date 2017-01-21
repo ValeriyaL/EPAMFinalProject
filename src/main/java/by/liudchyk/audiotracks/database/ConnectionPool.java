@@ -1,7 +1,12 @@
 package by.liudchyk.audiotracks.database;
 
 /**
- * Created by Admin on 24.12.2016.
+ * The {@code ConnectionPool} class represents an ability to connect with
+ * database.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
+ * @see by.liudchyk.audiotracks.database.ProxyConnection
  */
 
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +17,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -20,9 +26,13 @@ public class ConnectionPool {
     private static ConnectionPool pool;
     private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static ReentrantLock lock = new ReentrantLock();
-    private ArrayBlockingQueue<ProxyConnection> connectionQueue;
+    private BlockingQueue<ProxyConnection> connectionQueue;
     private static InitDB init;
 
+    /**
+     * Creates an entity of {@code ConnectionPool}.
+     * Fills the BlockingQueue with connections.
+     */
     private ConnectionPool() {
         init = new InitDB();
         this.connectionQueue = new ArrayBlockingQueue<>(init.POOL_SIZE);
@@ -39,6 +49,9 @@ public class ConnectionPool {
         checkNumberOfConnections();
     }
 
+    /**
+     * Adds ProxyConnection to the BlockingQueue of connections.
+     */
     private void addConnection() {
         try {
             Connection connection = DriverManager.getConnection(init.DATABASE, init.DB_LOGIN, init.DB_PASSWORD);
@@ -49,6 +62,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Checks number of connections in queue and tries to refill the pool.
+     */
     private void checkNumberOfConnections() {
         if (connectionQueue.size() != init.POOL_SIZE) {
             int number = init.POOL_SIZE - connectionQueue.size();
@@ -63,6 +79,10 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Creates connection pool or take it if it is already created.
+     * @return ConnectionPool object.
+     */
     public static ConnectionPool getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
@@ -78,6 +98,10 @@ public class ConnectionPool {
         return pool;
     }
 
+    /**
+     * Takes ProxyConnection from the pool queue
+     * @return ProxyConnection object
+     */
     public ProxyConnection takeConnection() {
         ProxyConnection connection = null;
         try {
@@ -88,6 +112,10 @@ public class ConnectionPool {
         return connection;
     }
 
+    /**
+     * Returns ProxyConnection to the pool queue
+     * @param connection is ProxyConnection object
+     */
     void closeConnection(ProxyConnection connection) {
         try {
             connectionQueue.put(connection);
@@ -96,6 +124,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Closes pool by closing all connections in a pool
+     */
     public void closePool() {
         int size = Integer.valueOf(init.POOL_SIZE);
         try {

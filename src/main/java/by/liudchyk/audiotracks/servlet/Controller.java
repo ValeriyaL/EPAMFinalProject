@@ -2,6 +2,7 @@ package by.liudchyk.audiotracks.servlet;
 
 import by.liudchyk.audiotracks.command.ActionCommand;
 import by.liudchyk.audiotracks.command.ActionFactory;
+import by.liudchyk.audiotracks.command.client.CommentAddCommand;
 import by.liudchyk.audiotracks.command.client.DownloadCommand;
 import by.liudchyk.audiotracks.database.ConnectionPool;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -58,7 +59,7 @@ public class Controller extends HttpServlet implements ServletContextListener {
             String filePath = command.execute(sessionRequestContent);
             Downloader downloader = new Downloader();
             downloader.downloadTrack(filePath,response, getServletContext());
-        }else {
+        } else{
             page = command.execute(sessionRequestContent);
             sessionRequestContent.insertAttributes(request);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);

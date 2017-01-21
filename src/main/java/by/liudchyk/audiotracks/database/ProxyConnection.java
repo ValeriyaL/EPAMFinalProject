@@ -1,7 +1,12 @@
 package by.liudchyk.audiotracks.database;
 
 /**
- * Created by Admin on 24.12.2016.
+ * The {@code ProxyConnection} class represents a implementation of
+ * Connection interface.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
+ * @see java.sql.Connection
  */
 
 import java.sql.*;
@@ -21,11 +26,19 @@ public class ProxyConnection implements Connection {
         return connection.createStatement();
     }
 
+    /**
+     * Returns connection into pool
+     * @throws SQLException
+     */
     @Override
     public void close() throws SQLException {
         ConnectionPool.getInstance().closeConnection(this);
     }
 
+    /**
+     * Closes connection
+     * @throws SQLException
+     */
     void realClose() throws SQLException {
         connection.close();
     }

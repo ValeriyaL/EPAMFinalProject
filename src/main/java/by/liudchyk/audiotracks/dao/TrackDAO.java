@@ -13,8 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Admin on 01.01.2017.
+ * Class {@code TrackDAO} is used to connect with data base.
+ * Does all actions connected with tracks.
+ *
+ * @author Liudchyk Valeriya
+ * @see AbstractDAO
  */
+
 public class TrackDAO extends AbstractDAO {
     private static final String SQL_SELECT_ALL_IN_ORDER = "SELECT tracks.id, tracks.title, genres.name AS genre, tracks.artists, tracks.price, tracks.length\n" +
             "FROM tracks\n" +

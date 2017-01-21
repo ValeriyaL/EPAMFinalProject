@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Admin on 28.12.2016.
+ * Class {@code OrdersDAO} is used to connect with data base.
+ * Does all actions connected with orders.
+ *
+ * @author Liudchyk Valeriya
+ * @see AbstractDAO
  */
 public class OrderDAO extends AbstractDAO {
     private static final String SQL_SELECT_MOST_ORDERED = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length, count(*) AS count \n" +

@@ -1,17 +1,18 @@
 package by.liudchyk.audiotracks.dao;
 
 import by.liudchyk.audiotracks.database.ProxyConnection;
-import by.liudchyk.audiotracks.exception.DAOException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 /**
- * Created by Admin on 03.01.2017.
+ * Class {@code CommentDAO} is used to connect with data base.
+ * Does all actions connected with comments.
+ *
+ * @author Liudchyk Valeriya
+ * @see AbstractDAO
  */
 public class CommentDAO extends AbstractDAO {
     private final String DATE_PATTERN = "y-MM-DD HH:mm:ss";

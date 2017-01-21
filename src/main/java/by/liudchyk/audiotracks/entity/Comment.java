@@ -1,27 +1,62 @@
 package by.liudchyk.audiotracks.entity;
 
 /**
- * Created by Admin on 02.01.2017.
+ * Class {@code Comment} is used to store Comment entity.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
+ * @see Entity
  */
 public class Comment extends Entity {
+    /**
+     * The comment's text.
+     */
     private String text;
+    /**
+     * The user's nickname of author of the comment.
+     */
     private String user;
+    /**
+     * The comment's date in string form.
+     */
     private String date;
 
+    /**
+     * Creates new object of Comment entity
+     *
+     * @param text is comment's text message
+     * @param user is user's nickname of author of comment
+     * @param date is comment's date
+     */
     public Comment(String text, String user, String date) {
         this.text = text;
         this.user = user;
         this.date = date;
     }
 
+    /**
+     * Gets text of the comment
+     *
+     * @return comment's text
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Gets nickname of comment's author
+     *
+     * @return user nickname
+     */
     public String getUser() {
         return user;
     }
 
+    /**
+     * Gets comment's date
+     *
+     * @return comment's date
+     */
     public String getDate() {
         return date;
     }

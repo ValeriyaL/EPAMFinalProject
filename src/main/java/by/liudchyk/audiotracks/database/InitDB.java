@@ -7,8 +7,13 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Created by Admin on 27.12.2016.
+ * The {@code InitDB} class represents initializing of Database params
+ * database.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
  */
+
 class InitDB {
     static final Logger LOG = LogManager.getLogger();
     final ResourceBundle RESOURCE;
@@ -17,7 +22,7 @@ class InitDB {
     final int POOL_SIZE;
     final String DB_PASSWORD;
 
-     InitDB() {
+    InitDB() {
         try {
             RESOURCE = ResourceBundle.getBundle("properties.database");
             DATABASE = RESOURCE.getString("db.url");

@@ -1,7 +1,11 @@
 package by.liudchyk.audiotracks.exception;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code LogicException} is used to store Logic level exceptions.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
+ * @see Exception
  */
 public class LogicException extends Exception {
     public LogicException() {

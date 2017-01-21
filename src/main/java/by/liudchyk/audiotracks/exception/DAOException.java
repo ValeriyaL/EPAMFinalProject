@@ -1,7 +1,13 @@
 package by.liudchyk.audiotracks.exception;
 
+import by.liudchyk.audiotracks.entity.Entity;
+
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code DAOException} is used to store DAO level exceptions.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
+ * @see Exception
  */
 public class DAOException extends Exception {
     public DAOException() {
