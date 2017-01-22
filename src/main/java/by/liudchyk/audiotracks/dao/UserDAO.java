@@ -1,13 +1,14 @@
 package by.liudchyk.audiotracks.dao;
 
 import by.liudchyk.audiotracks.database.ProxyConnection;
-import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.entity.User;
 import by.liudchyk.audiotracks.exception.DAOException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class {@code UsertDAO} is used to connect with data base.
@@ -77,7 +78,7 @@ public class UserDAO extends AbstractDAO {
         return password;
     }
 
-    public boolean addUser(String name, String email, String password, String card) throws DAOException {
+    public boolean addUser(String name, String email, String password, String card) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -148,23 +149,27 @@ public class UserDAO extends AbstractDAO {
         return tempUser;
     }
 
-    private User takeUser(User tempUser, PreparedStatement statement) throws SQLException {
-        ResultSet set = statement.executeQuery();
-        if (set.next()) {
-            int id = set.getInt(1);
-            String name = set.getString(2);
-            String password = set.getString(3);
-            int status = set.getInt(4);
-            double money = set.getDouble(5);
-            int bonus = set.getInt(6);
-            String card = set.getString(7);
-            String mail = set.getString(8);
-            tempUser = new User(id, name, password, status, money, bonus, card, mail);
+    private User takeUser(User tempUser, PreparedStatement statement) throws DAOException {
+        try {
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                int id = set.getInt(1);
+                String name = set.getString(2);
+                String password = set.getString(3);
+                int status = set.getInt(4);
+                double money = set.getDouble(5);
+                int bonus = set.getInt(6);
+                String card = set.getString(7);
+                String mail = set.getString(8);
+                tempUser = new User(id, name, password, status, money, bonus, card, mail);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
         }
         return tempUser;
     }
 
-    public boolean changeLoginById(String newLogin, int id) throws DAOException {
+    public boolean changeLoginById(String newLogin, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -183,7 +188,7 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changePasswordById(String newMD5Password, int id) throws DAOException {
+    public boolean changePasswordById(String newMD5Password, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -202,7 +207,7 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeMoneyById(double money, int id) throws DAOException {
+    public boolean changeMoneyById(double money, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -221,7 +226,7 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeCardById(String newCard, int id) throws DAOException {
+    public boolean changeCardById(String newCard, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -246,7 +251,7 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeEmailById(String newEmail, int id) throws DAOException {
+    public boolean changeEmailById(String newEmail, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {

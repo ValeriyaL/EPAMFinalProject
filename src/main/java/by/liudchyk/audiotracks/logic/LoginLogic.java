@@ -9,10 +9,24 @@ import by.liudchyk.audiotracks.validator.Validator;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code LoginLogic} is a service class used to connect commands
+ * with DAO.
+ *
+ * @author Liudchyk Valeriya
+ * @see Validator
  */
 public class LoginLogic {
 
+    /**
+     * Checks login and password correctness. Transfers to UserDAO.
+     * Compares md5 password from db with password.
+     *
+     * @param login    is user's nickname
+     * @param password is user's password
+     * @return true is password from db equals user's password,
+     * false otherwise
+     * @throws LogicException if UserDAO throws DAOException
+     */
     public boolean checkLogin(String login, String password) throws LogicException {
         Validator validator = new Validator();
         if (!validator.isLoginLengthValid(login) || !validator.isPasswordLengthValid(password)) {

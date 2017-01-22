@@ -10,14 +10,15 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
  */
 public class DownloadCommand extends ActionCommand {
     private final String TRACK_ATTRIBUTE = "track";
+
     @Override
     public String execute(SessionRequestContent requestContent) {
         String filePath;
         int id = Integer.valueOf(requestContent.getParameter(TRACK_ATTRIBUTE));
         TrackLogic trackLogic = new TrackLogic();
         try {
-            filePath= trackLogic.findPathByTrackId(id);
-        }catch (LogicException e){
+            filePath = trackLogic.findPathByTrackId(id);
+        } catch (LogicException e) {
             LOG.error(e);
             filePath = "";
         }

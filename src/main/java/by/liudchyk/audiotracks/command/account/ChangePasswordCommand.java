@@ -20,7 +20,7 @@ public class ChangePasswordCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         UserLogic userLogic = new UserLogic();
         String passwordOld = requestContent.getParameter(OLD_PASSWORD_PARAM);
         String passwordNew = requestContent.getParameter(NEW_PASSWORD_PARAM);

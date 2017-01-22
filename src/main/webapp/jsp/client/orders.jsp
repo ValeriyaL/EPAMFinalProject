@@ -47,9 +47,11 @@
                                     <small><c:out value="${tempTrack.genre}"/></small>
                                 </h4>
                                 <h4>
-                                    <small><a
-                                            href="${pageContext.request.contextPath}/controller?command=track_info&track=${tempTrack.id}"><fmt:message
-                                            key="tracks.order.more"/>...</a></small>
+                                    <c:if test="${tempTrack.visible eq '1'}">
+                                        <small><a
+                                                href="${pageContext.request.contextPath}/controller?command=track_info&track=${tempTrack.id}"><fmt:message
+                                                key="tracks.order.more"/>...</a></small>
+                                    </c:if>
                                 </h4>
                             </div>
                             <div class="col-xs-6">
@@ -58,9 +60,18 @@
                                             value="${tempTrack.lengthTranslated}"/> </strong></h5>
                                 </div>
                                 <div class="col-xs-2 right">
-                                    <a href="${pageContext.request.contextPath}/controller?command=download&track=${tempTrack.id}" class="btn btn-primary btn-lg" style="margin: 2px"><span
-                                            class="glyphicon glyphicon-download-alt"></span> <fmt:message
-                                            key="tracks.order.download"/></a>
+                                    <c:if test="${tempTrack.visible eq '1'}">
+                                        <a href="${pageContext.request.contextPath}/controller?command=download&track=${tempTrack.id}"
+                                           class="btn btn-primary btn-lg" style="margin: 2px"><span
+                                                class="glyphicon glyphicon-download-alt"></span> <fmt:message
+                                                key="tracks.order.download"/></a>
+                                    </c:if>
+                                    <c:if test="${tempTrack.visible eq '0'}">
+                                        <a href="#"
+                                           class="btn btn-primary btn-lg disabled" style="margin: 2px"><span
+                                                class="glyphicon glyphicon-download-alt"></span> <fmt:message
+                                                key="tracks.order.deleted"/></a>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

@@ -19,7 +19,7 @@ public class ChangeMoneyCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         try {
             User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
             UserLogic userLogic = new UserLogic();

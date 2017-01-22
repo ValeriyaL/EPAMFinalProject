@@ -32,9 +32,13 @@ public class Track extends Entity {
      * The track's length in seconds.
      */
     private int length;
+    /**
+     * The track's visible (1-visible, 0 -not visible)
+     */
+    private int visible;
 
     /**
-     * Creates new object of Track entity
+     * Creates new object of Track entity with visible=1
      *
      * @param id     is track's id
      * @param title  is track's title
@@ -50,6 +54,37 @@ public class Track extends Entity {
         this.price = price;
         this.length = length;
         this.artist = artist;
+        visible = 1;
+    }
+
+    /**
+     * Creates new object of Track entity
+     *
+     * @param id      is track's id
+     * @param title   is track's title
+     * @param genre   is track's genre
+     * @param price   is track's price
+     * @param length  is track's length in seconds
+     * @param artist  is track's artist(s)
+     * @param visible is track's visible
+     */
+    public Track(int id, String title, String genre, Double price, int length, String artist, int visible) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.price = price;
+        this.length = length;
+        this.artist = artist;
+        this.visible = visible;
+    }
+
+    /**
+     * Gets track's visible
+     *
+     * @return track's visible
+     */
+    public int getVisible() {
+        return visible;
     }
 
     /**
@@ -114,6 +149,6 @@ public class Track extends Entity {
     public String getLengthTranslated() {
         int minutes = length / 60;
         int seconds = length % 60;
-        return new String(Integer.toString(minutes) + ":" + seconds);
+        return Integer.toString(minutes) + ":" + seconds;
     }
 }

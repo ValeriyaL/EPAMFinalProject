@@ -155,7 +155,7 @@ public class TrackDAO extends AbstractDAO {
         }
     }
 
-    public boolean changeTrackPriceById(double newPrice, int trackId) throws DAOException {
+    public boolean changeTrackPriceById(double newPrice, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -174,7 +174,7 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackLengthById(int length,int trackId) throws DAOException{
+    public boolean changeTrackLengthById(int length,int trackId){
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -193,7 +193,7 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackTitleById(String newTitle,int trackId) throws DAOException{
+    public boolean changeTrackTitleById(String newTitle,int trackId){
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -212,7 +212,7 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackArtistById(String newArtist,int trackId) throws DAOException{
+    public boolean changeTrackArtistById(String newArtist,int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -231,7 +231,7 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackGenreById(int genreId, int trackId) throws DAOException{
+    public boolean changeTrackGenreById(int genreId, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {

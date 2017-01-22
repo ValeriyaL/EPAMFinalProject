@@ -25,7 +25,7 @@ public class OrderDAO extends AbstractDAO {
             "LEFT JOIN tracks ON tracks.id = track_id\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
             "GROUP BY tracks.id ORDER BY count DESC LIMIT 5;";
-    private static final String SQL_SELECT_ORDERS_BY_USER = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length\n" +
+    private static final String SQL_SELECT_ORDERS_BY_USER = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length, tracks.visible\n" +
             "FROM orders\n" +
             "JOIN tracks ON tracks.id=orders.track_id\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
@@ -62,7 +62,7 @@ public class OrderDAO extends AbstractDAO {
             statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_USER);
             statement.setString(1, Integer.toString(user.getId()));
             ResultSet set = statement.executeQuery();
-            tracks = takeTracks(set);
+            tracks = takeTracksWithVisible(set);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -101,5 +101,25 @@ public class OrderDAO extends AbstractDAO {
         } finally {
             closeStatement(statement);
         }
+    }
+
+    private List<Track> takeTracksWithVisible(ResultSet set) throws DAOException {
+        List<Track> tracks;
+        tracks = new ArrayList<>();
+        try {
+            while (set.next()) {
+                int id = set.getInt(1);
+                String title = set.getString(2);
+                String genre = set.getString(3);
+                String artist = set.getString(4);
+                double price = set.getDouble(5);
+                int length = set.getInt(6);
+                int visible = set.getInt(7);
+                tracks.add(new Track(id, title, genre, price, length, artist, visible));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return tracks;
     }
 }

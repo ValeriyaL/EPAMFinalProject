@@ -18,7 +18,7 @@ public class ChangeEmailCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String page = null;
+        String page;
         UserLogic userLogic = new UserLogic();
         String newEmail = requestContent.getParameter(NAME_PARAM);
         try {

@@ -10,7 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Admin on 21.01.2017.
+ * Class {@code LoginFilter} is used to filter all logined client's jsp.
+ * Controls access to clients jsps only from logined status.
+ *
+ * @author Liudchyk Valeriya
+ * @version 1.0
+ * @see Filter
  */
 @WebFilter(urlPatterns = {"/jsp/client/*"},
         initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
