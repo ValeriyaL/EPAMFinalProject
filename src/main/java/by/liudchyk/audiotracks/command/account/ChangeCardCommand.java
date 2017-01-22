@@ -9,7 +9,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 27.12.2016.
+ * Class {@code ChangeCardCommand} is used to change
+ * user's card
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class ChangeCardCommand extends ActionCommand {
     private final String NAME_PARAM = "card";
@@ -37,7 +41,7 @@ public class ChangeCardCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

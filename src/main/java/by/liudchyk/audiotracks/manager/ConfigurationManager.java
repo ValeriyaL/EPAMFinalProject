@@ -1,7 +1,9 @@
 package by.liudchyk.audiotracks.manager;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code ConfigurationManager} is used to get path to pages
+ *
+ * @author LiudchykValeriya
  */
 
 import java.util.ResourceBundle;

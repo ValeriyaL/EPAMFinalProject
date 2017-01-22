@@ -12,7 +12,10 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 import java.util.ArrayList;
 
 /**
- * Created by Admin on 05.01.2017.
+ * Class {@code DeleteTrackCommand} is used to delete comment
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class DeleteTrackCommand extends ActionCommand {
     private final String TRACK_ID_PARAMETER = "track";
@@ -29,8 +32,8 @@ public class DeleteTrackCommand extends ActionCommand {
             String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
             requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
             page = ConfigurationManager.getProperty(MESSAGE_PATH);
-        }catch (LogicException e){
-            page = redirectToErrorPage(requestContent,e);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

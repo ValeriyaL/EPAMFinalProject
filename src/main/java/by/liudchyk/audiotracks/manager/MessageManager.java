@@ -1,12 +1,14 @@
 package by.liudchyk.audiotracks.manager;
 
-/**
- * Created by Admin on 23.12.2016.
- */
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Class {@code MessageManager} is used to get message
+ * in user's language
+ *
+ * @author LiudchykValeriya
+ */
 public class MessageManager {
     private static final String RUS = "ru_RU";
     private static final String ENG = "en_US";

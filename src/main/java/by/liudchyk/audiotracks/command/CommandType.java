@@ -5,7 +5,10 @@ import by.liudchyk.audiotracks.command.account.*;
 import by.liudchyk.audiotracks.command.client.*;
 
 /**
- * Created by Admin on 23.12.2016.
+ * Class {@code CommandType} is used as enum to create an
+ * object of necessary command
+ *
+ * @author Liudchyk Valeriya
  */
 
 public enum CommandType {
@@ -31,7 +34,7 @@ public enum CommandType {
     },
     ACCOUNT {
         {
-            this.command = new AccountCommand();
+            this.command = new ChangeCommand();
         }
     },
     LOGIN_CHANGE {
@@ -74,118 +77,123 @@ public enum CommandType {
             this.command = new TracksInOrderCommand();
         }
     },
-    SWITCH_PAGE{
+    SWITCH_PAGE {
         {
             this.command = new SwitchPageCommand();
         }
     },
-    GENRE_ORDER{
+    GENRE_ORDER {
         {
             this.command = new GenreOrderCommand();
         }
     },
-    SEARCH{
+    SEARCH {
         {
             this.command = new SearchOrderCommand();
         }
     },
-    TRACK_INFO{
+    TRACK_INFO {
         {
             this.command = new TrackInfoCommand();
         }
     },
-    COMMENT_ADD{
+    COMMENT_ADD {
         {
             this.command = new CommentAddCommand();
         }
     },
-    COMMENT_DELETE{
+    COMMENT_DELETE {
         {
             this.command = new CommentDeleteCommand();
         }
     },
-    ORDERS{
+    ORDERS {
         {
             this.command = new OrdersCommand();
         }
     },
-    DOWNLOAD{
+    DOWNLOAD {
         {
             this.command = new DownloadCommand();
         }
     },
-    DELETE_TRACK{
+    DELETE_TRACK {
         {
             this.command = new DeleteTrackCommand();
         }
     },
-    DELETED_TRACKS{
+    DELETED_TRACKS {
         {
             this.command = new DeletedTracksCommand();
         }
     },
-    RECOVER_TRACK{
+    RECOVER_TRACK {
         {
             this.command = new RecoverTrackCommand();
         }
     },
-    PRICE_CHANGE{
+    PRICE_CHANGE {
         {
             this.command = new ChangePriceCommand();
         }
     },
-    ADD_TRACK{
+    ADD_TRACK {
         {
             this.command = new AddTrackCommand();
         }
     },
-    USER_INFO{
+    USER_INFO {
         {
             this.command = new UserInfoCommand();
         }
     },
-    SET_BONUS{
+    SET_BONUS {
         {
             this.command = new SetBonusCommand();
         }
     },
-    ORDER_TRACK{
+    ORDER_TRACK {
         {
             this.command = new OrderTrackCommand();
         }
     },
-    BUY_TRACK{
+    BUY_TRACK {
         {
             this.command = new BuyTrackCommand();
         }
     },
-    ALL_USERS{
+    ALL_USERS {
         {
             this.command = new AllUsersCommand();
         }
     },
-    LENGTH_CHANGE{
+    LENGTH_CHANGE {
         {
             this.command = new LengthChangeCommand();
         }
     },
-    TITLE_CHANGE{
+    TITLE_CHANGE {
         {
             this.command = new TitleChangeCommand();
         }
     },
-    ARTIST_CHANGE{
+    ARTIST_CHANGE {
         {
             this.command = new ArtistChangeCommand();
         }
     },
-    GENRE_CHANGE{
+    GENRE_CHANGE {
         {
             this.command = new GenreChangeCommand();
         }
     };
     ActionCommand command;
 
+    /**
+     * Gets current command object
+     *
+     * @return ActionCommand object
+     */
     public ActionCommand getCurrentCommand() {
         return command;
     }

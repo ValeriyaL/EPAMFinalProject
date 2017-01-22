@@ -8,7 +8,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 21.01.2017.
+ * Class {@code ArtistChangeCommand} is used to change
+ * track's artist
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class ArtistChangeCommand extends ActionCommand {
     private final String TRACK_ID_PARAM = "trackId";

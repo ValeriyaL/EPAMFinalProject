@@ -9,7 +9,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 27.12.2016.
+ * Class {@code ChangePasswordCommand} is used to change
+ * users password
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class ChangePasswordCommand extends ActionCommand {
     private final String OLD_PASSWORD_PARAM = "passwordOld";
@@ -43,7 +47,7 @@ public class ChangePasswordCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

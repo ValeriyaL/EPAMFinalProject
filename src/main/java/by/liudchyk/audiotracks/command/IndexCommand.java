@@ -3,7 +3,12 @@ package by.liudchyk.audiotracks.command;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 28.12.2016.
+ * Class {@code IndexCommand} is used to redirect
+ * from index page to mane after filling necessary
+ * default attributes
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class IndexCommand extends ActionCommand {
     private static final String LOCALE_ATTRIBUTE = "locale";

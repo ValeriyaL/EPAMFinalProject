@@ -14,7 +14,10 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 import java.util.ArrayList;
 
 /**
- * Created by Admin on 03.01.2017.
+ * Class {@code CommentDeleteCommand} is used to delete comment
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class CommentDeleteCommand extends ActionCommand {
     private final String USER_NAME_ATTRIBUTE = "userName";
@@ -36,18 +39,18 @@ public class CommentDeleteCommand extends ActionCommand {
             int userId = userLogic.findUserByLogin(nickname).getId();
             int trackId = track.getId();
             CommentLogic commentLogic = new CommentLogic();
-            boolean isDeleted = commentLogic.deleteComment(userId,trackId,date);
-            if(isDeleted){
+            boolean isDeleted = commentLogic.deleteComment(userId, trackId, date);
+            if (isDeleted) {
                 ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
                 requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
                 page = ConfigurationManager.getProperty(PATH_TRACK);
-            }else{
+            } else {
                 String message = MessageManager.getProperty(DELETE_COMMENT, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        }catch (LogicException e){
-            page = redirectToErrorPage(requestContent,e);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

@@ -10,7 +10,10 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 07.01.2017.
+ * Class {@code UserInfoCommand} is used to represent user info
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class UserInfoCommand extends ActionCommand {
     private final String USER_INFO_PATH = "path.page.info";
@@ -28,19 +31,19 @@ public class UserInfoCommand extends ActionCommand {
         OrderLogic orderLogic = new OrderLogic();
         try {
             User user = userLogic.findUserByLogin(nickname);
-            if(user!=null) {
+            if (user != null) {
                 requestContent.setSessionAttribute(NUM_OF_COMM_ATTR, userLogic.findNumberOfCommentsById(user.getId()));
-                requestContent.setSessionAttribute(NUM_OF_ORDERS_ATTR,orderLogic.findAllUserOrders(user).size());
+                requestContent.setSessionAttribute(NUM_OF_ORDERS_ATTR, orderLogic.findAllUserOrders(user).size());
                 requestContent.setSessionAttribute(FIND_USER_NICK, user.getNickname());
                 requestContent.setSessionAttribute(BONUS_ATTR, user.getBonus());
                 page = ConfigurationManager.getProperty(USER_INFO_PATH);
-            }else{
+            } else {
                 String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        }catch (LogicException e){
-            page = redirectToErrorPage(requestContent,e);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

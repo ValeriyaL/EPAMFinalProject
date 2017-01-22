@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Admin on 05.01.2017.
+ * Class {@code DeletedTracksCommand} is used to represent all deleted tracks
+ *
+ * @author LiudchykValeriya
+ * @see OrderCommand
  */
 public class DeletedTracksCommand extends OrderCommand {
     private final String DELETED_PATH = "path.page.deleted";
@@ -25,13 +28,13 @@ public class DeletedTracksCommand extends OrderCommand {
             tracks = trackLogic.findAllDeletedTracks();
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
-            tracks = paginationTracks(requestContent, tracks, trackLogic, all);
+            tracks = paginationTracks(requestContent, tracks, all);
             requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
             requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
             page = ConfigurationManager.getProperty(DELETED_PATH);
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

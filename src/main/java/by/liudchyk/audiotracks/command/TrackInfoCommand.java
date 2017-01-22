@@ -1,16 +1,14 @@
 package by.liudchyk.audiotracks.command;
 
-import by.liudchyk.audiotracks.entity.Comment;
-import by.liudchyk.audiotracks.entity.Track;
 import by.liudchyk.audiotracks.exception.LogicException;
-import by.liudchyk.audiotracks.logic.TrackLogic;
-import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
-import java.util.ArrayList;
-
 /**
- * Created by Admin on 02.01.2017.
+ * Class {@code TrackInfoCommand} is used to represent all
+ * info about track
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class TrackInfoCommand extends ActionCommand {
     private final String TRACK_ID_PARAMETER = "track";

@@ -13,7 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Admin on 10.01.2017.
+ * Class {@code BuyTrackCommand} is used to buy track
+ *
+ * @author LiudchykValeriya
+ * @see OrderCommand
  */
 public class BuyTrackCommand extends OrderCommand {
     private final String ORDERED_MESSAGE = "message.success.order.track";
@@ -26,7 +29,7 @@ public class BuyTrackCommand extends OrderCommand {
     public String execute(SessionRequestContent requestContent) {
         String page;
         User user = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
-        int trackId = Integer.valueOf( requestContent.getParameter(TRACK_ID_ATTRIBUTE));
+        int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_ATTRIBUTE));
         double price = (Double) requestContent.getSessionAttribute(BONUS_PRICE_ATTRIBUTE);
         OrderLogic orderLogic = new OrderLogic();
         UserLogic userLogic = new UserLogic();
@@ -38,7 +41,7 @@ public class BuyTrackCommand extends OrderCommand {
                 String formatDate = format.format(date);
                 orderLogic.addOrder(trackId, price, user.getId(), formatDate);
                 user.setMoney(userLogic.findMoneyById(user.getId()));
-                requestContent.setSessionAttribute(USER_ATTRIBUTE,user);
+                requestContent.setSessionAttribute(USER_ATTRIBUTE, user);
                 String message = MessageManager.getProperty(ORDERED_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = userTracks(requestContent);
@@ -47,8 +50,8 @@ public class BuyTrackCommand extends OrderCommand {
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        }catch (LogicException e ){
-            page = redirectToErrorPage(requestContent,e);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

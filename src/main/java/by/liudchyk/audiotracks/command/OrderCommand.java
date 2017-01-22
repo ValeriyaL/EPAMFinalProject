@@ -13,9 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Admin on 02.01.2017.
+ * Class {@code OrderCommand} is used to represent tracks in some order.
+ * Is an abstract class for all classes the redirect on pages with tracks
+ * in order
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
-public abstract class OrderCommand extends ActionCommand{
+public abstract class OrderCommand extends ActionCommand {
     public final String TRACKS_ATTRIBUTE = "allTracks";
     final String TRACKS_AZ_PATH = "path.page.tracksAZ";
     public final int TRACKS_ON_PAGE = 5;
@@ -27,15 +32,24 @@ public abstract class OrderCommand extends ActionCommand{
     final String COMM_PARAMETER = "comm";
     final String ORDERS_PATH = "path.page.orders";
 
-    public ArrayList<Track> paginationTracks(SessionRequestContent requestContent, ArrayList<Track> tracks, TrackLogic trackLogic, Map<Integer, ArrayList<Track>> all) {
+    /**
+     * Represents tracks for the first page
+     *
+     * @param requestContent is content of requests
+     * @param tracks         is ArrayList of tracks
+     * @param all            all tracks by pages
+     * @return ArrayList of tracks for the first page
+     */
+    public ArrayList<Track> paginationTracks(SessionRequestContent requestContent, ArrayList<Track> tracks, Map<Integer, ArrayList<Track>> all) {
         HashMap<Integer, ArrayList<Track>> tracksMap;
+        TrackLogic trackLogic = new TrackLogic();
         if (!all.isEmpty()) {
             tracksMap = (HashMap<Integer, ArrayList<Track>>) trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             tracks = tracksMap.get(FIRST_PAGE);
             requestContent.setSessionAttribute(IS_PAGINATION, TRUE);
             requestContent.setSessionAttribute(TRACKS_ON_PAGES_ATTR, tracksMap);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, tracksMap.size());
-        }else{
+        } else {
             requestContent.setSessionAttribute(IS_PAGINATION, FALSE);
             requestContent.setSessionAttribute(TRACKS_ON_PAGES_ATTR, null);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, 0);
@@ -43,7 +57,13 @@ public abstract class OrderCommand extends ActionCommand{
         return tracks;
     }
 
-    public String userTracks(SessionRequestContent requestContent){
+    /**
+     * Redirect to user's tracks page and divides it into pages
+     *
+     * @param requestContent is content of the request
+     * @return path to tracks page
+     */
+    public String userTracks(SessionRequestContent requestContent) {
         String page;
         ArrayList<Track> tracks;
         TrackLogic trackLogic = new TrackLogic();
@@ -53,13 +73,13 @@ public abstract class OrderCommand extends ActionCommand{
             tracks = orderLogic.findAllUserOrders(user);
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
-            tracks = paginationTracks(requestContent, tracks, trackLogic, all);
+            tracks = paginationTracks(requestContent, tracks, all);
             requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
             requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
             page = ConfigurationManager.getProperty(ORDERS_PATH);
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

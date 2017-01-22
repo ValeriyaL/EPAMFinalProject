@@ -17,7 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Admin on 26.11.2016.
+ * Class {@code ServerFileCreator} is used to load file to the server
+ *
+ * @author Liudchyk Valeriya
  */
 public class ServerFileCreator {
     private static final Logger LOG = LogManager.getLogger();
@@ -25,6 +27,12 @@ public class ServerFileCreator {
     private final String ITEM_ATTRIBUTE = "item";
     private final String ENCODING = "UTF-8";
 
+    /**
+     * Creates file on server and gets other request params
+     *
+     * @param request is servlet's request
+     * @return HeshMap with server params
+     */
     public HashMap<String, String[]> createServerFile(HttpServletRequest request) {
         HashMap<String, String[]> requestParameters = new HashMap<>();
         DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
@@ -42,11 +50,11 @@ public class ServerFileCreator {
                 String value = "";
                 try {
                     value = item.getString(ENCODING);
-                }catch (UnsupportedEncodingException e){
+                } catch (UnsupportedEncodingException e) {
                     //TODO
                 }
                 requestParameters.put(item.getFieldName(), new String[]{value});
-            }else{
+            } else {
                 byte[] data = item.get();
                 FileOutputStream fos;
                 try {

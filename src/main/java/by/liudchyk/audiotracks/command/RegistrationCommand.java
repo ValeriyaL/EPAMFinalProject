@@ -7,7 +7,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 25.12.2016.
+ * Class {@code RegistrationCommand} is used to register
+ * new user in a system
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class RegistrationCommand extends ActionCommand {
     private final String LOGIN_PATH = "path.page.login";
@@ -45,7 +49,7 @@ public class RegistrationCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

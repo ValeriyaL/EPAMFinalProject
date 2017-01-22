@@ -8,7 +8,10 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 06.01.2017.
+ * Class {@code AddTrackCommand} is used to add track
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class AddTrackCommand extends ActionCommand {
     private final String TITLE_PARAM = "title";
@@ -30,10 +33,10 @@ public class AddTrackCommand extends ActionCommand {
         String artist = requestContent.getParameter(ARTIST_PARAM);
         String genre = requestContent.getParameter(GENRE_PARAM);
         String price = requestContent.getParameter(PRICE_PARAM);
-        String link = DATA_PATH+requestContent.getAttribute(ITEM_ATTRIBUTE);
-        String length  = requestContent.getParameter(LENGTH_PARAM);
+        String link = DATA_PATH + requestContent.getAttribute(ITEM_ATTRIBUTE);
+        String length = requestContent.getParameter(LENGTH_PARAM);
         try {
-            String msgPath = trackLogic.addTrack(title,artist,genre,price,link,length);
+            String msgPath = trackLogic.addTrack(title, artist, genre, price, link, length);
             if (MESSAGE.equals(msgPath)) {
                 String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);

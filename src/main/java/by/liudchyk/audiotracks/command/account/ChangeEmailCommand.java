@@ -9,7 +9,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 27.12.2016.
+ * Class {@code ChangeEmailCommand} is used to change
+ * user's email
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class ChangeEmailCommand extends ActionCommand {
     private final String NAME_PARAM = "email";
@@ -37,7 +41,7 @@ public class ChangeEmailCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

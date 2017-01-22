@@ -4,7 +4,11 @@ import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 23.12.2016.
+ * Class {@code LanguageCommand} is used to change language in session
+ * and redirect to the same page
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class LanguageCommand extends ActionCommand {
     private static final String LANG_PARAMETER = "language";

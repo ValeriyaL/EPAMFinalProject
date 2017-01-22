@@ -9,7 +9,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 25.12.2016.
+ * Class {@code ChangeLoginCommand} is used to change
+ * user's nickname
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class ChangeLoginCommand extends ActionCommand {
     private final String NAME_PARAM = "nickname";
@@ -38,7 +42,7 @@ public class ChangeLoginCommand extends ActionCommand {
 
             }
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

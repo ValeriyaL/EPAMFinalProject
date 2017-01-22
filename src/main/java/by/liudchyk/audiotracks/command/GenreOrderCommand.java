@@ -11,7 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Admin on 01.01.2017.
+ * Class {@code GenreOrderCommand} is used to find tracks
+ * with genre
+ *
+ * @author LiudchykValeriya
+ * @see OrderCommand
  */
 public class GenreOrderCommand extends OrderCommand {
     private final String GENRE_PARAMETER = "genre";
@@ -26,7 +30,7 @@ public class GenreOrderCommand extends OrderCommand {
             tracks = trackLogic.findTracksByGenre(genre);
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
-            tracks = paginationTracks(requestContent, tracks, trackLogic, all);
+            tracks = paginationTracks(requestContent, tracks, all);
             requestContent.setSessionAttribute(COMM_PARAMETER, genre);
             requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);

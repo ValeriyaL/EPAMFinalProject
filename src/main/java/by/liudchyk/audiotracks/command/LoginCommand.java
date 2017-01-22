@@ -9,7 +9,10 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code LoginCommand} is used to login user in a system
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class LoginCommand extends ActionCommand {
     private final String NAME_PARAM = "nickname";
@@ -33,7 +36,7 @@ public class LoginCommand extends ActionCommand {
                 UserLogic userLogic = new UserLogic();
                 User user = userLogic.findUserByLogin(name);
                 requestContent.setSessionAttribute(USER_ATTRIBUTE, user);
-                if(user.getStatus()==0) {
+                if (user.getStatus() == 0) {
                     requestContent.setSessionAttribute(ROLE_ATTRIBUTE, ADMIN);
                 }
             } else {
@@ -44,7 +47,7 @@ public class LoginCommand extends ActionCommand {
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

@@ -12,6 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
+/**
+ * Class {@code ActionCommand} is used as superclass of all commands.
+ * Contain some common methods and abstract method execute.
+ *
+ * @author Liudchyk Valeriya
+ */
 public abstract class ActionCommand {
     public static final Logger LOG = LogManager.getLogger();
     static final String ERROR_MSG_ATTRIBUTE = "errorMessage";
@@ -29,6 +35,12 @@ public abstract class ActionCommand {
     private final String COMMENTS_ATTRIBUTE = "comments";
     private final String PAGE_TRACK_PATH = "path.page.track";
 
+    /**
+     * Does all necessary work to handle command
+     *
+     * @param requestContent is content of request
+     * @return path to page as a result of command
+     */
     public abstract String execute(SessionRequestContent requestContent);
 
     public String redirectToErrorPage(SessionRequestContent requestContent, Exception e) {
@@ -37,6 +49,12 @@ public abstract class ActionCommand {
         return ConfigurationManager.getProperty(ERROR_PATH);
     }
 
+    /**
+     * Fills all necessary attributes and formed path to main page
+     *
+     * @param requestContent is content of request
+     * @return path to main page
+     */
     public String redirectToMain(SessionRequestContent requestContent) {
         String page;
         ArrayList<Track> tracks;
@@ -51,6 +69,14 @@ public abstract class ActionCommand {
         return page;
     }
 
+    /**
+     * Fills all necessary attributes and formed path to track page
+     *
+     * @param trackId        is track's id
+     * @param requestContent is content of request
+     * @return path to track page
+     * @throws LogicException if trackLogic throws LogicException
+     */
     public String redirectToTrackPage(int trackId, SessionRequestContent requestContent) throws LogicException {
         TrackLogic trackLogic = new TrackLogic();
         ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
@@ -60,6 +86,16 @@ public abstract class ActionCommand {
         return ConfigurationManager.getProperty(PAGE_TRACK_PATH);
     }
 
+    /**
+     * Fills all necessary attributes and formed path to page after changes
+     *
+     * @param trackId         is track's id
+     * @param msgPath         is path to message page
+     * @param requestContent  is content of request
+     * @param SUCCESS_MESSAGE is success message
+     * @return path to message page
+     * @throws LogicException if redirectToTrackPage throws LogicException
+     */
     public String redirectAfterChanges(int trackId, String msgPath, SessionRequestContent requestContent, final String SUCCESS_MESSAGE) throws LogicException {
         String page;
         if (msgPath.isEmpty()) {

@@ -10,7 +10,10 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 import java.util.ArrayList;
 
 /**
- * Created by Admin on 19.01.2017.
+ * Class {@code AllUsersCommand} is used to represent all users
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class AllUsersCommand extends ActionCommand {
     private final String USERS_PATH = "path.page.users";

@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Admin on 03.01.2017.
+ * Class {@code CommentAddCommand} is used to add comment
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class CommentAddCommand extends ActionCommand {
     private final String PATH_TRACK = "path.page.track";
@@ -27,8 +30,8 @@ public class CommentAddCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        User tempUser = (User)requestContent.getSessionAttribute(USER_ATTRIBUTE);
-        Track tempTrack = (Track)requestContent.getSessionAttribute(TRACK_ATTRIBUTE);
+        User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+        Track tempTrack = (Track) requestContent.getSessionAttribute(TRACK_ATTRIBUTE);
         String text = requestContent.getParameter(COMMENT_TEXT_ATTRIBUTE);
         int userId = tempUser.getId();
         int trackId = tempTrack.getId();
@@ -46,8 +49,8 @@ public class CommentAddCommand extends ActionCommand {
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        }catch (LogicException e){
-            page = redirectToErrorPage(requestContent,e);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

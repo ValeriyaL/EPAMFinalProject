@@ -11,7 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Admin on 30.12.2016.
+ * Class {@code TracksInOrderCommand} is used to represent tracks in order of
+ * alphabet or by price
+ *
+ * @author LiudchykValeriya
+ * @see OrderCommand
  */
 public class TracksInOrderCommand extends OrderCommand {
 
@@ -25,14 +29,14 @@ public class TracksInOrderCommand extends OrderCommand {
             tracks = trackLogic.findAllTracksInOrder(order);
             Map<Integer, ArrayList<Track>> all = trackLogic.divideIntoPages(TRACKS_ON_PAGE, tracks);
             requestContent.setSessionAttribute(NUMBER_OF_PAGES_ATTR, FIRST_PAGE);
-            tracks = paginationTracks(requestContent, tracks, trackLogic, all);
+            tracks = paginationTracks(requestContent, tracks, all);
             requestContent.setSessionAttribute(COMM_PARAMETER, order);
             requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, Integer.toString(FIRST_PAGE));
             requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
             requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
             page = ConfigurationManager.getProperty(TRACKS_AZ_PATH);
         } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent,e);
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }

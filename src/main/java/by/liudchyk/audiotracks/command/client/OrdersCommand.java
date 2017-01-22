@@ -4,7 +4,10 @@ import by.liudchyk.audiotracks.command.OrderCommand;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 04.01.2017.
+ * Class {@code OrdersCommand} is used to represent all user's ordered tracks
+ *
+ * @author LiudchykValeriya
+ * @see OrderCommand
  */
 public class OrdersCommand extends OrderCommand {
 

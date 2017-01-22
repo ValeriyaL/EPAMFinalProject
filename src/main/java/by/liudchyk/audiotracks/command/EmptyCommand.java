@@ -4,7 +4,11 @@ import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 23.12.2016.
+ * Class {@code EmptyCommand} is used to redirect to page
+ * when command doesn't exists
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class EmptyCommand extends ActionCommand {
     @Override

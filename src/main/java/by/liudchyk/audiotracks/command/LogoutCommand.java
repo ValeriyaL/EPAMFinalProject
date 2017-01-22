@@ -4,7 +4,11 @@ import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code LogoutCommand} is used to logout user form system
+ * and redirect to main page if necessary
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class LogoutCommand extends ActionCommand {
     private final String IS_LOGIN_ATTRIBUTE = "isLogin";

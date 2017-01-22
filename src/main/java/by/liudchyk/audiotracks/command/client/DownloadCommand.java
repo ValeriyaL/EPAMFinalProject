@@ -6,7 +6,10 @@ import by.liudchyk.audiotracks.logic.TrackLogic;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 05.01.2017.
+ * Class {@code DownloadCommand} is used to download track
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class DownloadCommand extends ActionCommand {
     private final String TRACK_ATTRIBUTE = "track";

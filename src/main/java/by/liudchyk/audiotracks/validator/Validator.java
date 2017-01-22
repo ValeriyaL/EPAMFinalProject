@@ -14,7 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Admin on 24.12.2016.
+ * Class {@code Validator} is used to validate all forms
+ * and params from requests and check params uniqueness.
+ *
+ * @author Liudchyk Valeriya
  */
 public class Validator {
     private static final Logger LOG = LogManager.getLogger();
@@ -54,7 +57,18 @@ public class Validator {
     private final int MAX_COMMENT_LENGTH = 65_535;
     private final int MAX_BONUS_LENGTH = 100;
 
-
+    /**
+     * Checks register form params
+     *
+     * @param name     is user's nickname
+     * @param password is user's password
+     * @param confirm  is user's confirm password
+     * @param card     is user's card number
+     * @param email    is user's email
+     * @return empty string if params valid,
+     * string with mistake if params not valid
+     * @throws LogicException if loginUnique method throws LogicException
+     */
     public String isRegisterFormValid(String name, String password, String confirm, String card, String email) throws LogicException {
         if (!isLoginLengthValid(name)) {
             return LOGIN_MSG;
@@ -85,6 +99,18 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Check add track's form params
+     *
+     * @param title  is track's title
+     * @param artist is track's artist
+     * @param genre  is track's genre
+     * @param price  is track's price
+     * @param length is track's length
+     * @return empty string if params valid,
+     * string with mistake if params not valid
+     * @throws LogicException if addGenreIfNotExists method throws LogicException
+     */
     public String isAddTrackValid(String title, String artist, String genre, String price, String length) throws LogicException {
         if (!isTitleLengthValid(title)) {
             return TITLE_MSG;
@@ -107,6 +133,14 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is such genre in database and add it if not
+     *
+     * @param genre is track's genre
+     * @return empty string if genre valid,
+     * string with mistake if genre not valid
+     * @throws LogicException if addGenreIfNotExists method throws LogicException
+     */
     public String checkGenre(String genre) throws LogicException {
         if (!isGenreLengthValid(genre)) {
             return GENRE_LENGTH_MSG;
@@ -117,6 +151,12 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Transfer to trackDAO to add genre to database if it doesn't exist
+     *
+     * @param genre is track's genre
+     * @throws LogicException trackDAO throws DAOException
+     */
     private void addGenreIfNotExists(String genre) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.takeConnection();
@@ -130,6 +170,12 @@ public class Validator {
         }
     }
 
+    /**
+     * Checks track's length
+     *
+     * @param length is track's length
+     * @return true if length valid, false otherwise
+     */
     public boolean isLengthValid(String length) {
         try {
             int len = Integer.valueOf(length);
@@ -139,6 +185,12 @@ public class Validator {
         }
     }
 
+    /**
+     * Checks track's genre length
+     *
+     * @param genre is track's genre
+     * @return true if genre length valid, false otherwise
+     */
     public boolean isGenreLengthValid(String genre) {
         return genre.length() < MAX_GENRE_LENGTH;
     }
@@ -153,6 +205,14 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is nickname changing valid
+     *
+     * @param newLogin is new user's nikname
+     * @return empty string if nickname valid,
+     * string with mistake otherwise
+     * @throws LogicException if isLoginUnique method throws LogicException
+     */
     public String isLoginChangeValid(String newLogin) throws LogicException {
         if (!isLoginLengthValid(newLogin)) {
             return LOGIN_MSG;
@@ -163,6 +223,14 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is card number changing valid
+     *
+     * @param newCard is new user's card number
+     * @return empty string if card number valid,
+     * string with mistake otherwise
+     * @throws LogicException if isCardUnique method throws LogicException
+     */
     public String isCardChangeValid(String newCard) throws LogicException {
         if (!isCardValid(newCard)) {
             return CARD_MSG;
@@ -175,6 +243,17 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is password change valid
+     *
+     * @param oldPass     is old user's password
+     * @param newPass     is new user's password
+     * @param newPassConf is new user's confirm password
+     * @param id          is user's id
+     * @return empty string if password valid,
+     * string with mistake otherwise
+     * @throws LogicException if isPasswordCorrect method throws LogicException
+     */
     public String isPasswordChangeValid(String oldPass, String newPass, String newPassConf, int id) throws LogicException {
         if (!isPasswordCorrect(oldPass, id)) {
             return INCORRECT_PASSWORD_MSG;
@@ -188,6 +267,14 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is money change valid
+     *
+     * @param money is user's money
+     * @param card  is user's card number
+     * @return empty string if money change valid,
+     * string with mistake otherwise
+     */
     public String isMoneyChangeValid(Double money, String card) {
         if (card == null || card.isEmpty()) {
             return CARD_IS_EMPTY_MSG;
@@ -195,19 +282,26 @@ public class Validator {
         if (String.valueOf(money).length() < MIN_MONEY_LENGTH && String.valueOf(money).length() > MAX_MONEY_LENGTH) {
             return INCORRECT_MONEY_MSG;
         }
-        if(money<0){
+        if (money < 0) {
             return INCORRECT_MONEY_MSG;
         }
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is track's price change valid
+     *
+     * @param price is track's price
+     * @return empty string if price change valid,
+     * string with mistake otherwise
+     */
     public String isPriceChangeValid(String price) {
         try {
             Double newPrice = Double.valueOf(price);
             if (String.valueOf(newPrice.intValue()).length() > MAX_PRICE_LENGTH) {
                 return INCORRECT_PRICE_LENGTH;
             }
-            if(newPrice<0){
+            if (newPrice < 0) {
                 return INCORRECT_PRICE_MSG;
             }
         } catch (NumberFormatException e) {
@@ -216,28 +310,69 @@ public class Validator {
         return EMPTY_STRING;
     }
 
+    /**
+     * Checks is  nickname length valid
+     *
+     * @param login is user's nickname
+     * @return true if nickname length is valid,
+     * false otherwise
+     */
     public boolean isLoginLengthValid(String login) {
         return login.length() > MIN_LOGIN_LENGTH && login.length() < MAX_LOGIN_LENGTH;
     }
 
+    /**
+     * Checks is  title length valid
+     *
+     * @param title is track's title
+     * @return true if title length is valid,
+     * false otherwise
+     */
     public boolean isTitleLengthValid(String title) {
         return title.length() > ZERO_LENGTH && title.length() < MAX_TITLE_LENGTH;
     }
 
+    /**
+     * Checks is  password length valid
+     *
+     * @param password is user's password
+     * @return true if password length is valid,
+     * false otherwise
+     */
     public boolean isPasswordLengthValid(String password) {
         return password.length() > MIN_PASSWORD_LENGTH && password.length() < MAX_PASSWORD_LENGTH;
     }
 
+    /**
+     * Checks is user's email valid
+     *
+     * @param email is user's email
+     * @return true if email is valid,
+     * false otherwise
+     */
     public boolean isEmailValid(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REGEXP);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
+    /**
+     * Checks is confirm password equals password
+     *
+     * @param password is user's password
+     * @param confPass is user's confirm password
+     * @return true if equal, false otherwise
+     */
     public boolean isConfirmPasswordValid(String password, String confPass) {
         return password.equals(confPass);
     }
 
+    /**
+     * Check is card number valid
+     *
+     * @param card is user's card number
+     * @return true if card number valid, false otherwise
+     */
     public boolean isCardValid(String card) {
         boolean res = false;
         if (card.isEmpty()) {
@@ -245,7 +380,7 @@ public class Validator {
         }
         if (card.length() >= MIN_CARD_LENGTH && card.length() <= MAX_CARD_LENGTH) {
             try {
-                return Long.valueOf(card)>ZERO_LENGTH;
+                return Long.valueOf(card) > ZERO_LENGTH;
             } catch (NumberFormatException e) {
                 LOG.debug("NumberFormatException in isCardValid", e);
             }
@@ -253,6 +388,13 @@ public class Validator {
         return res;
     }
 
+    /**
+     * Transfer to userDAO to check is user's nickname unique in system
+     *
+     * @param login is user's nickname
+     * @return true if login is unique, false otherwise
+     * @throws LogicException if userDAO throws DAOException
+     */
     public boolean isLoginUnique(String login) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.takeConnection();
@@ -266,6 +408,13 @@ public class Validator {
         }
     }
 
+    /**
+     * Transfer to userDAO to check is user's email unique in system
+     *
+     * @param email is user's email
+     * @return true if email is unique, false otherwise
+     * @throws LogicException if userDAO throws DAOException
+     */
     public boolean isEmailUnique(String email) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.takeConnection();
@@ -279,6 +428,14 @@ public class Validator {
         }
     }
 
+    /**
+     * Transfers to userDAO to check is password equals to password in DB
+     *
+     * @param password is user's password
+     * @param id       is user's id
+     * @return true if passwords are equals, false otherwise
+     * @throws LogicException if userDAO throwsDAOException
+     */
     public boolean isPasswordCorrect(String password, int id) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.takeConnection();
@@ -293,6 +450,13 @@ public class Validator {
         }
     }
 
+    /**
+     * Transfer to userDAO to check is user's card number unique
+     *
+     * @param card is user's card number
+     * @return true if card number unique, false otherwise
+     * @throws LogicException if userDAO throws DAOException
+     */
     public boolean isCardUnique(String card) throws LogicException {
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = pool.takeConnection();
@@ -306,10 +470,22 @@ public class Validator {
         }
     }
 
+    /**
+     * Checks is comment valid
+     *
+     * @param text is comment text
+     * @return true if comment is valid, false otherwise
+     */
     public String isCommentValid(String text) {
         return text.length() > ZERO_LENGTH && text.length() <= MAX_COMMENT_LENGTH ? EMPTY_STRING : COMMENT_LENGTH_MSG;
     }
 
+    /**
+     * Checks is user's bonus valid
+     *
+     * @param bonus is user's bonus
+     * @return true if bonus valid, false otherwise
+     */
     public boolean isBonusValid(String bonus) {
         int bon;
         try {

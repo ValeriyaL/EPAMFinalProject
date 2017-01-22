@@ -16,30 +16,65 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class {@code Controller} is a servlet class used as a controller of the application.
+ *
+ * @author Liudchyk Valeriya
+ * @see HttpServlet
+ */
 @WebServlet("/controller")
 public class Controller extends HttpServlet implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
     }
 
+    /**
+     * Close ConnectionPool when servlet destroyed
+     *
+     * @param servletContextEvent is servlet event
+     */
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         ConnectionPool.getInstance().closePool();
     }
 
+    /**
+     * Uses in get requests
+     *
+     * @param request  is servlet's request
+     * @param response is servlet's response
+     * @throws ServletException if there are servlet errors
+     * @throws IOException      if there are input/output errors
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Uses in post requests
+     *
+     * @param request  is servlet's request
+     * @param response is servlet's response
+     * @throws ServletException if there are servlet errors
+     * @throws IOException      if there are input/output errors
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Actions after taking request
+     *
+     * @param request  is servlet's request
+     * @param response is servlet's response
+     * @throws ServletException if there are servlet errors
+     * @throws IOException      if there are input/output errors
+     */
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String page;
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);

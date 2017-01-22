@@ -8,7 +8,11 @@ import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
 /**
- * Created by Admin on 05.01.2017.
+ * Class {@code RecoverTrackCommand} is used to represent
+ * all recovered tracks
+ *
+ * @author LiudchykValeriya
+ * @see ActionCommand
  */
 public class RecoverTrackCommand extends ActionCommand {
     private final String TRACK_ID_PARAMETER = "track";
@@ -25,8 +29,8 @@ public class RecoverTrackCommand extends ActionCommand {
             String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
             requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
             page = ConfigurationManager.getProperty(MESSAGE_PATH);
-        }catch (LogicException e){
-            page = redirectToErrorPage(requestContent,e);
+        } catch (LogicException e) {
+            page = redirectToErrorPage(requestContent, e);
         }
         return page;
     }
