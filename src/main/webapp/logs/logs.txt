@@ -866,3 +866,4 @@ java.lang.NumberFormatException: For input string: "112222221222333.0"
 	at java.lang.reflect.Method.invoke(Method.java:497) ~[?:1.8.0_45]
 	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:?]
 17:51:41.361 [http-apr-8088-exec-10] WARN  by.liudchyk.audiotracks.dao.AbstractDAO - Statement was null
+11:58:06.938 [http-apr-8088-exec-1] WARN  by.liudchyk.audiotracks.dao.AbstractDAO - Statement was null

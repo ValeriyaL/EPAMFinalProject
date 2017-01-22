@@ -23,6 +23,7 @@ public class ServerFileCreator {
     private static final Logger LOG = LogManager.getLogger();
     private final String PATH = "D:\\Apache Software Foundation\\Tomcat 8.0\\tracks\\";
     private final String ITEM_ATTRIBUTE = "item";
+    private final String ENCODING = "UTF-8";
 
     public HashMap<String, String[]> createServerFile(HttpServletRequest request) {
         HashMap<String, String[]> requestParameters = new HashMap<>();
@@ -38,7 +39,12 @@ public class ServerFileCreator {
         while (iter.hasNext()) {
             FileItem item = (FileItem) iter.next();
             if (item.isFormField()) {
-                String value = item.getString();
+                String value = "";
+                try {
+                    value = item.getString(ENCODING);
+                }catch (UnsupportedEncodingException e){
+                    //TODO
+                }
                 requestParameters.put(item.getFieldName(), new String[]{value});
             }else{
                 byte[] data = item.get();

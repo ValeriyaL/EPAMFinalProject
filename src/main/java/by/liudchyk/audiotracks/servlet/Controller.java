@@ -55,11 +55,11 @@ public class Controller extends HttpServlet implements ServletContextListener {
         }
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(sessionRequestContent);
-        if(command instanceof DownloadCommand){
+        if (command instanceof DownloadCommand) {
             String filePath = command.execute(sessionRequestContent);
             Downloader downloader = new Downloader();
-            downloader.downloadTrack(filePath,response, getServletContext());
-        } else{
+            downloader.downloadTrack(filePath, response, getServletContext());
+        } else {
             page = command.execute(sessionRequestContent);
             sessionRequestContent.insertAttributes(request);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
