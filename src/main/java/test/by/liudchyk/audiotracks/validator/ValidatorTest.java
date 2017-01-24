@@ -1,4 +1,4 @@
-package test.by.liudchyk.audiotracks.database;
+package test.by.liudchyk.audiotracks.validator;
 
 import by.liudchyk.audiotracks.validator.Validator;
 import org.junit.AfterClass;
@@ -13,174 +13,174 @@ public class ValidatorTest {
     private static Validator validator;
 
     @BeforeClass
-    public static void initValidator(){
+    public static void initValidator() {
         validator = new Validator();
     }
 
     @AfterClass
-    public static void destroyValidator(){
+    public static void destroyValidator() {
         validator = null;
     }
 
     @Test
-    public void checkIsLengthValidFirst(){
+    public void checkIsLengthValidFirst() {
         String length = "Length";
         boolean actual = validator.isLengthValid(length);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsLengthValidSecond(){
+    public void checkIsLengthValidSecond() {
         String length = "12345678";
         boolean actual = validator.isLengthValid(length);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsLengthValidThird(){
+    public void checkIsLengthValidThird() {
         String length = "22";
         boolean actual = validator.isLengthValid(length);
         Assert.assertTrue(actual);
     }
 
     @Test
-    public void checkIsGenreLengthValid(){
+    public void checkIsGenreLengthValid() {
         String genre = "";
         boolean actual = validator.isGenreLengthValid(genre);
         Assert.assertTrue(actual);
     }
 
     @Test
-    public void  checkIsTitleLengthValid(){
+    public void checkIsTitleLengthValid() {
         String title = "";
         boolean actual = validator.isTitleLengthValid(title);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsEmailValidFirst(){
+    public void checkIsEmailValidFirst() {
         String email = "";
         boolean actual = validator.isEmailValid(email);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsEmailValidSecond(){
+    public void checkIsEmailValidSecond() {
         String email = "aaaaa@mailru";
         boolean actual = validator.isEmailValid(email);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsEmailValidThird(){
+    public void checkIsEmailValidThird() {
         String email = "aaaaamail.ru";
         boolean actual = validator.isEmailValid(email);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsEmailValidFourth(){
+    public void checkIsEmailValidFourth() {
         String email = "aaaaa@mail.ru";
         boolean actual = validator.isEmailValid(email);
         Assert.assertTrue(actual);
     }
 
     @Test
-    public void checkIsCardValidFirst(){
+    public void checkIsCardValidFirst() {
         String card = "";
         boolean actual = validator.isCardValid(card);
         Assert.assertTrue(actual);
     }
 
     @Test
-    public void checkIsCardValidSecond(){
+    public void checkIsCardValidSecond() {
         String card = "112222221222333.0";
         boolean actual = validator.isCardValid(card);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsCardValidThird(){
+    public void checkIsCardValidThird() {
         String card = "111111111111111111";
         boolean actual = validator.isCardValid(card);
         Assert.assertTrue(actual);
     }
 
     @Test
-    public void checkIsCardValidFourth(){
+    public void checkIsCardValidFourth() {
         String card = "-111222333333222";
         boolean actual = validator.isCardValid(card);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsBonusValidFirst(){
+    public void checkIsBonusValidFirst() {
         String bonus = "";
         boolean actual = validator.isBonusValid(bonus);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsBonusValidSecond(){
+    public void checkIsBonusValidSecond() {
         String bonus = "101";
         boolean actual = validator.isBonusValid(bonus);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsBonusValidThird(){
+    public void checkIsBonusValidThird() {
         String bonus = "-12";
         boolean actual = validator.isBonusValid(bonus);
         Assert.assertFalse(actual);
     }
 
     @Test
-    public void checkIsBonusValidFourth(){
+    public void checkIsBonusValidFourth() {
         String bonus = "11";
         boolean actual = validator.isBonusValid(bonus);
         Assert.assertTrue(actual);
     }
 
     @Test
-    public void checkIsMoneyChangeValidFirst(){
+    public void checkIsMoneyChangeValidFirst() {
         String card = "1111111111111111";
         double money = 12;
-        String actual = validator.isMoneyChangeValid(money,card);
+        String actual = validator.isMoneyChangeValid(money, card);
         String expected = "";
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void checkIsMoneyChangeValidSecond(){
+    public void checkIsMoneyChangeValidSecond() {
         String card = "1111111111111111";
         double money = -12.0;
-        String actual = validator.isMoneyChangeValid(money,card);
+        String actual = validator.isMoneyChangeValid(money, card);
         String expected = "";
-        Assert.assertNotEquals(actual,expected);
+        Assert.assertNotEquals(actual, expected);
     }
 
     @Test
-    public void checkIsPriceChangeValidFirst(){
+    public void checkIsPriceChangeValidFirst() {
         String money = "-12.0";
         String actual = validator.isPriceChangeValid(money);
         String expected = "";
-        Assert.assertNotEquals(actual,expected);
+        Assert.assertNotEquals(actual, expected);
     }
 
     @Test
-    public void checkIsPriceChangeValidSecond(){
+    public void checkIsPriceChangeValidSecond() {
         String money = "12O";
         String actual = validator.isPriceChangeValid(money);
         String expected = "";
-        Assert.assertNotEquals(actual,expected);
+        Assert.assertNotEquals(actual, expected);
     }
 
     @Test
-    public void checkIsPriceChangeValidThird(){
+    public void checkIsPriceChangeValidThird() {
         String money = "12";
         String actual = validator.isPriceChangeValid(money);
         String expected = "";
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
 }

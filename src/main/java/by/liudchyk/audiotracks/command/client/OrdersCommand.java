@@ -13,6 +13,11 @@ public class OrdersCommand extends OrderCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        return userTracks(requestContent);
+        String logined = (String) requestContent.getSessionAttribute(IS_LOGIN_ATTRIBUTE);
+        if (TRUE.equals(logined)) {
+            return userTracks(requestContent);
+        } else {
+            return redirectToMain(requestContent);
+        }
     }
 }

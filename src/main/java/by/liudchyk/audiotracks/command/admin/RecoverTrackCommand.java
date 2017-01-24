@@ -22,15 +22,20 @@ public class RecoverTrackCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_PARAMETER));
-        TrackLogic trackLogic = new TrackLogic();
-        try {
-            trackLogic.recoverTrackById(trackId);
-            String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-            requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-            page = ConfigurationManager.getProperty(MESSAGE_PATH);
-        } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent, e);
+        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+        if (ADMIN.equals(role)) {
+            int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_PARAMETER));
+            TrackLogic trackLogic = new TrackLogic();
+            try {
+                trackLogic.recoverTrackById(trackId);
+                String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
+                page = ConfigurationManager.getProperty(MESSAGE_PATH);
+            } catch (LogicException e) {
+                page = redirectToErrorPage(requestContent, e);
+            }
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

@@ -4,11 +4,8 @@ import by.liudchyk.audiotracks.database.ConnectionPool;
 import by.liudchyk.audiotracks.database.ProxyConnection;
 import org.junit.*;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.Executor;
 
 
 /**
@@ -29,7 +26,7 @@ public class ConnectionPoolTest {
     }
 
     @After
-    public void destroyConnections(){
+    public void destroyConnections() {
         connections.clear();
     }
 
@@ -45,23 +42,23 @@ public class ConnectionPoolTest {
             connections.add(pool.takeConnection());
         }
         int actual = connections.size();
-        for (int i=0;i<actual;i++){
+        for (int i = 0; i < actual; i++) {
             connections.get(i).close();
         }
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void checkPutConnection() throws SQLException{
+    public void checkPutConnection() throws SQLException {
         ProxyConnection connectionFirst = pool.takeConnection();
         connectionFirst.close();
         ProxyConnection connectionSecond;
-        for(int i=0;i<9;i++) {
+        for (int i = 0; i < 9; i++) {
             connectionSecond = pool.takeConnection();
             connectionSecond.close();
         }
         connectionSecond = pool.takeConnection();
         connectionSecond.close();
-        Assert.assertEquals(connectionFirst,connectionSecond);
+        Assert.assertEquals(connectionFirst, connectionSecond);
     }
 }

@@ -30,27 +30,32 @@ public class CommentAddCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
-        Track tempTrack = (Track) requestContent.getSessionAttribute(TRACK_ATTRIBUTE);
-        String text = requestContent.getParameter(COMMENT_TEXT_ATTRIBUTE);
-        int userId = tempUser.getId();
-        int trackId = tempTrack.getId();
-        Date date = new Date();
-        try {
-            CommentLogic commentLogic = new CommentLogic();
-            TrackLogic trackLogic = new TrackLogic();
-            String errCom = commentLogic.addComment(date, text, userId, trackId);
-            if (errCom.isEmpty()) {
-                ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
-                requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
-                page = ConfigurationManager.getProperty(PATH_TRACK);
-            } else {
-                String message = MessageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        String logined = (String) requestContent.getSessionAttribute(IS_LOGIN_ATTRIBUTE);
+        if (TRUE.equals(logined)) {
+            User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+            Track tempTrack = (Track) requestContent.getSessionAttribute(TRACK_ATTRIBUTE);
+            String text = requestContent.getParameter(COMMENT_TEXT_ATTRIBUTE);
+            int userId = tempUser.getId();
+            int trackId = tempTrack.getId();
+            Date date = new Date();
+            try {
+                CommentLogic commentLogic = new CommentLogic();
+                TrackLogic trackLogic = new TrackLogic();
+                String errCom = commentLogic.addComment(date, text, userId, trackId);
+                if (errCom.isEmpty()) {
+                    ArrayList<Comment> comments = trackLogic.findAllCommentsById(trackId);
+                    requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
+                    page = ConfigurationManager.getProperty(PATH_TRACK);
+                } else {
+                    String message = MessageManager.getProperty(errCom, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+                }
+            } catch (LogicException e) {
+                page = redirectToErrorPage(requestContent, e);
             }
-        } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent, e);
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

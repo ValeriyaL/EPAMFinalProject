@@ -28,28 +28,33 @@ public class OrderTrackCommand extends OrderCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        User user = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
-        int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_ATTRIBUTE));
-        OrderLogic orderLogic = new OrderLogic();
-        try {
-            boolean isOrdered = orderLogic.isOrderExist(user.getId(), trackId);
-            if (isOrdered) {
-                String message = MessageManager.getProperty(ORDERED_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                page = userTracks(requestContent);
-            } else {
-                UserLogic userLogic = new UserLogic();
-                TrackLogic trackLogic = new TrackLogic();
-                Track track = trackLogic.findTrackById(trackId);
-                double price = track.getPrice();
-                int bonus = userLogic.findBonusById(user.getId());
-                double bonusPrice = trackLogic.calculateBonusPrice(price, bonus);
-                requestContent.setSessionAttribute(PRICE_BONUS_ATTR, bonusPrice);
-                requestContent.setSessionAttribute(TRACK_ATTRIBUTE, track);
-                page = ConfigurationManager.getProperty(BUY_PATH);
+        String logined = (String) requestContent.getSessionAttribute(IS_LOGIN_ATTRIBUTE);
+        if (TRUE.equals(logined)) {
+            User user = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+            int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_ATTRIBUTE));
+            OrderLogic orderLogic = new OrderLogic();
+            try {
+                boolean isOrdered = orderLogic.isOrderExist(user.getId(), trackId);
+                if (isOrdered) {
+                    String message = MessageManager.getProperty(ORDERED_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
+                    page = userTracks(requestContent);
+                } else {
+                    UserLogic userLogic = new UserLogic();
+                    TrackLogic trackLogic = new TrackLogic();
+                    Track track = trackLogic.findTrackById(trackId);
+                    double price = track.getPrice();
+                    int bonus = userLogic.findBonusById(user.getId());
+                    double bonusPrice = trackLogic.calculateBonusPrice(price, bonus);
+                    requestContent.setSessionAttribute(PRICE_BONUS_ATTR, bonusPrice);
+                    requestContent.setSessionAttribute(TRACK_ATTRIBUTE, track);
+                    page = ConfigurationManager.getProperty(BUY_PATH);
+                }
+            } catch (LogicException e) {
+                page = redirectToErrorPage(requestContent, e);
             }
-        } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent, e);
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

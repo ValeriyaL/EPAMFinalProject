@@ -22,13 +22,18 @@ public class AllUsersCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        UserLogic userLogic = new UserLogic();
-        try {
-            ArrayList<User> users = userLogic.findAllUsers();
-            requestContent.setSessionAttribute(USERS_ATTRIBUTE, users);
-            page = ConfigurationManager.getProperty(USERS_PATH);
-        } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent, e);
+        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+        if (ADMIN.equals(role)) {
+            UserLogic userLogic = new UserLogic();
+            try {
+                ArrayList<User> users = userLogic.findAllUsers();
+                requestContent.setSessionAttribute(USERS_ATTRIBUTE, users);
+                page = ConfigurationManager.getProperty(USERS_PATH);
+            } catch (LogicException e) {
+                page = redirectToErrorPage(requestContent, e);
+            }
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

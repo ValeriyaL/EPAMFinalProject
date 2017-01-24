@@ -24,26 +24,31 @@ public class ChangeMoneyCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        try {
-            User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
-            UserLogic userLogic = new UserLogic();
-            double newMoney = Double.valueOf(requestContent.getParameter(NAME_PARAM));
-            String msgPath = userLogic.changeUserMoney(newMoney + tempUser.getMoney(), tempUser.getId(), tempUser.getCardNumber());
-            if (SUCCESS_MESSAGE.equals(msgPath)) {
-                tempUser.setMoney(userLogic.findMoneyById(tempUser.getId()));
-                requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
-                String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty(SUCCESS_PATH);
-            } else {
-                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+        if (ADMIN.equals(role)) {
+            try {
+                User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+                UserLogic userLogic = new UserLogic();
+                double newMoney = Double.valueOf(requestContent.getParameter(NAME_PARAM));
+                String msgPath = userLogic.changeUserMoney(newMoney + tempUser.getMoney(), tempUser.getId(), tempUser.getCardNumber());
+                if (SUCCESS_MESSAGE.equals(msgPath)) {
+                    tempUser.setMoney(userLogic.findMoneyById(tempUser.getId()));
+                    requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
+                    String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty(SUCCESS_PATH);
+                } else {
+                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+                }
+            } catch (LogicException | NumberFormatException e) {
+                String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }
-        } catch (LogicException | NumberFormatException e) {
-            String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-            requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-            page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

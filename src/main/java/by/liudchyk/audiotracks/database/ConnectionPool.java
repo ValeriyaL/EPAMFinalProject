@@ -75,7 +75,7 @@ public class ConnectionPool {
         }
         if (connectionQueue.size() == 0) {
             LOG.fatal("Can't add any connection into pull");
-            throw new RuntimeException();
+            throw new RuntimeException("Can't add any connection into pull");
         }
     }
 

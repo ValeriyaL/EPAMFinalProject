@@ -10,6 +10,8 @@ import by.liudchyk.audiotracks.exception.DAOException;
 import by.liudchyk.audiotracks.exception.LogicException;
 import by.liudchyk.audiotracks.validator.Validator;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -311,7 +313,7 @@ public class TrackLogic {
      * @return new price considering user's bonus
      */
     public double calculateBonusPrice(double price, int bonus) {
-        return price - (price * bonus / PERCENTS);
+        return new BigDecimal(price - (price * bonus / PERCENTS)).setScale(3, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**

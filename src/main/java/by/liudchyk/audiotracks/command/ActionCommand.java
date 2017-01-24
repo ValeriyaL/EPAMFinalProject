@@ -27,13 +27,16 @@ public abstract class ActionCommand {
     public static final String PATH_ATTRIBUTE = "page";
     static final String ERROR_PATH = "path.page.error";
     public static final String PARAMETER = "locale";
-    static final String TRUE = "true";
-    static final String FALSE = "false";
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
     static final String PATH_MAIN = "path.page.main";
     static final String TRACKS_ATTRIBUTE = "tracks";
     private final String TRACK_ATTRIBUTE = "trackInfo";
     private final String COMMENTS_ATTRIBUTE = "comments";
     private final String PAGE_TRACK_PATH = "path.page.track";
+    public static final String IS_LOGIN_ATTRIBUTE = "isLogin";
+    public static final String ROLE_ATTRIBUTE = "role";
+    public static final String ADMIN = "Admin";
 
     /**
      * Does all necessary work to handle command

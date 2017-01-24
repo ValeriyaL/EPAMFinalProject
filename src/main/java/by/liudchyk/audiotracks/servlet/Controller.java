@@ -5,6 +5,7 @@ import by.liudchyk.audiotracks.command.ActionFactory;
 import by.liudchyk.audiotracks.command.client.CommentAddCommand;
 import by.liudchyk.audiotracks.command.client.DownloadCommand;
 import by.liudchyk.audiotracks.database.ConnectionPool;
+import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.*;
@@ -24,6 +25,7 @@ import java.util.Map;
  */
 @WebServlet("/controller")
 public class Controller extends HttpServlet implements ServletContextListener {
+    private final String PATH_TRACK = "path.page.track";
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
     }
@@ -97,8 +99,12 @@ public class Controller extends HttpServlet implements ServletContextListener {
         } else {
             page = command.execute(sessionRequestContent);
             sessionRequestContent.insertAttributes(request);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(request, response);
+            if(ConfigurationManager.getProperty(PATH_TRACK).equals(page)){
+                response.sendRedirect(request.getContextPath()+page);
+            }else{
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+            }
         }
     }
 

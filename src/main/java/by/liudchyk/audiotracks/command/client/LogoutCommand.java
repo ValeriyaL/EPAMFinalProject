@@ -1,5 +1,6 @@
-package by.liudchyk.audiotracks.command;
+package by.liudchyk.audiotracks.command.client;
 
+import by.liudchyk.audiotracks.command.ActionCommand;
 import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
@@ -11,13 +12,10 @@ import by.liudchyk.audiotracks.servlet.SessionRequestContent;
  * @see ActionCommand
  */
 public class LogoutCommand extends ActionCommand {
-    private final String IS_LOGIN_ATTRIBUTE = "isLogin";
     private final String NAME_PARAM = "nickname";
     private final String ACCOUNT_PATH = "path.page.account";
     private final String CHANGES_PATH = "path.page.changes";
-    private final String MAIN_PATH = "path.page.main";
     private final String ORDERS_PATH = "path.page.orders";
-    private final String ROLE_ATTRIBUTE = "role";
     private final String ERROR_PATH = "path.page.error";
     private final String MESSAGE_PATH = "path.page.message";
     private final String DELETED_PATH = "path.page.deleted";

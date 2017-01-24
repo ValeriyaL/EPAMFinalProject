@@ -28,32 +28,37 @@ public class AddTrackCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        TrackLogic trackLogic = new TrackLogic();
-        String title = requestContent.getParameter(TITLE_PARAM);
-        String artist = requestContent.getParameter(ARTIST_PARAM);
-        String genre = requestContent.getParameter(GENRE_PARAM);
-        String price = requestContent.getParameter(PRICE_PARAM);
-        String link = DATA_PATH + requestContent.getAttribute(ITEM_ATTRIBUTE);
-        String length = requestContent.getParameter(LENGTH_PARAM);
-        try {
-            String msgPath = trackLogic.addTrack(title, artist, genre, price, link, length);
-            if (MESSAGE.equals(msgPath)) {
-                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty(MESSAGE_PATH);
-            } else {
-                requestContent.setAttribute(TITLE_PARAM, title);
-                requestContent.setAttribute(ARTIST_PARAM, artist);
-                requestContent.setAttribute(GENRE_PARAM, genre);
-                requestContent.setAttribute(PRICE_PARAM, price);
-                requestContent.setAttribute(LINK_PARAM, link);
-                requestContent.setAttribute(LENGTH_PARAM, length);
-                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+        if (ADMIN.equals(role)) {
+            TrackLogic trackLogic = new TrackLogic();
+            String title = requestContent.getParameter(TITLE_PARAM);
+            String artist = requestContent.getParameter(ARTIST_PARAM);
+            String genre = requestContent.getParameter(GENRE_PARAM);
+            String price = requestContent.getParameter(PRICE_PARAM);
+            String link = DATA_PATH + requestContent.getAttribute(ITEM_ATTRIBUTE);
+            String length = requestContent.getParameter(LENGTH_PARAM);
+            try {
+                String msgPath = trackLogic.addTrack(title, artist, genre, price, link, length);
+                if (MESSAGE.equals(msgPath)) {
+                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty(MESSAGE_PATH);
+                } else {
+                    requestContent.setAttribute(TITLE_PARAM, title);
+                    requestContent.setAttribute(ARTIST_PARAM, artist);
+                    requestContent.setAttribute(GENRE_PARAM, genre);
+                    requestContent.setAttribute(PRICE_PARAM, price);
+                    requestContent.setAttribute(LINK_PARAM, link);
+                    requestContent.setAttribute(LENGTH_PARAM, length);
+                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+                }
+            } catch (LogicException e) {
+                page = redirectToErrorPage(requestContent, e);
             }
-        } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent, e);
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

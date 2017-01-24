@@ -10,7 +10,7 @@
 <body>
 <footer>
     <div class="container row-fluid">
-        <p class="text-muted col-lg-5 col-md-5 col-sm-8 col-xs-8">&copy 2016 Audiotracks.by.<fmt:message
+        <p class="text-muted col-lg-5 col-md-5 col-sm-8 col-xs-8">&copy 2016 &lt;EPAM music&gt;.<fmt:message
                 key="footer.rights"/></p>
         <div class="col-lg-1 col-lg-offset-5 col-md-1 col-md-offset-5 col-sm-2
             col-sm-offset-0 col-xs-2 col-xs-offset-0">

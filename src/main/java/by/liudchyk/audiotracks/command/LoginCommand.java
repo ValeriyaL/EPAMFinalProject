@@ -19,9 +19,6 @@ public class LoginCommand extends ActionCommand {
     private final String PASSWORD_PARAM = "password";
     private final String PATH = "path.page.main";
     private final String MESSAGE = "message.error.login";
-    private final String IS_LOGIN_ATTRIBUTE = "isLogin";
-    private final String ROLE_ATTRIBUTE = "role";
-    private final String ADMIN = "Admin";
 
     @Override
     public String execute(SessionRequestContent requestContent) {

@@ -490,9 +490,9 @@ public class Validator {
         int bon;
         try {
             bon = Integer.valueOf(bonus);
+            return bon >= ZERO_LENGTH && bon <= MAX_BONUS_LENGTH;
         } catch (NumberFormatException e) {
             return false;
         }
-        return bon >= ZERO_LENGTH && bon <= MAX_BONUS_LENGTH;
     }
 }

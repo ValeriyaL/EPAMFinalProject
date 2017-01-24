@@ -23,16 +23,21 @@ public class GenreChangeCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        try {
-            int trackId = Integer.valueOf((String) requestContent.getSessionAttribute(TRACK_ID_PARAM));
-            TrackLogic trackLogic = new TrackLogic();
-            String newGenre = requestContent.getParameter(GENRE_PARAM);
-            String msgPath = trackLogic.changeTrackGenre(newGenre, trackId);
-            page = redirectAfterChanges(trackId, msgPath, requestContent, SUCCESS_MESSAGE);
-        } catch (LogicException e) {
-            String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-            requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-            page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+        if (ADMIN.equals(role)) {
+            try {
+                int trackId = Integer.valueOf((String) requestContent.getSessionAttribute(TRACK_ID_PARAM));
+                TrackLogic trackLogic = new TrackLogic();
+                String newGenre = requestContent.getParameter(GENRE_PARAM);
+                String msgPath = trackLogic.changeTrackGenre(newGenre, trackId);
+                page = redirectAfterChanges(trackId, msgPath, requestContent, SUCCESS_MESSAGE);
+            } catch (LogicException e) {
+                String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+            }
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }

@@ -29,25 +29,30 @@ public class ChangePasswordCommand extends ActionCommand {
         String passwordOld = requestContent.getParameter(OLD_PASSWORD_PARAM);
         String passwordNew = requestContent.getParameter(NEW_PASSWORD_PARAM);
         String passwordNewConfirm = requestContent.getParameter(CONFIRM_NEW_PASSWORD_PARAM);
-        try {
-            User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
-            String msgPath = userLogic.changeUserPassword(passwordOld, passwordNew, passwordNewConfirm, tempUser.getId());
-            if (SUCCESS_MESSAGE.equals(msgPath)) {
-                tempUser.setPassword(passwordNew);
-                requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
-                String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty(SUCCESS_PATH);
-            } else {
-                requestContent.setAttribute(OLD_PASSWORD_PARAM, passwordOld);
-                requestContent.setAttribute(NEW_PASSWORD_PARAM, passwordNew);
-                requestContent.setAttribute(CONFIRM_NEW_PASSWORD_PARAM, passwordNewConfirm);
-                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        String logined = (String) requestContent.getSessionAttribute(IS_LOGIN_ATTRIBUTE);
+        if (TRUE.equals(logined)) {
+            try {
+                User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
+                String msgPath = userLogic.changeUserPassword(passwordOld, passwordNew, passwordNewConfirm, tempUser.getId());
+                if (SUCCESS_MESSAGE.equals(msgPath)) {
+                    tempUser.setPassword(passwordNew);
+                    requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
+                    String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty(SUCCESS_PATH);
+                } else {
+                    requestContent.setAttribute(OLD_PASSWORD_PARAM, passwordOld);
+                    requestContent.setAttribute(NEW_PASSWORD_PARAM, passwordNew);
+                    requestContent.setAttribute(CONFIRM_NEW_PASSWORD_PARAM, passwordNewConfirm);
+                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+                }
+            } catch (LogicException e) {
+                page = redirectToErrorPage(requestContent, e);
             }
-        } catch (LogicException e) {
-            page = redirectToErrorPage(requestContent, e);
+        } else {
+            page = redirectToMain(requestContent);
         }
         return page;
     }
