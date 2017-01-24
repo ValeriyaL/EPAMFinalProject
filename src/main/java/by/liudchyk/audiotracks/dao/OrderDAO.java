@@ -19,6 +19,7 @@ import java.util.List;
  * @author Liudchyk Valeriya
  * @see AbstractDAO
  */
+@SuppressWarnings("Duplicates")
 public class OrderDAO extends AbstractDAO {
     private static final String SQL_SELECT_MOST_ORDERED = "SELECT tracks.id, tracks.title, genres.name AS genre,  tracks.artists, tracks.price, tracks.length, count(*) AS count \n" +
             "FROM orders\n" +
@@ -40,6 +41,12 @@ public class OrderDAO extends AbstractDAO {
         super(connection);
     }
 
+    /**
+     * Find 5 most ordered tracks
+     *
+     * @return List of 5 most ordered tracks
+     * @throws DAOException if thrown SQLException
+     */
     public List<Track> findMostOrdered() throws DAOException {
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;
@@ -55,6 +62,13 @@ public class OrderDAO extends AbstractDAO {
         return tracks;
     }
 
+    /**
+     * Find all user's ordered tracks
+     *
+     * @param user is User object
+     * @return Last of ordered tracks
+     * @throws DAOException if thrown SQLException
+     */
     public List<Track> findOrdersByUser(User user) throws DAOException {
         List<Track> tracks = new ArrayList<>();
         PreparedStatement statement = null;
@@ -71,6 +85,14 @@ public class OrderDAO extends AbstractDAO {
         return tracks;
     }
 
+    /**
+     * Checks is order exist
+     *
+     * @param userId  is user's id
+     * @param trackId is track's id
+     * @return true if order exists, false otherwise
+     * @throws DAOException if was thrown SQLException
+     */
     public boolean isOrderExist(int userId, int trackId) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -87,6 +109,15 @@ public class OrderDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Adds order to database
+     *
+     * @param trackId    is track's id
+     * @param price      is order price
+     * @param userId     is user's id
+     * @param formatDate is date of order in string format
+     * @throws DAOException if was thrown SQLException
+     */
     public void addOrder(int trackId, double price, int userId, String formatDate) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -103,6 +134,13 @@ public class OrderDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Takes all visible tracks from ResultSet
+     *
+     * @param set is ResultSet object
+     * @return list with all tracks
+     * @throws DAOException if SQLException was thrown
+     */
     private List<Track> takeTracksWithVisible(ResultSet set) throws DAOException {
         List<Track> tracks;
         tracks = new ArrayList<>();

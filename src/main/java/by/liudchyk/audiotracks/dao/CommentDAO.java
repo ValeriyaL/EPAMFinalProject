@@ -27,6 +27,15 @@ public class CommentDAO extends AbstractDAO {
         super(connection);
     }
 
+    /**
+     * Added comment to database
+     *
+     * @param date    is date and time of the comment
+     * @param text    is text jf the comment
+     * @param userId  is user's id
+     * @param trackId is track's id
+     * @return true if comment was added, false otherwise
+     */
     public boolean addComment(Date date, String text, int userId, int trackId) {
         SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         String df = format.format(date);
@@ -50,6 +59,14 @@ public class CommentDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Deletes comment from database
+     *
+     * @param userId  is user's id
+     * @param trackId track's id
+     * @param date    is date of the comment
+     * @return true if comment was deleted, false otherwise
+     */
     public boolean deleteComment(int userId, int trackId, String date) {
         boolean isDeleted = false;
         PreparedStatement statement = null;

@@ -19,7 +19,7 @@ import java.util.List;
  * @author Liudchyk Valeriya
  * @see AbstractDAO
  */
-
+@SuppressWarnings("Duplicates")
 public class TrackDAO extends AbstractDAO {
     private static final String SQL_SELECT_ALL_IN_ORDER = "SELECT tracks.id, tracks.title, genres.name AS genre, tracks.artists, tracks.price, tracks.length\n" +
             "FROM tracks\n" +
@@ -60,6 +60,13 @@ public class TrackDAO extends AbstractDAO {
         super(connection);
     }
 
+    /**
+     * Find all tracks in some order
+     *
+     * @param order is alphabet or price order
+     * @return list of tracks
+     * @throws DAOException if SQLException was thrown
+     */
     public List<Track> findAllInOrder(String order) throws DAOException {
         List<Track> tracks = new ArrayList<>();
         PreparedStatement statement = null;
@@ -76,6 +83,13 @@ public class TrackDAO extends AbstractDAO {
         return tracks;
     }
 
+    /**
+     * Finds all tracks by genre
+     *
+     * @param genre is track's genre
+     * @return list of tracks
+     * @throws DAOException if SQLException was thrown
+     */
     public List<Track> findTracksByGenre(String genre) throws DAOException {
         List<Track> tracks = new ArrayList<>();
         PreparedStatement statement = null;
@@ -92,6 +106,13 @@ public class TrackDAO extends AbstractDAO {
         return tracks;
     }
 
+    /**
+     * Finds all comments by track's id
+     *
+     * @param id is track's id
+     * @return list of track's comments
+     * @throws DAOException if SQLException was thrown
+     */
     public List<Comment> findCommentsByTrackId(int id) throws DAOException {
         List<Comment> comments = new ArrayList<>();
         PreparedStatement statement = null;
@@ -113,6 +134,13 @@ public class TrackDAO extends AbstractDAO {
         return comments;
     }
 
+    /**
+     * Finds track by track's id
+     *
+     * @param id is track's id
+     * @return Track object
+     * @throws DAOException if SQLException was thrown
+     */
     public Track findTrackById(int id) throws DAOException {
         Track track;
         PreparedStatement statement = null;
@@ -129,6 +157,12 @@ public class TrackDAO extends AbstractDAO {
         return track;
     }
 
+    /**
+     * Deletes track by track's id
+     *
+     * @param id is track's id
+     * @throws DAOException if SQLException was thrown
+     */
     public void deleteTrackById(int id) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -142,6 +176,12 @@ public class TrackDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Recovers track by track's id
+     *
+     * @param id is track's id
+     * @throws DAOException if SQLException was thrown
+     */
     public void recoverTrackById(int id) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -155,6 +195,13 @@ public class TrackDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Changes track's price by id
+     *
+     * @param newPrice is track's new price
+     * @param trackId  is track's id
+     * @return true if price was changed, false otherwise
+     */
     public boolean changeTrackPriceById(double newPrice, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -174,7 +221,14 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackLengthById(int length,int trackId){
+    /**
+     * Changes track's length by id
+     *
+     * @param length  is new track's length
+     * @param trackId is track's id
+     * @return true if length was changed, false otherwise
+     */
+    public boolean changeTrackLengthById(int length, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -193,7 +247,14 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackTitleById(String newTitle,int trackId){
+    /**
+     * Changes track's title by id
+     *
+     * @param newTitle is new track's title
+     * @param trackId  is track's id
+     * @return true if title was changed, false otherwise
+     */
+    public boolean changeTrackTitleById(String newTitle, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -212,7 +273,14 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
-    public boolean changeTrackArtistById(String newArtist,int trackId) {
+    /**
+     * Changes track's artist by id
+     *
+     * @param newArtist is new track's artist
+     * @param trackId   is track's id
+     * @return true if artist was changed, false otherwise
+     */
+    public boolean changeTrackArtistById(String newArtist, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
@@ -231,14 +299,21 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Changes track's genre by it's id
+     *
+     * @param genreId is track's genre id
+     * @param trackId is track's id
+     * @return true if track's genre was changed, false otherwise
+     */
     public boolean changeTrackGenreById(int genreId, int trackId) {
         boolean isAdded = false;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_CHANGE_GENRE);
-            if(genreId!=0) {
+            if (genreId != 0) {
                 statement.setString(1, Integer.toString(genreId));
-            }else {
+            } else {
                 statement.setString(1, null);
             }
             statement.setString(2, Integer.toString(trackId));
@@ -254,6 +329,12 @@ public class TrackDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Finds all deleted tracks
+     *
+     * @return list of tracks
+     * @throws DAOException if SQLException was thrown
+     */
     public List<Track> findAllDeletedTracks() throws DAOException {
         List<Track> tracks = new ArrayList<>();
         Statement statement = null;
@@ -269,6 +350,13 @@ public class TrackDAO extends AbstractDAO {
         return tracks;
     }
 
+    /**
+     * Finds path to track by id
+     *
+     * @param id is track's id
+     * @return track's path
+     * @throws DAOException if SQLException was thrown
+     */
     public String findTrackPathById(int id) throws DAOException {
         String path = "";
         PreparedStatement statement = null;
@@ -287,6 +375,13 @@ public class TrackDAO extends AbstractDAO {
         return path;
     }
 
+    /**
+     * Finds genre id by genre's name
+     *
+     * @param genre is genre's name
+     * @return genre's id
+     * @throws DAOException if SQLException was thrown
+     */
     public int findGenreIdByGenreName(String genre) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -304,6 +399,12 @@ public class TrackDAO extends AbstractDAO {
         return 0;
     }
 
+    /**
+     * Adds genre to database if it doesn't exist
+     *
+     * @param genre is genre's name
+     * @throws DAOException ig SQLException was thrown
+     */
     public void addGenreIfNotExists(String genre) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -320,6 +421,17 @@ public class TrackDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Adds track to database
+     *
+     * @param title   is track's title
+     * @param artist  is track's artist
+     * @param genreId is track's genre id
+     * @param price   is track's price
+     * @param link    is track's path
+     * @param length  is track's length
+     * @return true if track was added, false otherwise
+     */
     public boolean addTrack(String title, String artist, int genreId, String price, String link, String length) {
         boolean isAdded = false;
         PreparedStatement statement = null;
