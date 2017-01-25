@@ -35,7 +35,7 @@ public class RegistrationCommand extends ActionCommand {
         try {
             String msgPath = userLogic.registerUser(name, email, password, confirmPassword, card);
             if (MESSAGE.equals(msgPath)) {
-                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty(LOGIN_PATH);
             } else {
@@ -44,7 +44,7 @@ public class RegistrationCommand extends ActionCommand {
                 requestContent.setAttribute(EMAIL_PARAM, email);
                 requestContent.setAttribute(CONF_PASS_PARAM, confirmPassword);
                 requestContent.setAttribute(CARD_PARAM, card);
-                String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

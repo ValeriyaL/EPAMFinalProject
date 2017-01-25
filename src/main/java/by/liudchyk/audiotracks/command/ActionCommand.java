@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 public abstract class ActionCommand {
     public static final Logger LOG = LogManager.getLogger();
+    public final MessageManager messageManager = new MessageManager();
     static final String ERROR_MSG_ATTRIBUTE = "errorMessage";
     public static final String USER_ATTRIBUTE = "user";
     public static final String SUCCESS_ATTRIBUTE = "info";
@@ -102,11 +103,11 @@ public abstract class ActionCommand {
     public String redirectAfterChanges(int trackId, String msgPath, SessionRequestContent requestContent, final String SUCCESS_MESSAGE) throws LogicException {
         String page;
         if (msgPath.isEmpty()) {
-            String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+            String message = messageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
             requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
             page = redirectToTrackPage(trackId, requestContent);
         } else {
-            String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+            String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
             requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
             page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
         }

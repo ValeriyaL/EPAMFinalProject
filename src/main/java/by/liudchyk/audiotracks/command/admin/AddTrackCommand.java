@@ -40,7 +40,7 @@ public class AddTrackCommand extends ActionCommand {
             try {
                 String msgPath = trackLogic.addTrack(title, artist, genre, price, link, length);
                 if (MESSAGE.equals(msgPath)) {
-                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty(MESSAGE_PATH);
                 } else {
@@ -50,7 +50,7 @@ public class AddTrackCommand extends ActionCommand {
                     requestContent.setAttribute(PRICE_PARAM, price);
                     requestContent.setAttribute(LINK_PARAM, link);
                     requestContent.setAttribute(LENGTH_PARAM, length);
-                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }

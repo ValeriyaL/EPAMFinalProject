@@ -10,15 +10,15 @@ import java.util.ResourceBundle;
  * @author LiudchykValeriya
  */
 public class MessageManager {
-    private static final String RUS = "ru_RU";
-    private static final String ENG = "en_US";
-    private static final String FILE = "properties.content";
-    private static ResourceBundle resourceBundle;
+    private final String RUS = "ru_RU";
+    private final String ENG = "en_US";
+    private final String FILE = "properties.content";
+    private ResourceBundle resourceBundle;
 
-    private MessageManager() {
+    public MessageManager() {
     }
 
-    public static String getProperty(String key, String lang) {
+    public String getProperty(String key, String lang) {
         if (lang != null) {
             switch (lang) {
                 case RUS:

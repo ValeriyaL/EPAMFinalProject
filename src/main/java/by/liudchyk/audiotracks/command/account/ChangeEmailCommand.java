@@ -33,12 +33,12 @@ public class ChangeEmailCommand extends ActionCommand {
                 if (SUCCESS_MESSAGE.equals(msgPath)) {
                     tempUser.setEmail(newEmail);
                     requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
-                    String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty(SUCCESS_PATH);
                 } else {
                     requestContent.setAttribute(NAME_PARAM, newEmail);
-                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }

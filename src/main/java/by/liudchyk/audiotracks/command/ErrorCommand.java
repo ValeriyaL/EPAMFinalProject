@@ -15,7 +15,7 @@ public class ErrorCommand extends ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        String message = MessageManager.getProperty(MSG_PATH, (String) requestContent.getSessionAttribute(PARAMETER));
+        String message = messageManager.getProperty(MSG_PATH, (String) requestContent.getSessionAttribute(PARAMETER));
         Exception exception = new Exception(message);
         return redirectToErrorPage(requestContent, exception);
     }

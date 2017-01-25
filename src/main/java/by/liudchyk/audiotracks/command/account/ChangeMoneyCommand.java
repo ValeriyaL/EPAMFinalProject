@@ -37,16 +37,16 @@ public class ChangeMoneyCommand extends ActionCommand {
                 if (SUCCESS_MESSAGE.equals(msgPath)) {
                     tempUser.setMoney(userLogic.findMoneyById(tempUser.getId()));
                     requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
-                    String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty(SUCCESS_PATH);
                 } else {
-                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }
             } catch (LogicException | NumberFormatException e) {
-                String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = messageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

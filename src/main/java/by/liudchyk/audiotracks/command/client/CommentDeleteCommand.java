@@ -47,7 +47,7 @@ public class CommentDeleteCommand extends ActionCommand {
                     requestContent.setSessionAttribute(COMMENTS_ATTRIBUTE, comments);
                     page = ConfigurationManager.getProperty(PATH_TRACK);
                 } else {
-                    String message = MessageManager.getProperty(DELETE_COMMENT, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(DELETE_COMMENT, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }

@@ -32,7 +32,7 @@ public class TitleChangeCommand extends ActionCommand {
                 String msgPath = trackLogic.changeTrackTitle(newTitle, trackId);
                 page = redirectAfterChanges(trackId, msgPath, requestContent, SUCCESS_MESSAGE);
             } catch (LogicException e) {
-                String message = MessageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = messageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

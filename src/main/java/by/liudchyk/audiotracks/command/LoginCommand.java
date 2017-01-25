@@ -39,7 +39,7 @@ public class LoginCommand extends ActionCommand {
             } else {
                 requestContent.setAttribute(NAME_PARAM, name);
                 requestContent.setAttribute(PASSWORD_PARAM, password);
-                String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = messageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
             }

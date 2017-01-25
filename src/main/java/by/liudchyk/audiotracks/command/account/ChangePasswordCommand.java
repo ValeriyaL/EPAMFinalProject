@@ -37,14 +37,14 @@ public class ChangePasswordCommand extends ActionCommand {
                 if (SUCCESS_MESSAGE.equals(msgPath)) {
                     tempUser.setPassword(passwordNew);
                     requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);
-                    String message = MessageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(SUCCESS_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty(SUCCESS_PATH);
                 } else {
                     requestContent.setAttribute(OLD_PASSWORD_PARAM, passwordOld);
                     requestContent.setAttribute(NEW_PASSWORD_PARAM, passwordNew);
                     requestContent.setAttribute(CONFIRM_NEW_PASSWORD_PARAM, passwordNewConfirm);
-                    String message = MessageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(msgPath, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }

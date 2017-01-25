@@ -40,7 +40,7 @@ public class UserInfoCommand extends ActionCommand {
                     requestContent.setSessionAttribute(BONUS_ATTR, user.getBonus());
                     page = ConfigurationManager.getProperty(USER_INFO_PATH);
                 } else {
-                    String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }

@@ -31,7 +31,7 @@ public class DeleteTrackCommand extends ActionCommand {
             TrackLogic trackLogic = new TrackLogic();
             try {
                 trackLogic.deleteTrackById(trackId);
-                String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                String message = messageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty(MESSAGE_PATH);
             } catch (LogicException e) {

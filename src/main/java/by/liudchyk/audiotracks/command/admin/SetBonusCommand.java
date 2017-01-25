@@ -32,7 +32,7 @@ public class SetBonusCommand extends ActionCommand {
                 int newBonus = userLogic.changeBonusByNickname(nickname, bonus);
                 if (newBonus != -1) {
                     requestContent.setSessionAttribute(BONUS_ATTR, newBonus);
-                    String message = MessageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                     User admin = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
@@ -41,7 +41,7 @@ public class SetBonusCommand extends ActionCommand {
                         requestContent.setSessionAttribute(USER_ATTRIBUTE, admin);
                     }
                 } else {
-                    String message = MessageManager.getProperty(ERROR_MSG, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(ERROR_MSG, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }

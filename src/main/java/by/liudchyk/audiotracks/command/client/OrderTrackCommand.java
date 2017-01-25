@@ -36,7 +36,7 @@ public class OrderTrackCommand extends OrderCommand {
             try {
                 boolean isOrdered = orderLogic.isOrderExist(user.getId(), trackId);
                 if (isOrdered) {
-                    String message = MessageManager.getProperty(ORDERED_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    String message = messageManager.getProperty(ORDERED_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                     requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
                     page = userTracks(requestContent);
                 } else {
