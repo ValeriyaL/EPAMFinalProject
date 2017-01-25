@@ -70,7 +70,7 @@ public class OrderDAO extends AbstractDAO {
      * @throws DAOException if thrown SQLException
      */
     public List<Track> findOrdersByUser(User user) throws DAOException {
-        List<Track> tracks = new ArrayList<>();
+        List<Track> tracks;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_USER);

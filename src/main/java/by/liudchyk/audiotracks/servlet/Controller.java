@@ -2,6 +2,7 @@ package by.liudchyk.audiotracks.servlet;
 
 import by.liudchyk.audiotracks.command.ActionCommand;
 import by.liudchyk.audiotracks.command.ActionFactory;
+import by.liudchyk.audiotracks.command.ErrorCommand;
 import by.liudchyk.audiotracks.command.client.CommentAddCommand;
 import by.liudchyk.audiotracks.command.client.DownloadCommand;
 import by.liudchyk.audiotracks.database.ConnectionPool;
@@ -26,6 +27,7 @@ import java.util.Map;
 @WebServlet("/controller")
 public class Controller extends HttpServlet implements ServletContextListener {
     private final String PATH_TRACK = "path.page.track";
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
     }
@@ -95,18 +97,24 @@ public class Controller extends HttpServlet implements ServletContextListener {
         if (command instanceof DownloadCommand) {
             String filePath = command.execute(sessionRequestContent);
             Downloader downloader = new Downloader();
-            downloader.downloadTrack(filePath, response, getServletContext());
+            if (!downloader.downloadTrack(filePath, response, getServletContext())) {
+                ErrorCommand errorCommand = new ErrorCommand();
+                page = errorCommand.execute(sessionRequestContent);
+                sessionRequestContent.insertAttributes(request);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+            }
         } else {
             page = command.execute(sessionRequestContent);
             sessionRequestContent.insertAttributes(request);
-            if(ConfigurationManager.getProperty(PATH_TRACK).equals(page)){
-                response.sendRedirect(request.getContextPath()+page);
-            }else{
+            if (ConfigurationManager.getProperty(PATH_TRACK).equals(page)) {
+                response.sendRedirect(request.getContextPath() + page);
+            } else {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
                 dispatcher.forward(request, response);
             }
         }
     }
-
 }
+
 

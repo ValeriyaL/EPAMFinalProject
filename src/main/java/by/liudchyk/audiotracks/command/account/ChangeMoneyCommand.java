@@ -8,6 +8,9 @@ import by.liudchyk.audiotracks.manager.ConfigurationManager;
 import by.liudchyk.audiotracks.manager.MessageManager;
 import by.liudchyk.audiotracks.servlet.SessionRequestContent;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Class {@code ChangeMoneyCommand} is used to change
  * user's money
@@ -30,7 +33,7 @@ public class ChangeMoneyCommand extends ActionCommand {
                 User tempUser = (User) requestContent.getSessionAttribute(USER_ATTRIBUTE);
                 UserLogic userLogic = new UserLogic();
                 double newMoney = Double.valueOf(requestContent.getParameter(NAME_PARAM));
-                String msgPath = userLogic.changeUserMoney(newMoney + tempUser.getMoney(), tempUser.getId(), tempUser.getCardNumber());
+                String msgPath = userLogic.changeUserMoney(new BigDecimal(newMoney + tempUser.getMoney()).setScale(3, RoundingMode.HALF_UP).doubleValue(), tempUser.getId(), tempUser.getCardNumber());
                 if (SUCCESS_MESSAGE.equals(msgPath)) {
                     tempUser.setMoney(userLogic.findMoneyById(tempUser.getId()));
                     requestContent.setSessionAttribute(USER_ATTRIBUTE, tempUser);

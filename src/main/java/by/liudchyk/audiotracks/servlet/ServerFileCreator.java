@@ -1,5 +1,7 @@
 package by.liudchyk.audiotracks.servlet;
 
+import by.liudchyk.audiotracks.exception.LoadException;
+import by.liudchyk.audiotracks.exception.LogicException;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -51,7 +53,7 @@ public class ServerFileCreator {
                 try {
                     value = item.getString(ENCODING);
                 } catch (UnsupportedEncodingException e) {
-                    //TODO
+                    LOG.warn("Can't encode parameter");
                 }
                 requestParameters.put(item.getFieldName(), new String[]{value});
             } else {
@@ -64,7 +66,6 @@ public class ServerFileCreator {
                     fos.flush();
                 } catch (IOException e) {
                     LOG.error("Mistake in file creating", e);
-                    //TODO
                 }
             }
         }
