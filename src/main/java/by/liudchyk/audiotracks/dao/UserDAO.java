@@ -42,6 +42,13 @@ public class UserDAO extends AbstractDAO {
         super(connection);
     }
 
+    /**
+     * Finds user's password by id
+     *
+     * @param id is user's id
+     * @return user's password from database
+     * @throws DAOException if SQLException was thrown
+     */
     public String findPasswordById(int id) throws DAOException {
         String password = null;
         PreparedStatement statement = null;
@@ -60,6 +67,13 @@ public class UserDAO extends AbstractDAO {
         return password;
     }
 
+    /**
+     * Finds user's password by login
+     *
+     * @param login is user's login
+     * @return user's password from database
+     * @throws DAOException if SQLException was thrown
+     */
     public String findPasswordForLogin(String login) throws DAOException {
         String password = null;
         PreparedStatement statement = null;
@@ -78,6 +92,15 @@ public class UserDAO extends AbstractDAO {
         return password;
     }
 
+    /**
+     * Adds new user to database
+     *
+     * @param name     is user's name
+     * @param email    is user's email
+     * @param password is user's password
+     * @param card     is user's card
+     * @return true if user was added, false otherwise
+     */
     public boolean addUser(String name, String email, String password, String card) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -104,6 +127,13 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Finds user by user's nickname
+     *
+     * @param login is user's nickname
+     * @return User object
+     * @throws DAOException if SQLException was thrown
+     */
     public User findUser(String login) throws DAOException {
         User tempUser = null;
         PreparedStatement statement = null;
@@ -119,6 +149,13 @@ public class UserDAO extends AbstractDAO {
         return tempUser;
     }
 
+    /**
+     * Finds user by email
+     *
+     * @param email is user's email
+     * @return User object
+     * @throws DAOException if SQLException was thrown
+     */
     public User findUserByEmail(String email) throws DAOException {
         User tempUser = null;
         PreparedStatement statement = null;
@@ -134,6 +171,13 @@ public class UserDAO extends AbstractDAO {
         return tempUser;
     }
 
+    /**
+     * Finds user by card number
+     *
+     * @param card is user's card number
+     * @return User object
+     * @throws DAOException if SQLException was thrown
+     */
     public User findUserByCard(String card) throws DAOException {
         User tempUser = null;
         PreparedStatement statement = null;
@@ -149,6 +193,14 @@ public class UserDAO extends AbstractDAO {
         return tempUser;
     }
 
+    /**
+     * Takes user from database
+     *
+     * @param tempUser  is User object
+     * @param statement is Statement with query
+     * @return User object
+     * @throws DAOException if SQLException was thrown
+     */
     private User takeUser(User tempUser, PreparedStatement statement) throws DAOException {
         try {
             ResultSet set = statement.executeQuery();
@@ -169,6 +221,13 @@ public class UserDAO extends AbstractDAO {
         return tempUser;
     }
 
+    /**
+     * Changes user's nickname by id
+     *
+     * @param newLogin is new user's nickname
+     * @param id       is user's id
+     * @return true if nickname was changed, false otherwise
+     */
     public boolean changeLoginById(String newLogin, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -188,6 +247,13 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Changes user's password by id
+     *
+     * @param newMD5Password is new user's password in md5
+     * @param id             is user's id
+     * @return true if password was changed, false otherwise
+     */
     public boolean changePasswordById(String newMD5Password, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -207,6 +273,13 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Changes user's money by id
+     *
+     * @param money is user's money
+     * @param id    is user's id
+     * @return true if user's money was changed, false otherwise
+     */
     public boolean changeMoneyById(double money, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -226,6 +299,13 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Changes user's card number by id
+     *
+     * @param newCard is new user's card number
+     * @param id      is user's id
+     * @return true if user's card nember was changed, false otherwise
+     */
     public boolean changeCardById(String newCard, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -251,6 +331,13 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Changes user's email by id
+     *
+     * @param newEmail is new user's email
+     * @param id       is user's id
+     * @return true if email was changed, false otherwise
+     */
     public boolean changeEmailById(String newEmail, int id) {
         boolean isAdded = false;
         PreparedStatement statement = null;
@@ -270,6 +357,13 @@ public class UserDAO extends AbstractDAO {
         return isAdded;
     }
 
+    /**
+     * Counts number of all user's comments
+     *
+     * @param id is user's id
+     * @return number of user's comments
+     * @throws DAOException if SQLException was thrown
+     */
     public int commentsNumberById(int id) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -287,6 +381,14 @@ public class UserDAO extends AbstractDAO {
         return 0;
     }
 
+    /**
+     * Changes user's bonus by nickname
+     *
+     * @param nickname is user's nickname
+     * @param bonus    is new user's bonus
+     * @return new user's bonus or -1 if something was wrong
+     * @throws DAOException if SQLException was thrown
+     */
     public int changeBonusByNickname(String nickname, String bonus) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -308,6 +410,13 @@ public class UserDAO extends AbstractDAO {
         return -1;
     }
 
+    /**
+     * Finds user's bonus by id
+     *
+     * @param id is user's id
+     * @return user's bonus
+     * @throws DAOException if SQLException was thrown
+     */
     public int findBonusById(int id) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -323,6 +432,13 @@ public class UserDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Finds user's money by id
+     *
+     * @param id is user's id
+     * @return user's money
+     * @throws DAOException if SQLException was thrown
+     */
     public double findMoneyById(int id) throws DAOException {
         PreparedStatement statement = null;
         try {
@@ -338,6 +454,12 @@ public class UserDAO extends AbstractDAO {
         }
     }
 
+    /**
+     * Finds all users
+     *
+     * @return list of Users
+     * @throws DAOException if SQLException was thrown
+     */
     public ArrayList<User> findAllUsers() throws DAOException {
         ArrayList<User> users = new ArrayList<>();
         Statement statement = null;

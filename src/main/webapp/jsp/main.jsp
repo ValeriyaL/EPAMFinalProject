@@ -26,7 +26,7 @@
 <%@ include file="common/menu.jsp" %>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-lg-12 col-md-12">
+        <div class="col-lg-8 col-md-8 col-md-offset-2">
             <p class="lead text-justify"><fmt:message key="main.text"/></p>
         </div>
     </div>
