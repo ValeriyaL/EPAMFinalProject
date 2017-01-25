@@ -22,7 +22,6 @@ public class AddTrackCommand extends ActionCommand {
     private final String LINK_PARAM = "link";
     private final String MESSAGE = "message.success.add";
     private final String MESSAGE_PATH = "path.page.message";
-    private final String DATA_PATH = "D:\\Apache Software Foundation\\Tomcat 8.0\\tracks\\";
     private final String ITEM_ATTRIBUTE = "item";
 
     @Override
@@ -35,7 +34,7 @@ public class AddTrackCommand extends ActionCommand {
             String artist = requestContent.getParameter(ARTIST_PARAM);
             String genre = requestContent.getParameter(GENRE_PARAM);
             String price = requestContent.getParameter(PRICE_PARAM);
-            String link = DATA_PATH + requestContent.getAttribute(ITEM_ATTRIBUTE);
+            String link = (String) requestContent.getAttribute(ITEM_ATTRIBUTE);
             String length = requestContent.getParameter(LENGTH_PARAM);
             try {
                 String msgPath = trackLogic.addTrack(title, artist, genre, price, link, length);

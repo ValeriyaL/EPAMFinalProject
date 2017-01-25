@@ -4,13 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import static by.liudchyk.audiotracks.servlet.ServerFileCreator.PATH;
 
 
 /**
@@ -38,7 +38,7 @@ class Downloader {
     boolean downloadTrack(String filePath, HttpServletResponse response, ServletContext context) {
         boolean isDownloaded = false;
         try {
-            File downloadFile = new File(filePath);
+            File downloadFile = new File(PATH + filePath);
             if (downloadFile.exists() && downloadFile.isFile()) {
                 FileInputStream inStream = new FileInputStream(downloadFile);
                 String mimeType = context.getMimeType(filePath);

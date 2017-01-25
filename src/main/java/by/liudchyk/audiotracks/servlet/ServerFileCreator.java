@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class ServerFileCreator {
     private static final Logger LOG = LogManager.getLogger();
-    private final String PATH = "D:\\Apache Software Foundation\\Tomcat 8.0\\tracks\\";
     private final String ITEM_ATTRIBUTE = "item";
     private final String ENCODING = "UTF-8";
 
@@ -71,4 +70,6 @@ public class ServerFileCreator {
         }
         return requestParameters;
     }
+
+    public static final String PATH = "D:\\Apache Software Foundation\\Tomcat 8.0\\tracks\\";
 }
