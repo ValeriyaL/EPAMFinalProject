@@ -21,13 +21,18 @@ public class SwitchPageCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        HashMap<Integer, ArrayList<Track>> tracksPaged = (HashMap<Integer, ArrayList<Track>>) requestContent.getSessionAttribute(TRACKS_ON_PAGES_ATTR);
-        Integer pageNumber = Integer.valueOf(requestContent.getParameter(NUM_PAGE_ATTRIBUTE));
-        ArrayList<Track> tracks = tracksPaged.get(pageNumber);
-        requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
-        requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, pageNumber);
-        requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
-        page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        try {
+            HashMap<Integer, ArrayList<Track>> tracksPaged = (HashMap<Integer, ArrayList<Track>>) requestContent.getSessionAttribute(TRACKS_ON_PAGES_ATTR);
+            Integer pageNumber = Integer.valueOf(requestContent.getParameter(NUM_PAGE_ATTRIBUTE));
+            ArrayList<Track> tracks = tracksPaged.get(pageNumber);
+            requestContent.setAttribute(TRACKS_ATTRIBUTE, tracks);
+            requestContent.setSessionAttribute(NUM_PAGE_ATTRIBUTE, pageNumber);
+            requestContent.setSessionAttribute(TRACKS_ATTRIBUTE, tracks);
+            page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        } catch (NumberFormatException e) {
+            LOG.error(e);
+            page = redirectToErrorPageWithMessage(requestContent, "Wrong format in page number parameter");
+        }
         return page;
     }
 }

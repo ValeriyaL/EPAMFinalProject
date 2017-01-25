@@ -25,7 +25,7 @@
 <body>
 <c:set var="page" value="path.page.error" scope="session"/>
 <%@ include file="common/menu.jsp" %>
-<img class="oops col-lg-4 col-lg-offset-4" src="../images/oops.png">
+<img class="oops col-lg-4 col-lg-offset-4" src="../images/comic-effect-oops_1604073.jpg">
 <div class="form col-lg-4 col-lg-offset-4">
     <div class="row">
         <label class="control-label"><fmt:message key="label.error.message"/></label>
@@ -35,10 +35,6 @@
     </div>
     <div class="row">
         <label class="control-label">${errorMessage}</label>
-    </div>
-    <div class="row">
-        <label class="control-label"><fmt:message key="label.error.request"/> ${pageContext.errorData.requestURI}
-            <fmt:message key="label.error.failed"/></label>
     </div>
     <div class="row">
         <label class="control-label"><fmt:message key="label.error.code"/>: ${pageContext.errorData.statusCode}</label>

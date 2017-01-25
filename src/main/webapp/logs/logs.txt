@@ -867,3 +867,5 @@ java.lang.NumberFormatException: For input string: "112222221222333.0"
 	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:144) [idea_rt.jar:?]
 17:51:41.361 [http-apr-8088-exec-10] WARN  by.liudchyk.audiotracks.dao.AbstractDAO - Statement was null
 11:58:06.938 [http-apr-8088-exec-1] WARN  by.liudchyk.audiotracks.dao.AbstractDAO - Statement was null
+15:43:07.551 [http-apr-8088-exec-10] ERROR by.liudchyk.audiotracks.command.ActionCommand - java.lang.NumberFormatException: For input string: ""
+15:50:06.188 [http-apr-8088-exec-9] ERROR by.liudchyk.audiotracks.command.ActionCommand - java.lang.NumberFormatException: For input string: ""

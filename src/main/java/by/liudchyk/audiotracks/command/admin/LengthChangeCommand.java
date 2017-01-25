@@ -23,21 +23,27 @@ public class LengthChangeCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
-        if (ADMIN.equals(role)) {
-            try {
-                int trackId = Integer.valueOf((String) requestContent.getSessionAttribute(TRACK_ID_PARAM));
-                TrackLogic trackLogic = new TrackLogic();
-                String newLength = requestContent.getParameter(LENGTH_PARAM);
-                String msgPath = trackLogic.changeTrackLength(newLength, trackId);
-                page = redirectAfterChanges(trackId, msgPath, requestContent, SUCCESS_MESSAGE);
-            } catch (LogicException e) {
-                String message = messageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+        try {
+            String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+            if (ADMIN.equals(role)) {
+                try {
+                    int trackId = Integer.valueOf((String) requestContent.getSessionAttribute(TRACK_ID_PARAM));
+                    TrackLogic trackLogic = new TrackLogic();
+                    String newLength = requestContent.getParameter(LENGTH_PARAM);
+                    String msgPath = trackLogic.changeTrackLength(newLength, trackId);
+                    page = redirectAfterChanges(trackId, msgPath, requestContent, SUCCESS_MESSAGE);
+                } catch (LogicException e) {
+                    String message = messageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+                }
+            } else {
+                page = redirectToMain(requestContent);
             }
-        } else {
-            page = redirectToMain(requestContent);
+        } catch (NumberFormatException e) {
+            LOG.error("Wrong format in trackId parameter", e);
+            page = redirectToErrorPageWithMessage(requestContent, "Wrong format in trackId parameter");
+
         }
         return page;
     }

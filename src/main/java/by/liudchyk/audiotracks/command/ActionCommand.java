@@ -47,9 +47,28 @@ public abstract class ActionCommand {
      */
     public abstract String execute(SessionRequestContent requestContent);
 
+    /**
+     * Redirects to error page if with message from Exception
+     *
+     * @param requestContent is servlet's request content
+     * @param e              is exception object
+     * @return path to error page
+     */
     public String redirectToErrorPage(SessionRequestContent requestContent, Exception e) {
         LOG.error(e);
         requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, e.getMessage());
+        return ConfigurationManager.getProperty(ERROR_PATH);
+    }
+
+    /**
+     * Redirects to error page if with message
+     *
+     * @param requestContent is servlet's request content
+     * @param msg            is message
+     * @return path to error page
+     */
+    public String redirectToErrorPageWithMessage(SessionRequestContent requestContent, String msg) {
+        requestContent.setAttribute(ERROR_MSG_ATTRIBUTE, msg);
         return ConfigurationManager.getProperty(ERROR_PATH);
     }
 

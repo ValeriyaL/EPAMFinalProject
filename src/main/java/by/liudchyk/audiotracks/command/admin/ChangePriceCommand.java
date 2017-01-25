@@ -35,6 +35,9 @@ public class ChangePriceCommand extends ActionCommand {
                 String message = messageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+            } catch (NumberFormatException e) {
+                LOG.error("Wrong format in trackId parameter", e);
+                page = redirectToErrorPageWithMessage(requestContent, "Wrong format in trackId parameter");
             }
         } else {
             page = redirectToMain(requestContent);

@@ -25,20 +25,25 @@ public class DeleteTrackCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
-        String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
-        if (ADMIN.equals(role)) {
-            int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_PARAMETER));
-            TrackLogic trackLogic = new TrackLogic();
-            try {
-                trackLogic.deleteTrackById(trackId);
-                String message = messageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
-                requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
-                page = ConfigurationManager.getProperty(MESSAGE_PATH);
-            } catch (LogicException e) {
-                page = redirectToErrorPage(requestContent, e);
+        try {
+            String role = (String) requestContent.getSessionAttribute(ROLE_ATTRIBUTE);
+            if (ADMIN.equals(role)) {
+                int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_PARAMETER));
+                TrackLogic trackLogic = new TrackLogic();
+                try {
+                    trackLogic.deleteTrackById(trackId);
+                    String message = messageManager.getProperty(MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
+                    requestContent.setAttribute(SUCCESS_ATTRIBUTE, message);
+                    page = ConfigurationManager.getProperty(MESSAGE_PATH);
+                } catch (LogicException e) {
+                    page = redirectToErrorPage(requestContent, e);
+                }
+            } else {
+                page = redirectToMain(requestContent);
             }
-        } else {
-            page = redirectToMain(requestContent);
+        } catch (NumberFormatException e) {
+            LOG.error("Wrong format in trackId parameter", e);
+            page = redirectToErrorPageWithMessage(requestContent, "Wrong format in trackId parameter");
         }
         return page;
     }

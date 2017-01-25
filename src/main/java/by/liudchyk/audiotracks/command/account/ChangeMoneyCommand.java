@@ -45,10 +45,13 @@ public class ChangeMoneyCommand extends ActionCommand {
                     requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                     page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
                 }
-            } catch (LogicException | NumberFormatException e) {
+            } catch (LogicException e) {
                 String message = messageManager.getProperty(ERROR_MESSAGE, (String) requestContent.getSessionAttribute(PARAMETER));
                 requestContent.setAttribute(MISTAKE_ATTRIBUTE, message);
                 page = ConfigurationManager.getProperty((String) requestContent.getSessionAttribute(PATH_ATTRIBUTE));
+            } catch (NumberFormatException e){
+                LOG.error("Wrong format in price parameter",e);
+                page = redirectToErrorPageWithMessage(requestContent, "Wrong format in price parameter");
             }
         } else {
             page = redirectToMain(requestContent);

@@ -16,11 +16,15 @@ public class TrackInfoCommand extends ActionCommand {
     @Override
     public String execute(SessionRequestContent requestContent) {
         String page;
+        try{
         int trackId = Integer.valueOf(requestContent.getParameter(TRACK_ID_PARAMETER));
-        try {
             page = redirectToTrackPage(trackId, requestContent);
         } catch (LogicException e) {
             page = redirectToErrorPage(requestContent, e);
+        } catch (NumberFormatException e) {
+            LOG.error("Wrong format in trackId parameter", e);
+            page = redirectToErrorPageWithMessage(requestContent, "Wrong format in trackId parameter");
+
         }
         return page;
     }

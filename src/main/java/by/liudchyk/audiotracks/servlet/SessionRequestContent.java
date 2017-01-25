@@ -80,9 +80,9 @@ public class SessionRequestContent {
      */
     public String getParameter(String key) {
         if (requestParameters.isEmpty()) {
-            return null;
+            return "";
         }
-        return requestParameters.get(key)[0];
+        return requestParameters.containsKey(key)?requestParameters.get(key)[0]:"";
     }
 
     /**
