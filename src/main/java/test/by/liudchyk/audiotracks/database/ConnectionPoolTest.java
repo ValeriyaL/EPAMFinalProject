@@ -38,14 +38,9 @@ public class ConnectionPoolTest {
     @Test
     public void checkTakeConnection() throws SQLException {
         int expected = 10;
-        for (int i = 0; i < expected; i++) {
-            connections.add(pool.takeConnection());
-        }
-        int actual = connections.size();
-        for (int i = 0; i < actual; i++) {
-            connections.get(i).close();
-        }
-        Assert.assertEquals(expected, actual);
+        connections.add(pool.takeConnection());
+        Assert.assertNotNull(connections.get(0));
+        connections.get(0).close();
     }
 
     @Test
