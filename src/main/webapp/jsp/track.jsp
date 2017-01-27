@@ -151,7 +151,7 @@
                             <form role="form" method="post" name="comment_add"
                                   action="${pageContext.request.contextPath}/controller">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5" name="text"></textarea>
+                                    <textarea class="form-control" rows="5" name="text" value=""></textarea>
                                 </div>
                                 <ctg:isLogined>
                                     <button type="submit" class="btn btn-primary btn-lg" name="command"
