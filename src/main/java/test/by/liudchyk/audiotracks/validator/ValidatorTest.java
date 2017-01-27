@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Created by Admin on 21.01.2017.
+ * Class {@code Validator} is used to test validation
  */
 public class ValidatorTest {
     private static Validator validator;

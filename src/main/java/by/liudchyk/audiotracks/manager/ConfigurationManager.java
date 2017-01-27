@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 public class ConfigurationManager {
     private final static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.config");
 
+    public static final String PATH_TRACK = "path.page.track";
+
     private ConfigurationManager() {
     }
 

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 
 /**
- * Created by Admin on 21.01.2017.
+ * Class {@code ConnectionPoolTest} is used to test
+ * taking and putting connections from and into pool
  */
 public class ConnectionPoolTest {
     private static ConnectionPool pool;
@@ -37,7 +38,6 @@ public class ConnectionPoolTest {
 
     @Test
     public void checkTakeConnection() throws SQLException {
-        int expected = 10;
         connections.add(pool.takeConnection());
         Assert.assertNotNull(connections.get(0));
         connections.get(0).close();
