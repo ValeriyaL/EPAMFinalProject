@@ -109,6 +109,8 @@ public class OrderLogic {
             }
         } catch (SQLException e) {
             throw new LogicException("Can't add order", e);
+        } finally {
+            orderDAO.closeConnection(connection);
         }
     }
 }
