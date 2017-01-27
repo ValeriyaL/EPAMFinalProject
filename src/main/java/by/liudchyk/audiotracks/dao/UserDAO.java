@@ -23,9 +23,9 @@ public class UserDAO extends AbstractDAO {
     private static final String SQL_FIND_PASSWORD_BY_ID = "SELECT password FROM users WHERE id=?";
     private static final String SQL_ADD_USER = "INSERT INTO users(nickname,password,card_number, email) VALUES(?,?,?,?)";
     private static final String SQL_ADD_USER_WITHOUT_CARD = "INSERT INTO users(nickname,password, email) VALUES(?,?,?)";
-    private static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE nickname=?";
-    private static final String SQL_FIND_USER_BY_EMAIL = "SELECT * FROM  users WHERE email=?";
-    private static final String SQL_FIND_USER_BY_CARD = "SELECT * FROM  users WHERE card_number=?";
+    private static final String SQL_FIND_USER_BY_LOGIN = "SELECT id, nickname, password, status, money, bonus, card_number, email FROM users WHERE nickname=?";
+    private static final String SQL_FIND_USER_BY_EMAIL = "SELECT id, nickname, password, status, money, bonus, card_number, email FROM  users WHERE email=?";
+    private static final String SQL_FIND_USER_BY_CARD = "SELECT id, nickname, password, status, money, bonus, card_number, email FROM  users WHERE card_number=?";
     private static final String SQL_CHANGE_LOGIN = "UPDATE users SET nickname=? WHERE id=?";
     private static final String SQL_CHANGE_EMAIL = "UPDATE users SET email=? WHERE id=?";
     private static final String SQL_CHANGE_CARD = "UPDATE users SET card_number=? WHERE id=?";
@@ -36,7 +36,7 @@ public class UserDAO extends AbstractDAO {
     private static final String SQL_FIND_BONUS = "SELECT bonus FROM users WHERE nickname=?";
     private static final String SQL_FIND_BONUS_BY_ID = "SELECT bonus FROM users WHERE id=?";
     private static final String SQL_FIND_MONEY_BY_ID = "SELECT money FROM users WHERE id=?";
-    private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM users ORDER BY nickname";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT id, nickname, password, status, money, bonus, card_number, email FROM users ORDER BY nickname";
 
     public UserDAO(ProxyConnection connection) {
         super(connection);

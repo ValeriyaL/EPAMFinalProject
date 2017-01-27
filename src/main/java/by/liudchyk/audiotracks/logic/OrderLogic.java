@@ -106,6 +106,7 @@ public class OrderLogic {
             } catch (DAOException e) {
                 connection.rollback();
                 connection.setAutoCommit(true);
+                throw new LogicException("Can't add order",e);
             }
         } catch (SQLException e) {
             throw new LogicException("Can't add order", e);

@@ -31,7 +31,7 @@ public class OrderDAO extends AbstractDAO {
             "JOIN tracks ON tracks.id=orders.track_id\n" +
             "LEFT JOIN genres ON tracks.genre_id=genres.id\n" +
             "WHERE user_id=?\n" +
-            "ORDER BY tracks.title";
+            "ORDER BY orders.date DESC";
     private static final String SQL_COUNT_ORDERS = "SELECT COUNT(*) \n" +
             "FROM orders \n" +
             "WHERE user_id=? AND track_id=?";

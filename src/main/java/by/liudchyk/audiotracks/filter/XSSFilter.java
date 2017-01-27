@@ -17,6 +17,9 @@ import java.util.regex.Pattern;
 @WebFilter(urlPatterns = {"/*"})
 public class XSSFilter implements Filter {
 
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
 
     @Override
     public void destroy() {
@@ -27,10 +30,6 @@ public class XSSFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
         XSSRequestWrapper wrapper = new XSSRequestWrapper((HttpServletRequest) request);
         chain.doFilter(wrapper, response);
-    }
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
     }
 
     class XSSRequestWrapper extends HttpServletRequestWrapper {
